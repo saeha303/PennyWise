@@ -6,10 +6,9 @@
     <div class="row mb-3">
       <div>
         <select class="form-select" aria-label="Default select example">
-          <option selected>Open this select menu</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
+          <option disabled selected>--Select Wallet--</option>
+          <% for (int i = 0; i < w_list.size(); i++) { %>
+            <option name="wallet_options" value="<%= i+1 %>"><%= w_list.get(i) %><% } %></option>
         </select>
       </div>
     </div>

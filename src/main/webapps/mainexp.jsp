@@ -14,7 +14,7 @@ String prname=request.getParameter("pname");
 String sector=request.getParameter("pk");
 String cost=request.getParameter("cost");
 String s=(String)session.getAttribute("User");
-mains dt=new mains();
+expense dt=new expense();
 %>          
 </body>
 <script>

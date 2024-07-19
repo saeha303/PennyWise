@@ -4,12 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import org.db.database;
 
-public class mains {
+public class expense {
 	public String gntotalup(String username)
 	{
 		String ans="0";
@@ -29,8 +30,8 @@ public class mains {
  		   System.out.println(ans);
  		   return ans;
 		}
-	   catch (Exception exception) {
-		     exception.printStackTrace();
+	   catch (SQLException exception) {
+		     
 		     return ans;
 		    }
 	}
@@ -53,8 +54,8 @@ public class mains {
 		   return ans;
 		    
 		}
-	   catch (Exception exception) {
-		     exception.printStackTrace();
+	   catch (SQLException exception) {
+		     
 		     return ans;
 		    }
 	}
@@ -84,8 +85,8 @@ public class mains {
 			return(0);
 		   }
 		}
-	   catch (Exception exception) {
-		     exception.printStackTrace();
+	   catch (SQLException exception) {
+		     
 		     return(3);
 		    }
 	}
@@ -111,8 +112,8 @@ public class mains {
 			return(0);
 		   }
 		}
-	   catch (Exception exception) {
-		     exception.printStackTrace();
+	   catch (SQLException exception) {
+		     
 		     return(3);
 		    }
 	}
@@ -140,8 +141,8 @@ public class mains {
 		     return(1);
 		    }
          }
-	   catch (Exception exception) {
-		     exception.printStackTrace();
+	   catch (SQLException exception) {
+		     
 		     return(3);
 		    }
 	}
@@ -172,8 +173,8 @@ public class mains {
             }
             return gans;
 		}
-		catch (Exception exception) {
-		    exception.printStackTrace();
+		catch (SQLException exception) {
+		    
 		    return dum;
 		}
 	}

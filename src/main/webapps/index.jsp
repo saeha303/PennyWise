@@ -1,6 +1,7 @@
 <%@ page import="java.util.*" %>
   <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
   <%@ page import="org.category.*" %>
+  <%@ page import="org.expense.*" %>
 <!DOCTYPE html>
 <html lang="en">
 <!-- <% request.setAttribute("tab_var", "Dashboard" ); %>
@@ -9,10 +10,16 @@
       </jsp:include> -->
 <%@ include file="header.jsp" %>
 <%
+session.setAttribute("User","john_doe");
 String tab_var1="",tab_var2="";
 String btn_txt="";
 category cat=new category();
 List<String> cat_list=cat.getCategories();
+wallet w=new wallet();
+String user=(String)session.getAttribute("User");
+System.out.println(user);
+List<String> w_list=w.getWalletList(user);
+  System.out.println(w_list);
 %>
   <body>
 

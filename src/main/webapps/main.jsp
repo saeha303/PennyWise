@@ -147,7 +147,7 @@ signin obj=new signin();
 String s=(String)session.getAttribute("User");
 List<String> strList=new ArrayList<>();
 strList=bo.fulldetails(s);
-mains dt=new mains();
+expense dt=new expense();
 List<List<String>> mList=new ArrayList<>();
 mList=dt.mdetails(s);
 //System.out.println(mList.get(0).get(0));

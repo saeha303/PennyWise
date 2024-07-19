@@ -4,7 +4,7 @@
 <%
     String action=request.getParameter("action");
     if(action.equals("changePassword")){
-        String user = "john_doe";
+        String user = (String)session.getAttribute("User");
         String currentPassword = request.getParameter("currentPassword");
         String newPassword = request.getParameter("newPassword");
         String renewPassword = request.getParameter("renewPassword");
