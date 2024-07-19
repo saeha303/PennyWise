@@ -4,11 +4,11 @@
 
 CREATE TABLE IF NOT EXISTS public."Expense"
 (
-    id integer NOT NULL DEFAULT nextval('"Expense_id_seq"'::regclass),
+    id serial NOT NULL,
     username character varying(255) COLLATE pg_catalog."default" NOT NULL,
-    wallet character varying(255) COLLATE pg_catalog."default",
     category character varying(255) COLLATE pg_catalog."default" NOT NULL,
     note character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    wallet bigint NOT NULL,
     date date NOT NULL,
     CONSTRAINT "Expense_pkey" PRIMARY KEY (id),
     CONSTRAINT "Expense_category_fkey" FOREIGN KEY (category)
@@ -17,6 +17,10 @@ CREATE TABLE IF NOT EXISTS public."Expense"
         ON DELETE NO ACTION,
     CONSTRAINT "Expense_username_fkey" FOREIGN KEY (username)
         REFERENCES public."User" (username) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT "Expense_wallet_fkey" FOREIGN KEY (wallet)
+        REFERENCES public."Wallet" (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )

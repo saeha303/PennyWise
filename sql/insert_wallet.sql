@@ -1,0 +1,12 @@
+insert into public."Wallet"(username,name)
+values ('john_doe','My Wallet');
+insert into public."Wallet"(username,name)
+values ('jane_doe','My Wallet');
+insert into public."Wallet"(username,name)
+values ('robert_langdon','My Wallet');
+insert into public."Wallet"(username,name)
+values ('park_rose','My Wallet');
+insert into public."Wallet"(username,name)
+values ('kim_jennie','My Wallet');
+insert into public."Wallet"(username,name)
+values ('kim_jisoo','My Wallet');

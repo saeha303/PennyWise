@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS public."Budget"
     start_date date NOT NULL,
     end_date date NOT NULL,
     amount bigint NOT NULL,
-    id integer NOT NULL DEFAULT nextval('"Budget_id_seq"'::regclass),
+    id serial NOT NULL,
     CONSTRAINT "Budget_pkey" PRIMARY KEY (username),
     CONSTRAINT "Budget_username_fkey" FOREIGN KEY (username)
         REFERENCES public."User" (username) MATCH SIMPLE

@@ -9,9 +9,10 @@
       </jsp:include> -->
 <%@ include file="header.jsp" %>
 <%
+String tab_var1="",tab_var2="";
+String btn_txt="";
 category cat=new category();
 List<String> cat_list=cat.getCategories();
-System.out.println(cat_list);
 %>
   <body>
 
@@ -51,70 +52,27 @@ System.out.println(cat_list);
                         <li class="nav-item flex-fill" role="presentation">
                           <button class="nav-link w-100" id="profile-tab" data-bs-toggle="tab"
                             data-bs-target="#profile-justified" type="button" role="tab" aria-controls="profile"
-                            aria-selected="false" tabindex="-1">Transfer</button>
+                            aria-selected="false" tabindex="-1">Income</button>
                         </li>
                         <li class="nav-item flex-fill" role="presentation">
                           <button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab"
                             data-bs-target="#contact-justified" type="button" role="tab" aria-controls="contact"
-                            aria-selected="false" tabindex="-1">Income</button>
+                            aria-selected="false" tabindex="-1">Transfer</button>
                         </li>
                       </ul>
                       <div class="tab-content pt-2" id="myTabjustifiedContent">
                         <div class="tab-pane fade show active" id="home-justified" role="tabpanel"
                           aria-labelledby="home-tab">
+                          <% tab_var1="From"; btn_txt="Add Expense"; %>
                           <%@ include file="transactionCard.jsp" %>
-                            <!-- tags and date -->
-                            <label class="col-form-label">Category</label>
-                            <div class="fields">
-                              <div class="field">
-                                <div class="row mb-3">
-                                  <div>
-                                    <select class="form-select" aria-label="Default select example">
-                                      <option disabled selected>--Select Category--</option>
-                                      <% for (int i = 0; i < cat_list.size(); i++) { %>
-                                        <option name="category_options" value="<%= i %>"><%= cat_list.get(i) %><% } %>
-                                    </select>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="field">
-                                <div class="input-group mb-3">
-                                  <input type="date" class="form-control">
-                                </div>
-                              </div>
-                            </div>
-                            <!-- end of tags and data -->
-                            <div class="fields">
-                              <div class="field">
-                                <div class="row mb-3">
-                                  <div>
-                                    <div class="form-floating mb-3">
-                                      <input type="email" class="form-control" id="floatingInput" placeholder="Note">
-                                      <label for="floatingInput">Note</label>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="field">
-                                <div class="input-group mb-3">
-                                  <button type="submit" class="btn btn-primary">Add Expense</button>
-                                </div>
-                              </div>
-                            </div>
                         </div>
                         <div class="tab-pane fade" id="profile-justified" role="tabpanel" aria-labelledby="profile-tab">
-                          Nesciunt totam et. Consequuntur magnam aliquid eos nulla dolor iure eos quia. Accusantium
-                          distinctio
-                          omnis et atque fugiat. Itaque doloremque aliquid sint quasi quia distinctio similique.
-                          Voluptate nihil
-                          recusandae mollitia dolores. Ut laboriosam voluptatum dicta.
+                          <% tab_var1="To"; btn_txt="Add Income"; %>
+                          <%@ include file="transactionCard.jsp" %>
                         </div>
                         <div class="tab-pane fade" id="contact-justified" role="tabpanel" aria-labelledby="contact-tab">
-                          Saepe animi et soluta ad odit soluta sunt. Nihil quos omnis animi debitis cumque.
-                          Accusantium
-                          quibusdam perspiciatis qui qui omnis magnam. Officiis accusamus impedit molestias nostrum
-                          veniam. Qui
-                          amet ipsum iure. Dignissimos fuga tempore dolor.
+                          <% tab_var1="From"; tab_var2="To"; btn_txt="Add Transfer"; %>
+                          <%@ include file="transferTransactionCard.jsp" %>
                         </div>
                       </div><!-- End Default Tabs -->
 

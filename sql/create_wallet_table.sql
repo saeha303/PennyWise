@@ -4,10 +4,10 @@
 
 CREATE TABLE IF NOT EXISTS public."Wallet"
 (
+    id serial NOT NULL,
     username character varying(255) COLLATE pg_catalog."default" NOT NULL,
-    wallet_name character varying(255) COLLATE pg_catalog."default" NOT NULL,
-    id integer NOT NULL DEFAULT nextval('"Wallet_id_seq"'::regclass),
-    CONSTRAINT "Wallet_pkey" PRIMARY KEY (username, wallet_name),
+    name character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT "Wallet_pkey" PRIMARY KEY (id),
     CONSTRAINT "Wallet_username_fkey" FOREIGN KEY (username)
         REFERENCES public."User" (username) MATCH SIMPLE
         ON UPDATE NO ACTION

@@ -12,7 +12,7 @@
       </li><!-- End Dashboard Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="main.jsp">
+        <a class="nav-link collapsed" href="sign.jsp">
           <i class="bi bi-cash-stack"></i>
            <span>Transactions</span>
         </a>
@@ -68,7 +68,7 @@
       </li><!-- End Contact Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-register.html">
+        <a class="nav-link collapsed" href="pages-register.jsp">
           <i class="bi bi-card-list"></i>
           <span>Register</span>
         </a>
