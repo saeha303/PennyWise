@@ -1,12 +1,9 @@
- <%@ page import="register.*" %>
- <%@ page import="getdetails.*" %>
+ <%@ page import="org.register.*" %>
+ <%@ page import="org.getdetails.*" %>
  <%@ page import="java.util.*" %>
- <%@ page import="expense.*" %>
+ <%@ page import="org.expense.*" %>
 <!DOCTYPE html>
-<html> 
-<script>
-        history.forward();
-</script>
+<html>
 <link rel="stylesheet" type="text/css" href="main.css">
 <meta charset="ISO-8859-1">
 <title>Expense Tracker</title>

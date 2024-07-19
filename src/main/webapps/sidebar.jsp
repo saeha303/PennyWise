@@ -5,14 +5,14 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="index.html">
-          <i class="bi bi-grid"></i>
+        <a class="nav-link " href="index.jsp">
+          <i class="bi bi-house-door"></i>
           <span>Dashboard</span>
         </a>
       </li><!-- End Dashboard Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
+        <a class="nav-link collapsed" href="main.jsp">
           <i class="bi bi-cash-stack"></i>
            <span>Transactions</span>
         </a>
@@ -75,7 +75,7 @@
       </li><!-- End Register Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-login.html">
+        <a class="nav-link collapsed" href="pages-login.jsp">
           <i class="bi bi-box-arrow-in-right"></i>
           <span>Login</span>
         </a>

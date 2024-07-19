@@ -15,13 +15,14 @@ public class signin {
         try {
             database dm = new database();
             Connection con = dm.getConnect();
-            String query = "Select name from public.\"User\" where username='" + user + "'";
+            String query = "Select first_name,last_name from public.\"User\" where username='" + user + "'";
             Statement st = con.createStatement();
             ResultSet rt = st.executeQuery(query);
             if (rt.next()) {
-                String pas = rt.getString("name");
+                String fn = rt.getString("first_name");
+                String ln = rt.getString("last_name");
                 //System.out.println(pas);
-                return pas;
+                return fn+" "+ln;
             } else {
                 return "error";
             }
@@ -137,14 +138,13 @@ public class signin {
         try {
             database dm = new database();
             Connection con = dm.getConnect();
-            String query = "Select password_hash from User where username='" + user + "'";
+            String query = "Select password_hash from public.\"User\" where username='" + user + "'";
             Statement st = con.createStatement();
             ResultSet rt = st.executeQuery(query);
             if (rt.next()) {
-                String pas = rt.getString("password");
+                String pas = rt.getString("password_hash");
                 String dec = pass.decrypt(pas, user);
                 if (dec.equals(password)) {
-
                     return (1);
                 } else {
                     return (2);
