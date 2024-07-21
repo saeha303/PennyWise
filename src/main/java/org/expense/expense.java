@@ -3,11 +3,12 @@ package org.expense;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.db.database;
 
 public class expense {
@@ -180,7 +181,7 @@ public class expense {
 	}
 	
 
-	private LocalDate now() {
+	public LocalDate now() {
 		return java.time.LocalDate.now();
 	}
 

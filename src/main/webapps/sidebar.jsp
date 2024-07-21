@@ -12,7 +12,7 @@
       </li><!-- End Dashboard Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="sign.jsp">
+        <a class="nav-link collapsed" href="pages-transaction.jsp">
           <i class="bi bi-cash-stack"></i>
            <span>Transactions</span>
         </a>
