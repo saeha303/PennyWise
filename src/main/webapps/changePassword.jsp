@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="org.register.signin" %>
-
+<%@ page import="org.expense.wallet" %>
 <%
     String action=request.getParameter("action");
     if(action.equals("changePassword")){
@@ -30,6 +30,16 @@
         session.setAttribute("name",fn+" "+ln);
         signin obj=new signin();
         int result=obj.store(fn,ln,email,un,ps);
+        out.print(result);
+    }else if(action.equals("addWallet")){
+        String fn=request.getParameter("wallet_name");
+        String ln=request.getParameter("group");
+        String email=request.getParameter("group_description");
+        String un=request.getParameter("group_number");
+        String ps=request.getParameter("amount");
+        String user=(String)session.getAttribute("User");
+        wallet obj=new wallet();
+        int result=obj.store(user,fn,ps,ln,email,un);
         out.print(result);
     }
 %>

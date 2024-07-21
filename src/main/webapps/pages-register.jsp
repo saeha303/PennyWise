@@ -28,48 +28,45 @@
                       <h5 class="card-title text-center pb-0 fs-4">Create an Account</h5>
                       <p class="text-center small">Enter your personal details to create account</p>
                     </div>
-
                     <form class="row g-3 needs-validation" novalidate>
-
                       <div class="col-md-6">
                         <div class="form-floating mb-3">
-                          <input type="email" class="form-control" id="fn" placeholder="First Name">
+                          <input type="text" name="name" class="form-control" id="fn" placeholder="First Name">
                           <label for="floatingInput">First Name</label>
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-floating mb-3">
-                          <input type="email" class="form-control" id="ln" placeholder="Last Name">
+                          <input type="text" name="name" class="form-control" id="ln" placeholder="Last Name">
                           <label for="floatingInput">Last Name</label>
                         </div>
                       </div>
                       <div class="col-12">
                         <div class="form-floating mb-3">
-                          <input type="email" class="form-control" id="email" placeholder="Email" required>
+                          <input type="email" name="email" class="form-control" id="email" placeholder="Email" required>
                           <label for="floatingInput">Email</label>
+                          <div class="invalid-feedback">Please, enter your email!</div>
                         </div>
-                        <div class="invalid-feedback">Please, enter your email!</div>
                       </div>
-
                       <div class="col-12">
                         <label for="yourUsername" class="form-label">Username</label>
                         <div class="input-group form-floating mb-3">
                           <span class="input-group-text" id="inputGroupPrepend">@</span>
-                          <input type="username" class="form-control" id="un" placeholder="Username"
+                          <input type="text" name="username" class="form-control" id="un" placeholder="Username"
                             aria-label="Username" aria-describedby="basic-addon1" required>
                           <!-- <label for="floatingInput" >Username</label> -->
+                          <div class="invalid-feedback">Please choose a username.</div>
                         </div>
-                        <div class="invalid-feedback">Please choose a username.</div>
+                        
                       </div>
 
                       <div class="col-12">
                         <div class="form-floating mb-3">
-                          <input type="password" class="form-control" id="pswd" placeholder="Password" required>
+                          <input type="password" name="password" class="form-control" id="pswd" placeholder="Password" required>
                           <label for="floatingInput">Password</label>
+                          <div class="invalid-feedback">Please enter your password!</div>
                         </div>
-                        <div class="invalid-feedback">Please enter your password!</div>
                       </div>
-
                       <div class="col-12">
                         <div class="form-check">
                           <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms"
@@ -80,13 +77,14 @@
                         </div>
                       </div>
                       <div class="col-12">
-                        <button class="btn btn-primary w-100" type="submit" onclick="register(event)">Create
+                        <button class="btn btn-primary w-100" type="submit" onsubmit="register(event)">Create
                           Account</button>
                       </div>
                       <div class="col-12">
-                        <p class="small mb-0">Already have an account? <a href="pages-login.html">Log in</a></p>
+                        <p class="small mb-0">Already have an account? <a href="pages-login.jsp">Log in</a></p>
                       </div>
                     </form>
+
 
                   </div>
                 </div>

@@ -19,9 +19,9 @@
       </li><!-- End Transactions Page Nav -->
 
         <li class="nav-item">
-          <a class="nav-link collapsed" href="#">
+          <a class="nav-link collapsed" href="pages-wallets.jsp">
             <i class="bi bi-person-vcard"></i>
-             <span>Accounts</span>
+             <span>Wallets</span>
           </a>
         </li><!-- End Transactions Page Nav -->
 
@@ -54,7 +54,7 @@
       </li><!-- End Profile Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-faq.html">
+        <a class="nav-link collapsed" href="login.jsp">
           <i class="bi bi-question-circle"></i>
           <span>F.A.Q</span>
         </a>
