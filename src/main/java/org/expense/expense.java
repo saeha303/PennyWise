@@ -7,11 +7,161 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.db.database;
 
 public class expense {
+	public int id, wallet, amount;
+	public String username, category, note, spent_on;
+	public List<expense> getRecentActivity(String username){
+		List<expense> result=new ArrayList<>();
+
+		Calendar now = Calendar.getInstance();
+        int year = now.get(Calendar.YEAR);
+        int month = now.get(Calendar.MONTH);
+        int day=now.get(Calendar.DATE);
+        String strMonthYear="", strMonthPrefix ="",strDayPrefix="";
+
+        if(month <= 9 ){
+            strMonthPrefix = "-0";
+        }else{
+            strMonthPrefix = "-";
+        }
+        if(day<=9){
+            strDayPrefix = "-0";
+        }else{
+            strDayPrefix = "-";
+        }
+        strMonthYear =  new String(new StringBuilder()
+                .append(year).append(strMonthPrefix).append(month + 1)         // Month is 0 based, just add 1
+                .append(strDayPrefix).append(day));
+		String lastMonth=new String(new StringBuilder()
+				.append(year).append(strMonthPrefix).append(month)         // Month is 0 based, just add 1
+				.append("-").append("01"));
+
+		try
+		{
+			database dm=new database();
+			Connection con=dm.getConnect();
+			Statement st=con.createStatement();
+			String querycheck="select name,category,public.\"Expense\".amount,spent_on from public.\"Expense\" join public.\"Wallet\" on public.\"Expense\".wallet=public.\"Wallet\".id where public.\"Expense\".username='"+username+"' and spent_on between '"+lastMonth+"' and '"+strMonthYear+"'";
+			System.out.println(querycheck);
+			ResultSet rt=st.executeQuery(querycheck);
+			while(rt.next())
+			{
+				expense w=new expense();
+				w.category=rt.getString("category");
+				w.amount=rt.getInt("amount");
+				w.note=rt.getString("name");//name
+				w.spent_on=rt.getString("spent_on");
+				result.add(w);
+			}
+
+			System.out.println(result);
+		}
+		catch (SQLException exception) {
+		}
+		return result;
+	}
+
+	public List<expense> getMonthlyReport(String username){
+		List<expense> result=new ArrayList<>();
+
+		Calendar now = Calendar.getInstance();
+		int year = now.get(Calendar.YEAR);
+		int month = now.get(Calendar.MONTH);
+		int day=now.get(Calendar.DATE);
+		String strMonthYear="", strMonthPrefix ="",strDayPrefix="";
+
+		if(month <= 9 ){
+			strMonthPrefix = "-0";
+		}else{
+			strMonthPrefix = "-";
+		}
+		strMonthYear =  new String(new StringBuilder()
+				.append(year).append(strMonthPrefix).append(month + 1)         // Month is 0 based, just add 1
+				.append("-").append("01"));
+		int lastDay=now.getMaximum(Calendar.DAY_OF_MONTH);
+		String lastDayOfMonth =  new String(new StringBuilder()
+				.append(year).append(strMonthPrefix).append(month + 1)         // Month is 0 based, just add 1
+				.append("-").append(lastDay));
+		try
+		{
+			database dm=new database();
+			Connection con=dm.getConnect();
+			Statement st=con.createStatement();
+			String querycheck="select * from public.\"Expense\" where spent_on Between '"+strMonthYear+"' and '"+lastDayOfMonth+"'";
+			ResultSet rt=st.executeQuery(querycheck);
+			while(rt.next())
+			{
+				expense w=new expense();
+				w.id=rt.getInt("id");
+				w.username=rt.getString("username");
+				w.category=rt.getString("category");
+				w.amount=rt.getInt("amount");
+				w.note=rt.getString("note");
+				w.wallet=rt.getInt("wallet");
+				w.spent_on=rt.getString("spent_on");
+				result.add(w);
+			}
+
+			System.out.println(result);
+		}
+		catch (SQLException exception) {
+		}
+		return result;
+	}
+
+	public List<expense> getDailyDonutChart(String username,String wallet){
+		List<expense> result=new ArrayList<>();
+
+		Calendar now = Calendar.getInstance();
+        int year = now.get(Calendar.YEAR);
+        int month = now.get(Calendar.MONTH);
+        int day=now.get(Calendar.DATE);
+        String strMonthYear="", strMonthPrefix ="",strDayPrefix="";
+
+        if(month <= 9 ){
+            strMonthPrefix = "-0";
+        }else{
+            strMonthPrefix = "-";
+        }
+        if(day<=9){
+            strDayPrefix = "-0";
+        }else{
+            strDayPrefix = "-";
+        }
+        strMonthYear =  new String(new StringBuilder()
+                .append(year).append(strMonthPrefix).append(month + 1)         // Month is 0 based, just add 1
+                .append(strDayPrefix).append(day));
+
+		try
+		{
+			database dm=new database();
+			Connection con=dm.getConnect();
+			Statement st=con.createStatement();
+			String querycheck="select category,color,sum(amount) as amount from public.\"Expense\" join public.\"Category\" on public.\"Expense\".category=public.\"Category\".name where wallet in (select id from public.\"Wallet\" where username='"+username+"' and name='"+wallet+"') and spent_on='"+strMonthYear+"' group by category,color";
+			System.out.println(querycheck);
+			ResultSet rt=st.executeQuery(querycheck);
+			while(rt.next())
+			{
+				expense w=new expense();
+				w.category=rt.getString("category");
+				w.amount=rt.getInt("amount");
+				// just using the variables with the correct data type
+				w.note=rt.getString("color");
+				result.add(w);
+			}
+
+			System.out.println(result);
+		}
+		catch (SQLException exception) {
+		}
+		return result;
+	}
+
 	public String gntotalup(String username)
 	{
 		String ans="0";

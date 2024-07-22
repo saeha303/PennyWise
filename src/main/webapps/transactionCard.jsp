@@ -29,7 +29,7 @@
         <select class="form-select" aria-label="Default select example">
           <option disabled selected>--Select Category--</option>
           <% for (int i = 0; i < cat_list.size(); i++) { %>
-            <option name="category_options" value="<%= i+1 %>"><%= cat_list.get(i) %><% } %></option>
+            <option name="category_options" value="<%= i+1 %>"><%= cat_list.get(i).name %><% } %></option>
         </select>
       </div>
     </div>

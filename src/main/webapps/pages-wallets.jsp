@@ -178,7 +178,7 @@
                     document.getElementById('grp_desc').value = ''
                     document.getElementById('grp_no').value = ''
                     document.getElementById('amount').value = '0'
-                    
+                    console.log(document.getElementById('grp_desc').attributes)
                   }
                 };
 

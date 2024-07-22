@@ -18,7 +18,6 @@ public class wallet {
     }
 	public List<String> getWalletList(String username)
 	{
-		
 		List<String> result=new ArrayList<>();
 		try
 		{
@@ -101,4 +100,28 @@ public class wallet {
             return (3);
         }
     }
+	public List<wallet> getFilteredWallet(String username, String wallet, String group){
+		List<wallet> result=new ArrayList<>();
+		try {
+			database dm = new database();
+			Connection con = dm.getConnect();
+			Statement st = con.createStatement();
+			String querycheck = "Select * from public.\"Wallet\" where username='" + username + "' and name='"+wallet+"' and type='"+group+"'";
+			System.out.println(querycheck);
+			ResultSet rt = st.executeQuery(querycheck);
+			while (rt.next()) {
+				wallet w=new wallet();
+				w.id=rt.getInt("id");
+				w.username=rt.getString("username");
+				w.name=rt.getString("name");
+				w.amount=rt.getInt("amount");
+				w.type=rt.getString("type");
+				w.type_unique_name=rt.getString("type_unique_name");
+				w.type_unique_number=rt.getString("type_unique_nunmber");
+				result.add(w);
+			}
+		} catch (SQLException exception) {
+		}
+		return result;
+	}
 }

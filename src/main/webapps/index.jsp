@@ -9,14 +9,21 @@
         <jsp:param name="tab_var" value="Dashboard" />
       </jsp:include> -->
         <%@ include file="header.jsp" %>
-          <% session.setAttribute("User","john_doe"); String tab_var1="" ,tab_var2="" ; String btn_txt="" ; String
-            filter_txt="" ; String str="text-danger" ; category cat=new category(); List<String>
-            cat_list=cat.getCategories();
-            wallet w=new wallet();
+          <% session.setAttribute("User","john_doe");
             String user=(String)session.getAttribute("User");
-            System.out.println("index "+user);
+            String tab_var1="" ,tab_var2="" ;
+            String btn_txt="" ;
+            String filter_txt="" ;
+            String str="text-danger" ;
+            category cat=new category();
+            wallet w=new wallet();
+            expense exp=new expense();
+            List<category> cat_list=cat.getCategories();
             List<String> w_list=w.getWalletList(user);
-
+            List<expense> dailyReport=exp.getDailyDonutChart(user,"My Wallet");
+              List<expense> recentActivity=exp.getRecentActivity(user);
+                budget b=new budget().getBudget(user,"My Wallet");
+                List<budget> actualSpending=new budget().getActualSpending(user,"My Wallet");
               %>
 
               <body>
@@ -97,18 +104,22 @@
                                     <div class="filter">
                                       <a class="icon" href="#" data-bs-toggle="dropdown"><i
                                           class="bi bi-three-dots"></i></a>
-                                      <ul id="filter_txt" class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                        <li class="dropdown-header text-start">
+                                      <ul id="filter_txt" class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
+                                        onclick="edit(event)">
+                                        <li class="dropdown-header text-start" value="filter" aria-selected="true">
                                           <h6>Filter</h6>
                                         </li>
 
-                                        <li><a class="dropdown-item">Today</a></li>
-                                        <li><a class="dropdown-item">This Month</a></li>
-                                        <li><a class="dropdown-item">This Year</a></li>
+                                        <li value="Today"><a class="dropdown-item" aria-valuetext="Today">Today</a></li>
+                                        <li value="This Month"><a class="dropdown-item" aria-valuetext="This Month">This
+                                            Month</a></li>
+                                        <li value="This Year"><a class="dropdown-item" aria-valuetext="This Year">This
+                                            Year</a></li>
                                       </ul>
                                     </div>
                                     <div class="card-body">
-                                      <h5 class="card-title">Top Expense <span>|Placeholder</span></h5>
+                                      <h5 class="card-title">Top Expense <span id="filter_holder">|Placeholder</span>
+                                      </h5>
                                       <div class="fields">
                                         <div class="field d-flex align-items-center mb-3">
                                           <div
@@ -170,66 +181,36 @@
                                       </ul>
                                     </div>
 
-                                    <div class="card-body">
-                                      <h5 class="card-title">Reports <span>/Today</span></h5>
+                                    <div class="card">
+                                      <div class="card-body">
+                                        <h5 class="card-title">Report<span> |Today</span></h5>
 
-                                      <!-- Line Chart -->
-                                      <div id="reportsChart"></div>
-
-                                      <script>
-                                        document.addEventListener("DOMContentLoaded", () => {
-                                          new ApexCharts(document.querySelector("#reportsChart"), {
-                                            series: [{
-                                              name: 'Sales',
-                                              data: [31, 40, 28, 51, 42, 82, 56],
-                                            }, {
-                                              name: 'Revenue',
-                                              data: [11, 32, 45, 32, 34, 52, 41]
-                                            }, {
-                                              name: 'Customers',
-                                              data: [15, 11, 32, 18, 9, 24, 11]
-                                            }],
-                                            chart: {
-                                              height: 350,
-                                              type: 'area',
-                                              toolbar: {
-                                                show: false
-                                              },
-                                            },
-                                            markers: {
-                                              size: 4
-                                            },
-                                            colors: ['#4154f1', '#2eca6a', '#ff771d'],
-                                            fill: {
-                                              type: "gradient",
-                                              gradient: {
-                                                shadeIntensity: 1,
-                                                opacityFrom: 0.3,
-                                                opacityTo: 0.4,
-                                                stops: [0, 90, 100]
+                                        <!-- Doughnut Chart -->
+                                        <canvas id="doughnutChart"
+                                          style="max-height: 400px; display: block; box-sizing: border-box; height: 400px; width: 642px;"
+                                          width="964" height="600"></canvas>
+                                        <script>
+                                          document.addEventListener("DOMContentLoaded", () => {
+                                            new Chart(document.querySelector('#doughnutChart'), {
+                                              type: 'doughnut',
+                                              data: {
+                                                labels: [<% for (int i = 0; i < dailyReport.size(); i++) { %>"<%= dailyReport.get(i).category %>",<% } %>
+                                                ],
+                                                datasets: [{
+                                                  label: 'Spent',
+                                                  data: [<% for (int i = 0; i < dailyReport.size(); i++) { %>"<%= dailyReport.get(i).amount %>",<% } %>],
+                                                  backgroundColor: [
+                                                  <% for (int i = 0; i < dailyReport.size(); i++) { %>"<%= dailyReport.get(i).note %>",<% } %>
+                                                  ],
+                                                  hoverOffset: 4
+                                                }]
                                               }
-                                            },
-                                            dataLabels: {
-                                              enabled: false
-                                            },
-                                            stroke: {
-                                              curve: 'smooth',
-                                              width: 2
-                                            },
-                                            xaxis: {
-                                              type: 'datetime',
-                                              categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
-                                            },
-                                            tooltip: {
-                                              x: {
-                                                format: 'dd/MM/yy HH:mm'
-                                              },
-                                            }
-                                          }).render();
-                                        });
-                                      </script>
-                                      <!-- End Line Chart -->
+                                            });
+                                          });
+                                        </script>
+                                        <!-- End Doughnut CHart -->
 
+                                      </div>
                                     </div>
 
                                   </div>
@@ -240,6 +221,40 @@
 
                           <!-- Right side columns -->
                           <div class="col-lg-4">
+
+
+                            <!-- Recent Activity -->
+                            <div class="card">
+
+                              <div class="card-body">
+                                <h5 class="card-title">Recent Activity</h5>
+
+                                <div class="activity">
+
+                                  <% for (int i = recentActivity.size()-1; i >= 0; i--) { %>
+                                    <div class="activity-item d-flex">
+                                      <div class="activite-label"><%= recentActivity.get(i).spent_on %>
+                                      </div>
+                                      <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
+                                      <div class="activity-content">
+                                        <%= recentActivity.get(i).note %></br> <a href="#" class="fw-bold text-dark"><%= recentActivity.get(i).category %></a></br>
+                                        <%= recentActivity.get(i).amount %>
+                                    </div>
+                                  </div>
+                                        <% } %>
+                                  <!-- <div class="activity-item d-flex">
+                                    <div class="activite-label">1 day</div>
+                                    <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
+                                    <div class="activity-content">
+                                      Tempore autem saepe <a href="#" class="fw-bold text-dark">occaecati voluptatem</a>
+                                      tempore
+                                    </div>
+                                  </div> -->
+
+                                </div>
+
+                              </div>
+                            </div><!-- End Recent Activity -->
 
                             <!-- Budget Report -->
                             <div class="card">
@@ -270,28 +285,32 @@
                                       radar: {
                                         // shape: 'circle',
                                         indicator: [{
-                                          name: 'Sales',
-                                          max: 6500
+                                          name: 'Clothing and Accessories',
+                                          max: <%= (int)b.amount*0.24 %>
+                                          
                                         },
                                         {
-                                          name: 'Administration',
-                                          max: 16000
+                                          name: 'Food',
+                                          max: <%= (int)b.amount*0.7 %>
                                         },
                                         {
-                                          name: 'Information Technology',
-                                          max: 30000
+                                          name: 'Medical',
+                                          max: <%= (int)b.amount*0.30 %>
+                                          
                                         },
                                         {
-                                          name: 'Customer Support',
-                                          max: 38000
+                                          name: 'Pleasure and others',
+                                          max:<%= (int)b.amount*0.16 %>
+                                          
                                         },
                                         {
-                                          name: 'Development',
-                                          max: 52000
+                                          name: 'Residence',
+                                          max: <%= (int)b.amount*0.40 %>
                                         },
                                         {
-                                          name: 'Marketing',
-                                          max: 25000
+                                          name: 'Workplace',
+                                          max: <%= (int)b.amount*0.20 %>
+                                          
                                         }
                                         ]
                                       },
@@ -299,11 +318,21 @@
                                         name: 'Budget vs spending',
                                         type: 'radar',
                                         data: [{
-                                          value: [4200, 3000, 20000, 35000, 50000, 18000],
+                                          value: [<%= (int)b.amount*0.35 %>, <%= (int)b.amount*0.12 %>, <%= (int)b.amount*0.20 %>, <%= (int)b.amount*0.10 %>, <%= (int)b.amount*0.15 %>, <%= (int)b.amount*0.08 %>],
                                           name: 'Allocated Budget'
                                         },
                                         {
-                                          value: [5000, 14000, 28000, 26000, 42000, 21000],
+                                          value: [<%
+                                          char[] arr={'C','F','M','P','R','W'};
+                                          int j=0;
+                                          for(int i=0;i< arr.length;i++){
+                                              if(actualSpending.get(j).startDate.charAt(0)!=arr[i]){%>
+                                                <%= 0 %>,
+                                              <%continue;
+                                            }%>
+                                            <%= (int)actualSpending.get(j).wallet %>,
+                                          <%j++;
+                                        }%>],
                                           name: 'Actual Spending'
                                         }
                                         ]
@@ -313,72 +342,8 @@
                                 </script>
 
                               </div>
-                            </div><!-- End Budget Report -->
-
-                            <!-- Recent Activity -->
-                            <div class="card">
-
-                              <div class="card-body">
-                                <h5 class="card-title">Recent Activity</h5>
-
-                                <div class="activity">
-
-                                  <div class="activity-item d-flex">
-                                    <div class="activite-label">32 min</div>
-                                    <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
-                                    <div class="activity-content">
-                                      Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo officiis</a>
-                                      beatae
-                                    </div>
-                                  </div><!-- End activity item-->
-
-                                  <div class="activity-item d-flex">
-                                    <div class="activite-label">56 min</div>
-                                    <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
-                                    <div class="activity-content">
-                                      Voluptatem blanditiis blanditiis eveniet
-                                    </div>
-                                  </div><!-- End activity item-->
-
-                                  <div class="activity-item d-flex">
-                                    <div class="activite-label">2 hrs</div>
-                                    <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
-                                    <div class="activity-content">
-                                      Voluptates corrupti molestias voluptatem
-                                    </div>
-                                  </div><!-- End activity item-->
-
-                                  <div class="activity-item d-flex">
-                                    <div class="activite-label">1 day</div>
-                                    <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
-                                    <div class="activity-content">
-                                      Tempore autem saepe <a href="#" class="fw-bold text-dark">occaecati voluptatem</a>
-                                      tempore
-                                    </div>
-                                  </div><!-- End activity item-->
-
-                                  <div class="activity-item d-flex">
-                                    <div class="activite-label">2 days</div>
-                                    <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
-                                    <div class="activity-content">
-                                      Est sit eum reiciendis exercitationem
-                                    </div>
-                                  </div><!-- End activity item-->
-
-                                  <div class="activity-item d-flex">
-                                    <div class="activite-label">4 weeks</div>
-                                    <i class='bi bi-circle-fill activity-badge text-muted align-self-start'></i>
-                                    <div class="activity-content">
-                                      Dicta dolorem harum nulla eius. Ut quidem quidem sit quas
-                                    </div>
-                                  </div><!-- End activity item-->
-
-                                </div>
-
-                              </div>
-                            </div><!-- End Recent Activity -->
-
-
+                            </div>
+                            <!-- End Budget Report -->
 
                           </div><!-- End Right side columns -->
 
@@ -390,5 +355,13 @@
                     <%@ include file="footer.jsp" %>
 
               </body>
+              <script>
+                function edit(event) {
+                  console.log('at least here')
+                  if (document.getElementById('filter_txt').value !== 'filter') {
+                    console.log(document.getElementById('filter_txt').value)
+                  }
+                }
+              </script>
 
         </html>

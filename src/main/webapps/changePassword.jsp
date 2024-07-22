@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="org.register.signin" %>
 <%@ page import="org.expense.wallet" %>
+<%@ page import="java.util.*" %>
 <%
     String action=request.getParameter("action");
     if(action.equals("changePassword")){
@@ -41,5 +42,16 @@
         wallet obj=new wallet();
         int result=obj.store(user,fn,ps,ln,email,un);
         out.print(result);
+    }else if(action.equals("applyFilter")){
+        String fn=request.getParameter("wallet");
+        String ln=request.getParameter("group");
+        String user=(String)session.getAttribute("User");
+        wallet obj=new wallet();
+        List<wallet> result=obj.getFilteredWallet(user,fn,ln);
+            for(int i=0;i<result.size();i++){
+                out.print(result.get(i).name+","+result.get(i).type+","+result.get(i).type_unique_name+","+result.get(i).type_unique_number+"//");
+            }
+        
+        
     }
 %>
