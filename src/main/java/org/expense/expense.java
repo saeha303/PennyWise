@@ -11,32 +11,96 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.db.database;
+import org.example.Main;
 
 public class expense {
 	public int id, wallet, amount;
 	public String username, category, note, spent_on;
+	int[] arr={31,29,31,30,31,30,31,31,30,31,30,31};
+	List<Integer> dayOfMonth=new ArrayList<>();
+//	31,29,31,30,31,30,31,31,30,31,30,31
+	public String correctApostrophe(String str){
+		String[] temp=str.split("'");
+		if(temp.length>1){
+			str=temp[0];
+			System.out.println(temp.length);
+			for(int i=1;i<temp.length;i++){
+				str+="''"+temp[i];
+			}
+		}
+		return str;
+	}
+	public void fillDayOfMonth(){
+		for(int i=0;i<arr.length;i++){
+			if(i==1){
+				Calendar now=Calendar.getInstance();
+				int last=now.getMaximum(Calendar.DAY_OF_YEAR);
+				if(last==365){
+					dayOfMonth.add(28);
+				}else {
+					dayOfMonth.add(29);
+				}
+				continue;
+			}
+			dayOfMonth.add(arr[i]);
+		}
+	}
+	@Override
+	public String toString() {
+		return "expense{" +
+				"id=" + id +
+				", wallet=" + wallet +
+				", amount=" + amount +
+				", username='" + username + '\'' +
+				", category='" + category + '\'' +
+				", note='" + note + '\'' +
+				", spent_on='" + spent_on + '\'' +
+				'}';
+	}
+
+	public String getToday(){
+		Calendar now = Calendar.getInstance();
+		int year = now.get(Calendar.YEAR);
+		int month = now.get(Calendar.MONTH);
+		int day=now.get(Calendar.DATE);
+		String strMonthYear="", strMonthPrefix ="",strDayPrefix="";
+
+		if(month <= 9 ){
+			strMonthPrefix = "-0";
+		}else{
+			strMonthPrefix = "-";
+		}
+		if(day<=9){
+			strDayPrefix = "-0";
+		}else{
+			strDayPrefix = "-";
+		}
+		strMonthYear =  new String(new StringBuilder()
+				.append(year).append(strMonthPrefix).append(month + 1)         // Month is 0 based, just add 1
+				.append(strDayPrefix).append(day));
+		return strMonthYear;
+	}
 	public List<expense> getRecentActivity(String username){
 		List<expense> result=new ArrayList<>();
-
 		Calendar now = Calendar.getInstance();
-        int year = now.get(Calendar.YEAR);
-        int month = now.get(Calendar.MONTH);
-        int day=now.get(Calendar.DATE);
-        String strMonthYear="", strMonthPrefix ="",strDayPrefix="";
+		int year = now.get(Calendar.YEAR);
+		int month = now.get(Calendar.MONTH);
+		int day=now.get(Calendar.DATE);
+		String strMonthYear="", strMonthPrefix ="",strDayPrefix="";
 
-        if(month <= 9 ){
-            strMonthPrefix = "-0";
-        }else{
-            strMonthPrefix = "-";
-        }
-        if(day<=9){
-            strDayPrefix = "-0";
-        }else{
-            strDayPrefix = "-";
-        }
-        strMonthYear =  new String(new StringBuilder()
-                .append(year).append(strMonthPrefix).append(month + 1)         // Month is 0 based, just add 1
-                .append(strDayPrefix).append(day));
+		if(month <= 9 ){
+			strMonthPrefix = "-0";
+		}else{
+			strMonthPrefix = "-";
+		}
+		if(day<=9){
+			strDayPrefix = "-0";
+		}else{
+			strDayPrefix = "-";
+		}
+		strMonthYear =  new String(new StringBuilder()
+				.append(year).append(strMonthPrefix).append(month + 1)         // Month is 0 based, just add 1
+				.append(strDayPrefix).append(day));
 		String lastMonth=new String(new StringBuilder()
 				.append(year).append(strMonthPrefix).append(month)         // Month is 0 based, just add 1
 				.append("-").append("01"));
@@ -65,45 +129,34 @@ public class expense {
 		}
 		return result;
 	}
-
-	public List<expense> getMonthlyReport(String username){
+	public List<expense> getExpenseReportWithin(String username,String wallet,String start, String end){
 		List<expense> result=new ArrayList<>();
 
-		Calendar now = Calendar.getInstance();
-		int year = now.get(Calendar.YEAR);
-		int month = now.get(Calendar.MONTH);
-		int day=now.get(Calendar.DATE);
-		String strMonthYear="", strMonthPrefix ="",strDayPrefix="";
-
-		if(month <= 9 ){
-			strMonthPrefix = "-0";
-		}else{
-			strMonthPrefix = "-";
-		}
-		strMonthYear =  new String(new StringBuilder()
-				.append(year).append(strMonthPrefix).append(month + 1)         // Month is 0 based, just add 1
-				.append("-").append("01"));
-		int lastDay=now.getMaximum(Calendar.DAY_OF_MONTH);
-		String lastDayOfMonth =  new String(new StringBuilder()
-				.append(year).append(strMonthPrefix).append(month + 1)         // Month is 0 based, just add 1
-				.append("-").append(lastDay));
+//		fillDayOfMonth();
+//		String[] startSplit=start.split("-");
+//		String[] endSplit=end.split("-");
+//		int diff=Integer.parseInt(endSplit[2])-Integer.parseInt(startSplit[2]);
+//		System.out.println(diff);
+//		String compareMonth="",compareYear="",_start="",_end="";
+//		if(diff==27||diff==28||diff==29||diff==30){
+//			_start=
+//			compareMonth="select category,color,sum(amount) as amount from public.\"Expense\" join public.\"Category\" on public.\"Expense\".category=public.\"Category\".name where wallet in (select id from public.\"Wallet\" where username='"+username+"' and name='"+wallet+"') and spent_on between '"+_start+"' and '"+_end+"' group by category,color order by amount desc union";
+//		}
 		try
 		{
 			database dm=new database();
 			Connection con=dm.getConnect();
 			Statement st=con.createStatement();
-			String querycheck="select * from public.\"Expense\" where spent_on Between '"+strMonthYear+"' and '"+lastDayOfMonth+"'";
+			wallet=correctApostrophe(wallet);
+			String querycheck="select category,color,sum(amount) as amount from public.\"Expense\" join public.\"Category\" on public.\"Expense\".category=public.\"Category\".name where wallet in (select id from public.\"Wallet\" where username='"+username+"' and name='"+wallet+"') and spent_on between '"+start+"' and '"+end+"' group by category,color order by amount desc";
 			ResultSet rt=st.executeQuery(querycheck);
 			while(rt.next())
 			{
 				expense w=new expense();
-				w.id=rt.getInt("id");
-				w.username=rt.getString("username");
 				w.category=rt.getString("category");
 				w.amount=rt.getInt("amount");
-				w.note=rt.getString("note");
-				w.wallet=rt.getInt("wallet");
-				w.spent_on=rt.getString("spent_on");
+				// just using the variables with the correct data type
+				w.note=rt.getString("color");
 				result.add(w);
 			}
 
@@ -113,36 +166,18 @@ public class expense {
 		}
 		return result;
 	}
-
 	public List<expense> getDailyDonutChart(String username,String wallet){
 		List<expense> result=new ArrayList<>();
 
-		Calendar now = Calendar.getInstance();
-        int year = now.get(Calendar.YEAR);
-        int month = now.get(Calendar.MONTH);
-        int day=now.get(Calendar.DATE);
-        String strMonthYear="", strMonthPrefix ="",strDayPrefix="";
-
-        if(month <= 9 ){
-            strMonthPrefix = "-0";
-        }else{
-            strMonthPrefix = "-";
-        }
-        if(day<=9){
-            strDayPrefix = "-0";
-        }else{
-            strDayPrefix = "-";
-        }
-        strMonthYear =  new String(new StringBuilder()
-                .append(year).append(strMonthPrefix).append(month + 1)         // Month is 0 based, just add 1
-                .append(strDayPrefix).append(day));
+		String strMonthYear=getToday();
 
 		try
 		{
 			database dm=new database();
 			Connection con=dm.getConnect();
 			Statement st=con.createStatement();
-			String querycheck="select category,color,sum(amount) as amount from public.\"Expense\" join public.\"Category\" on public.\"Expense\".category=public.\"Category\".name where wallet in (select id from public.\"Wallet\" where username='"+username+"' and name='"+wallet+"') and spent_on='"+strMonthYear+"' group by category,color";
+			wallet=correctApostrophe(wallet);
+			String querycheck="select category,color,sum(amount) as amount from public.\"Expense\" join public.\"Category\" on public.\"Expense\".category=public.\"Category\".name where wallet in (select id from public.\"Wallet\" where username='"+username+"' and name='"+wallet+"') and spent_on='"+strMonthYear+"' group by category,color order by amount desc";
 			System.out.println(querycheck);
 			ResultSet rt=st.executeQuery(querycheck);
 			while(rt.next())
@@ -161,6 +196,36 @@ public class expense {
 		}
 		return result;
 	}
+	public List<Integer> getNetWorth(String username,String wallet){
+		List<Integer> result=new ArrayList<>();
+
+		try
+		{
+			database dm=new database();
+			Connection con=dm.getConnect();
+			Statement st=con.createStatement();
+			wallet=correctApostrophe(wallet);
+			String querycheck="select sum(amount) as result from public.\"Expense\" where wallet in (select id from public.\"Wallet\" where username='"+username+"' and name='"+wallet+"') union " +
+					"select sum(amount) from public.\"Income\" where wallet in (select id from public.\"Wallet\" where username='"+username+"' and name='"+wallet+"');";
+			System.out.println("getNetWorth: "+querycheck);
+			ResultSet rt=st.executeQuery(querycheck);
+			while(rt.next())
+			{
+				result.add(rt.getInt("result"));
+			}
+			double sum=result.get(0)+result.get(1);
+			double first=result.get(0)/sum;
+			double second=result.get(1)/sum;//income percentage
+			int e_percentage=(int)Math.ceil(first*100);
+			result.add(e_percentage);
+			result.add(100-e_percentage);
+			System.out.println(result);
+		}
+		catch (SQLException exception) {
+		}
+		return result;
+	}
+
 
 	public String gntotalup(String username)
 	{

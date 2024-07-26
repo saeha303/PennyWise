@@ -8,14 +8,12 @@
           <% expense e=new expense(); session.setAttribute("User","john_doe"); String tab_var1="" ,tab_var2="" ; String
             btn_txt="" ; String filter_txt="" ; String str="text-danger" ; category cat=new category(); List<category>
             cat_list=cat.getCategories();
-            wallet wal=new wallet();
+            wallet w=new wallet();
             String user=(String)session.getAttribute("User");
-            List<String> w_list=wal.getWalletList(user);
-              List<wallet> wal_list=wal.getWallets(user);
+            List<wallet> w_list=w.getWallets(user);
                 List<wallet> filtered_wal_list=new ArrayList<>();
                     System.out.println("pages-transaction "+user);
                     System.out.println(w_list);
-                    System.out.println(wal_list);
                     %>
 
                     <body>
@@ -173,10 +171,10 @@
                                               <div class="col-sm-10">
                                                 <select class="form-select" id="wallet"
                                                   aria-label="Default select example">
-                                                  <option disabled selected="">--Select Wallet--</option>
+                                                  <option disabled selected value="">--Select Wallet--</option>
                                                   <% for (int i=0; i < w_list.size(); i++) { %>
-                                                    <option name="wallet_options" value="<%= w_list.get(i) %>">
-                                                      <%= w_list.get(i) %>
+                                                    <option name="wallet_options" value="<%= w_list.get(i).name %>">
+                                                      <%= w.getName(w_list.get(i).name) %>
                                                         <% } %>
                                                     </option>
                                                 </select>
@@ -189,7 +187,7 @@
                                               <div class="col-sm-10">
                                                 <select class="form-select" id="group"
                                                   aria-label="Default select example">
-                                                  <option disabled selected="">--Select Group--</option>
+                                                  <option disabled selected value="">--Select Group--</option>
                                                   <option value="Cash">Cash</option>
                                                   <option value="Card">Card</option>
                                                   <option value="Account">Accout</option>
@@ -217,20 +215,20 @@
                                             </div>
                                           </li>
                                           <%} else{ for (int i=0; i < filtered_wal_list.size(); i++) { wallet
-                                            w=filtered_wal_list.get(i); %>
+                                            tw=filtered_wal_list.get(i); %>
 
                                             <li
                                               class="list-group-item d-flex justify-content-between align-items-start">
                                               <div class="ms-2 me-auto">
                                                 <div class="fw-bold">
-                                                  <%= w.name %>
+                                                  <%= tw.name %>
                                                 </div>
-                                                <%= w.type %><br />
-                                                  <%= w.type_unique_name %><br />
-                                                    <%= w.type_unique_number %>
+                                                <%= tw.type %><br />
+                                                  <%= tw.type_unique_name %><br />
+                                                    <%= tw.type_unique_number %>
                                               </div>
                                               <span class="badge bg-primary rounded-pill">
-                                                <%= w.amount %> Tk
+                                                <%= tw.amount %> Tk
                                               </span>
                                             </li>
                                             <% }} %>
@@ -252,10 +250,6 @@
                         event.preventDefault(); // Prevent form from submitting
                         var wallet = document.getElementById('wallet').value;
                         var group = document.getElementById('group').value;
-                        // var email = document.getElementById('email').value;
-                        // var un = document.getElementById('un').value;
-                        // var pswd = document.getElementById('pswd').value;
-                        // console.log(fn + " " + ln + " " + email + " " + un + " " + pswd)
                         var xhr = new XMLHttpRequest();
                         xhr.open("POST", "changePassword.jsp", true); // Posting to the same JSP page
                         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");

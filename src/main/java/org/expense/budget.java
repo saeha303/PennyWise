@@ -36,6 +36,17 @@ public class budget {
 				.append(strDayPrefix).append(day));
 		return strMonthYear;
 	}
+	public String correctApostrophe(String str){
+		String[] temp=str.split("'");
+		if(temp.length>1){
+			str=temp[0];
+			System.out.println(temp.length);
+			for(int i=1;i<temp.length;i++){
+				str+="''"+temp[i];
+			}
+		}
+		return str;
+	}
 	public budget getBudget(String username,String wallet){
 		budget b=new budget();
 		String strMonthYear=getToday();
@@ -44,6 +55,7 @@ public class budget {
 			database dm=new database();
 			Connection con=dm.getConnect();
 			Statement st=con.createStatement();
+			wallet=correctApostrophe(wallet);
 			String querycheck="select * from public.\"Budget\" where wallet in (select id from public.\"Wallet\" where username='"+username+"' and name='"+wallet+"') and '"+strMonthYear+"' between start_date and end_date";
 			System.out.println(querycheck);
 			ResultSet rt=st.executeQuery(querycheck);
@@ -74,6 +86,7 @@ public class budget {
 			database dm=new database();
 			Connection con=dm.getConnect();
 			Statement st=con.createStatement();
+			wallet=correctApostrophe(wallet);
 			String querycheck="select start_date,end_date from public.\"Budget\" where wallet in (select id from public.\"Wallet\" where username='"+username+"' and name='"+wallet+"') and '"+strMonthYear+"' between start_date and end_date";
 			System.out.println(querycheck);
 			ResultSet rt=st.executeQuery(querycheck);
@@ -112,6 +125,7 @@ public class budget {
 			database dm=new database();
 			Connection con=dm.getConnect();
 			Statement st=con.createStatement();
+			wallet=correctApostrophe(wallet);
 			String querycheck="select falls_under,sum(amount) as amount from public.\"Expense\" join public.\"Category\" on public.\"Expense\".category=public.\"Category\".name where wallet in (select id from public.\"Wallet\" where username='"+username+"' and name='"+wallet+"') and spent_on between '"+b_list.get(0)+"' and '"+b_list.get(1)+"' group by falls_under  order by falls_under asc";
 			System.out.println(querycheck);
 			ResultSet rt=st.executeQuery(querycheck);

@@ -16,6 +16,24 @@ public class wallet {
     public wallet() {
 
     }
+	public String correctApostrophe(String str){
+		String[] temp=str.split("'");
+		if(temp.length>1){
+			str=temp[0];
+			System.out.println(temp.length);
+			for(int i=1;i<temp.length;i++){
+				str+="''"+temp[i];
+			}
+		}
+		return str;
+	}
+	public String getName(String str){
+		StringBuilder stringBuffer=new StringBuilder(str);
+		int idx=stringBuffer.indexOf("\\");
+		if(idx>=0)
+			return new String(stringBuffer.deleteCharAt(idx));
+		return str;
+	}
 	public List<String> getWalletList(String username)
 	{
 		List<String> result=new ArrayList<>();
@@ -66,13 +84,20 @@ public class wallet {
 				wallet w=new wallet();
 				w.id=rt.getInt("id");
 				w.username=rt.getString("username");
-				w.name=rt.getString("name");
+				String str=rt.getString("name");
+				StringBuilder stringBuffer=new StringBuilder(str);
+				int idx=stringBuffer.indexOf("'");
+				if(idx>=0)
+					stringBuffer.insert(idx,"\\");
+				w.name=new String(stringBuffer);
 				w.amount=rt.getInt("amount");
 				w.type=rt.getString("type");
 				w.type_unique_name=rt.getString("type_unique_name");
 				w.type_unique_number=rt.getString("type_unique_nunmber");
  			  	result.add(w);
  			}
+			System.out.println("piece of shit");
+			System.out.println(result);
 		}
 	   catch (SQLException exception) {
 		    }
@@ -82,6 +107,7 @@ public class wallet {
         try {
             database dm = new database();
             Connection con = dm.getConnect();
+			wallet=correctApostrophe(wallet);
             String query = "Insert into public.\"Wallet\"(username, name, amount, type,type_unique_name,type_unique_nunmber) values('" + username + "','" + wallet + "','" + amount + "','" + type + "','" + name +"','" + number + "')";
 			System.out.println("hi1");
 			System.out.println(query);
@@ -106,6 +132,7 @@ public class wallet {
 			database dm = new database();
 			Connection con = dm.getConnect();
 			Statement st = con.createStatement();
+			wallet=correctApostrophe(wallet);
 			String querycheck = "Select * from public.\"Wallet\" where username='" + username + "' and name='"+wallet+"' and type='"+group+"'";
 			System.out.println(querycheck);
 			ResultSet rt = st.executeQuery(querycheck);

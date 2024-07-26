@@ -44,8 +44,26 @@
     <div class="container">
 
       <section class="section error-404 min-vh-100 d-flex flex-column align-items-center justify-content-center">
-        <h1>404</h1>
-        <h2>The page you are looking for doesn't exist.</h2>
+        
+        <h2>Special thanks to:</h2>
+        <ol class="list-group list-group-numbered">
+          <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="ms-2 me-auto">
+              <div class="fw-bold"><a href="https://demo.moneytracker.cc/">https://demo.moneytracker.cc/</a></div>
+            </div>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="ms-2 me-auto">
+              <div class="fw-bold"><a href="https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/">https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/</a></div>
+            </div>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="ms-2 me-auto">
+              <div class="fw-bold"><a href="https://bootstrapmade.com/flexstart-bootstrap-startup-template/">https://bootstrapmade.com/flexstart-bootstrap-startup-template/</a></div>
+            </div>
+          </li>
+        </ol>
+      </br>
         <a class="btn" href="index.jsp">Back to home</a>
         <img src="assets/img/not-found.svg" class="img-fluid py-5" alt="Page Not Found">
         <div class="credits">

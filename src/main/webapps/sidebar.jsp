@@ -40,7 +40,7 @@
       </li><!-- End Transactions Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
+        <a class="nav-link collapsed" href="pages-settings.jsp">
           <i class="bi bi-gear"></i>
            <span>Settings</span>
         </a>
@@ -53,19 +53,13 @@
         </a>
       </li><!-- End Profile Page Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="login.jsp">
-          <i class="bi bi-question-circle"></i>
-          <span>F.A.Q</span>
-        </a>
-      </li><!-- End F.A.Q Page Nav -->
-
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link collapsed" href="pages-contact.html">
           <i class="bi bi-envelope"></i>
           <span>Contact</span>
         </a>
-      </li><!-- End Contact Page Nav -->
+      </li> -->
+      <!-- End Contact Page Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="pages-register.jsp">
@@ -80,6 +74,13 @@
           <span>Login</span>
         </a>
       </li><!-- End Login Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="pages-special-thanks.jsp">
+          <i class="bi bi-tag"></i>
+          <span>Special Thanks</span>
+        </a>
+      </li><!-- End F.A.Q Page Nav -->
 
     </ul>
 

@@ -8,7 +8,7 @@
         <select class="form-select" aria-label="Default select example">
           <option disabled selected>--Select Wallet--</option>
           <% for (int i = 0; i < w_list.size(); i++) { %>
-            <option name="wallet_options" value="<%= i+1 %>"><%= w_list.get(i) %><% } %></option>
+            <option name="wallet_options" value="<%= i+1 %>"><%= w.getName(w_list.get(i).name) %><% } %></option>
         </select>
       </div>
     </div>
@@ -21,8 +21,10 @@
   </div>
 </div>
 <!-- tags and date -->
+<% if(!tab_var1.equals("To")){ %>
 <label class="col-form-label">Category</label>
 <div class="fields">
+  
   <div class="field">
     <div class="row mb-3">
       <div>
@@ -34,12 +36,22 @@
       </div>
     </div>
   </div>
+  <% } %>
   <div class="field">
     <div class="input-group mb-3">
-      <input type="date" class="form-control">
+      <input type="date" id="calendar" class="form-control">
     </div>
   </div>
+  <!-- <script>
+    const t=document.getElementById("calendar");
+    t.addEventListener('change',()=>{
+      console.log('hukka')
+      console.log(t.value)
+    })
+  </script> -->
+  <% if(!tab_var1.equals("To")){ %>
 </div>
+<% } %>
 <!-- end of tags and data -->
 <div class="fields">
   <div class="field">

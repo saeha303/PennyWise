@@ -41,6 +41,7 @@ public class signin {
             String query2 = "Insert into public.\"Wallet\"(username, name) values('" + username + "','My Wallet')";
             System.out.println(query2);
             String querycheck = "Select * from public.\"User\" where username='" + username + "'";
+            System.out.println(querycheck);
             ResultSet rt = st.executeQuery(querycheck);
             if (rt.next()) {
                 return (0);

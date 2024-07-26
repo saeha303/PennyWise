@@ -28,7 +28,7 @@
                       <h5 class="card-title text-center pb-0 fs-4">Create an Account</h5>
                       <p class="text-center small">Enter your personal details to create account</p>
                     </div>
-                    <form class="row g-3 needs-validation" novalidate>
+                    <form class="row g-3 needs-validation" novalidate  onsubmit="register(event)">
                       <div class="col-md-6">
                         <div class="form-floating mb-3">
                           <input type="text" name="name" class="form-control" id="fn" placeholder="First Name">
@@ -77,7 +77,7 @@
                         </div>
                       </div>
                       <div class="col-12">
-                        <button class="btn btn-primary w-100" type="submit" onsubmit="register(event)">Create
+                        <button class="btn btn-primary w-100" type="submit">Create
                           Account</button>
                       </div>
                       <div class="col-12">
