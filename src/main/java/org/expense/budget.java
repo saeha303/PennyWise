@@ -126,18 +126,21 @@ public class budget {
 			Connection con=dm.getConnect();
 			Statement st=con.createStatement();
 			wallet=correctApostrophe(wallet);
-			String querycheck="select falls_under,sum(amount) as amount from public.\"Expense\" join public.\"Category\" on public.\"Expense\".category=public.\"Category\".name where wallet in (select id from public.\"Wallet\" where username='"+username+"' and name='"+wallet+"') and spent_on between '"+b_list.get(0)+"' and '"+b_list.get(1)+"' group by falls_under  order by falls_under asc";
-			System.out.println(querycheck);
-			ResultSet rt=st.executeQuery(querycheck);
-			while(rt.next())
-			{
-				budget b=new budget();
-				b.wallet=rt.getInt("amount");
-				b.startDate=rt.getString("falls_under");//using as falls_under
-				result.add(b);
+			if(b_list!=null){
+				String querycheck="select falls_under,sum(amount) as amount from public.\"Expense\" join public.\"Category\" on public.\"Expense\".category=public.\"Category\".name where wallet in (select id from public.\"Wallet\" where username='"+username+"' and name='"+wallet+"') and spent_on between '"+b_list.get(0)+"' and '"+b_list.get(1)+"' group by falls_under  order by falls_under asc";
+				System.out.println(querycheck);
+				ResultSet rt=st.executeQuery(querycheck);
+				while(rt.next())
+				{
+					budget b=new budget();
+					b.wallet=rt.getInt("amount");
+					b.startDate=rt.getString("falls_under");//using as falls_under
+					result.add(b);
+				}
+
+				System.out.println(result);
 			}
 
-			System.out.println(result);
 		}
 		catch (SQLException exception) {
 		}

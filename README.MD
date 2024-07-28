@@ -34,8 +34,6 @@ NO AI, wait for internet
 how to create endpoint
 
 
-document.querySelectorAll('.faq-item h3, .faq-item .faq-toggle').forEach((faqItem) => {
-    faqItem.addEventListener('click', () => {
-      faqItem.parentNode.classList.toggle('faq-active');
-    });
-  });
+  for(int i=0;i<result.size();i++){
+                out.print(result.get(i).name+","+result.get(i).type+","+result.get(i).type_unique_name+","+result.get(i).type_unique_number+"//");
+            }

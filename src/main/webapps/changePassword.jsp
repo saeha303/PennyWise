@@ -45,12 +45,12 @@
     }else if(action.equals("applyFilter")){
         String fn=request.getParameter("wallet");
         String ln=request.getParameter("group");
+        System.out.println(fn);
+        System.out.println(ln);
         String user=(String)session.getAttribute("User");
         wallet obj=new wallet();
-        List<wallet> result=obj.getFilteredWallet(user,fn,ln);
-            for(int i=0;i<result.size();i++){
-                out.print(result.get(i).name+","+result.get(i).type+","+result.get(i).type_unique_name+","+result.get(i).type_unique_number+"//");
-            }
+        List<wallet> result=obj.getFilteredWallet("john_doe",fn,ln);
+        out.print(result);
         
         
     }

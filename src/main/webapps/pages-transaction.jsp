@@ -207,8 +207,8 @@
                                     </div>
                                     <div class="field">
                                       <h5 class="card-title">Filtered Transactions</h5>
-                                      <ul class="list-group list-group-flush">
-                                        <% if(filtered_wal_list.size()==0){%>
+                                      <ul class="list-group list-group-flush" id="filtered-transactions">
+                                        <!-- <% if(filtered_wal_list.size()==0){%>
                                           <li class="list-group-item d-flex justify-content-between align-items-start">
                                             <div class="ms-2 me-auto">
                                               <div class="fw-bold">No Transactions Found</div>
@@ -231,7 +231,7 @@
                                                 <%= tw.amount %> Tk
                                               </span>
                                             </li>
-                                            <% }} %>
+                                            <% }} %> -->
                                       </ul><!-- End with custom content -->
                                     </div>
                                   </div>
@@ -256,11 +256,12 @@
                         xhr.onreadystatechange = function () {
                           if (xhr.readyState === 4 && xhr.status === 200) {
                             var response = xhr.responseText.trim();
-                            var var_1 = response.split('//')
-                            const var_2 = var_1.map((req) => {
+                            console.log(response)
+                            // var var_1 = response.split('//')
+                            const var_2 = response.map((req) => {
                               console.log(req)
                             });
-                            console.log(var_1)
+                            // console.log(var_1)
                           }
                         };
 

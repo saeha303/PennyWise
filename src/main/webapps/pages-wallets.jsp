@@ -108,7 +108,7 @@
                                     <div class="modal-footer">
                                       <button type="reset" class="btn btn-secondary"
                                         data-bs-dismiss="modal">Close</button>
-                                      <button type="submit" class="btn btn-primary">Save
+                                      <button type="submit" class="btn btn-primary" onclick="close(event)">Save
                                         changes</button>
                                     </div>
                                   </div>
@@ -206,7 +206,8 @@
               }
               function close(event) {
                 console.log("fun")
-                document.getElementById("wallet-form")
+                document.getElementById("wallet-form").reset();
+                edit(event);
               }
             </script>
 
