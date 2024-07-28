@@ -125,20 +125,22 @@
                                                   aria-labelledby="today">|Placeholder</span>
                                               </h5>
                                               <div class="fields">
-                                                <% for(int i = 0; i<dailyReport.size()&&i<3; i++) { %>
-                                                <div class="field d-flex align-items-center mb-3">
-                                                  <div
-                                                    class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                                    <i class="bi bi-people"></i>
+                                                <% for(int i=0; i<dailyReport.size()&&i<3; i++) { %>
+                                                  <div class="field d-flex align-items-center mb-3">
+                                                    <div
+                                                      class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                                      <i class="bi bi-people"></i>
+                                                    </div>
+                                                    <div class="ps-3">
+                                                      <h6>
+                                                        <%= dailyReport.get(i).amount %>
+                                                      </h6>
+                                                      <span class="text-danger small pt-1 fw-bold">12%</span> <span
+                                                        class="text-muted small pt-2 ps-1">decrease</span>
+                                                    </div>
                                                   </div>
-                                                  <div class="ps-3">
-                                                    <h6><%= dailyReport.get(i).amount %></h6>
-                                                    <span class="text-danger small pt-1 fw-bold">12%</span> <span
-                                                      class="text-muted small pt-2 ps-1">decrease</span>
-                                                  </div>
-                                                </div>
-                                                <% } %>
-                                                
+                                                  <% } %>
+
                                               </div>
                                             </div>
                                           </div>
@@ -341,52 +343,62 @@
                             </main><!-- End #main -->
 
                             <%@ include file="footer.jsp" %>
+                              <script>
+                                document.addEventListener('DOMContentLoaded', () => {
+                                  const netWorthFilter = document.getElementById('net-worth-filter');
+                                  netWorthFilter.addEventListener('click', () => {
+                                    const user = '<%= (String)session.getAttribute("User") %>';
+                                    const wallet = netWorthFilter.value;
+                                    const xhr = new XMLHttpRequest();
+                                    console.log(user);
+                                    const url = "http://localhost:9090/api/net-worth?user=" + user + "&wallet=" + encodeURIComponent(wallet);
+                                    console.log(url)
+                                    xhr.open('GET', url, true);
+                                    xhr.setRequestHeader('Content-Type', 'application/json');
 
+                                    xhr.onreadystatechange = function () {
+                                      if (xhr.readyState === XMLHttpRequest.DONE) {
+                                        if (xhr.status === 200) {
+                                          const data = JSON.parse(xhr.responseText);
+                                          updateProgressBar(data);
+                                        } else {
+                                          console.error('Error:', xhr.statusText);
+                                        }
+                                      }
+                                    };
+
+                                    xhr.send();
+
+                                  });
+
+                                  function updateProgressBar(netWorth) {
+                                    const container = document.getElementById("net-worth-card");
+                                    const part1 = `<div class="col-lg-2 ps-3">
+                                                              <h6>Income</h6>
+                                                              <span class="text-info small pt-1 fw-bold">`+
+                                                                netWorth[1]+
+                                                              `</span>
+                                                            </div>`;
+                                    const str= netWorth[2] < 70 ? `` : netWorth[2] >= 90 ? `bg-danger` : `bg-warning` 
+                                    const part2=`<div class="col-lg-8">
+                                                    <div class="progress mt-3">
+                                                      <div class="progress-bar progress-bar-striped `+str+` progress-bar-animated" role="progressbar"
+                                                        style="width: `+netWorth[3]+`%" aria-valuenow="`+netWorth[3]+`" aria-valuemin="0"
+                                                        aria-valuemax="100">`+netWorth[3]+`%
+                                                      </div>
+                                                    </div>
+                                                  </div>`;
+                                    const part3=`<div class="col-lg-2 ps-3">
+                                                    <h6>Expense</h6>
+                                                    <span class="text-info small pt-1 fw-bold">
+                                                      `+netWorth[0]+`
+                                                    </span>
+                                                  </div>`;
+                                    container.innerHTML=part1+part2+part3;
+                                  }
+                                });
+                              </script>
                       </body>
-                      <script>
-                        document.addEventListener('DOMContentLoaded', () => {
-                          const netWorthFilter = document.getElementById('net-worth-filter');
-                          console.log(netWorthFilter)
-                          netWorthFilter.addEventListener('click', () => {
-                            console.log(netWorthFilter.value)
-                            const user = '<%= (String)session.getAttribute("User") %>';
-                            const wallet = netWorthFilter.value;
-                            const xhr = new XMLHttpRequest();
-                            console.log(user);
-                            xhr.open('GET', `http://localhost:9090/api/net-worth?user=${user}&wallet=${wallet}`, true);
-                            xhr.setRequestHeader('Content-Type', 'application/json');
-                  
-                            xhr.onreadystatechange = function () {
-                              if (xhr.readyState === XMLHttpRequest.DONE) {
-                                if (xhr.status === 200) {
-                                  const data = JSON.parse(xhr.responseText);
-                                  updateProgressBar(data);
-                                } else {
-                                  console.error('Error:', xhr.statusText);
-                                }
-                              }
-                            };
-                  
-                            xhr.send();
-                          });
-                  
-                          function updateProgressBar(netWorth) {
-                            console.log(netWorth)
-                            const progressBar = document.querySelector('.progress-bar');
-                  
-                            if (netWorth[2] < 70) {
-                              progressBar.className = 'progress-bar progress-bar-striped progress-bar-animated';
-                            } else if (netWorth[2] >= 90) {
-                              progressBar.className = 'progress-bar progress-bar-striped bg-danger progress-bar-animated';
-                            } else if (netWorth[2] >= 70) {
-                              progressBar.className = 'progress-bar progress-bar-striped bg-warning progress-bar-animated';
-                            }
-                  
-                            progressBar.style.width = `${netWorth[3]}%`;
-                            progressBar.setAttribute('aria-valuenow', netWorth[3]);
-                            progressBar.textContent = `${netWorth[3]}%`;
-                          }
-                        });
-                      </script>
+
 
         </html>
