@@ -1,12 +1,9 @@
- <%@ page import="register.*" %>
- <%@ page import="getdetails.*" %>
+ <%@ page import="org.register.*" %>
+ <%@ page import="org.getdetails.*" %>
  <%@ page import="java.util.*" %>
- <%@ page import="expense.*" %>
+ <%@ page import="org.expense.*" %>
 <!DOCTYPE html>
-<html> 
-<script>
-        history.forward();
-</script>
+<html>
 <link rel="stylesheet" type="text/css" href="main.css">
 <meta charset="ISO-8859-1">
 <title>Expense Tracker</title>
@@ -150,7 +147,7 @@ signin obj=new signin();
 String s=(String)session.getAttribute("User");
 List<String> strList=new ArrayList<>();
 strList=bo.fulldetails(s);
-mains dt=new mains();
+expense dt=new expense();
 List<List<String>> mList=new ArrayList<>();
 mList=dt.mdetails(s);
 //System.out.println(mList.get(0).get(0));

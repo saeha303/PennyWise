@@ -15,13 +15,14 @@ public class signin {
         try {
             database dm = new database();
             Connection con = dm.getConnect();
-            String query = "Select name from public.\"User\" where username='" + user + "'";
+            String query = "Select first_name,last_name from public.\"User\" where username='" + user + "'";
             Statement st = con.createStatement();
             ResultSet rt = st.executeQuery(query);
             if (rt.next()) {
-                String pas = rt.getString("name");
+                String fn = rt.getString("first_name");
+                String ln = rt.getString("last_name");
                 //System.out.println(pas);
-                return pas;
+                return fn+" "+ln;
             } else {
                 return "error";
             }
@@ -30,26 +31,26 @@ public class signin {
         }
     }
 
-    public int store(String name, String country, String phno, String username, String password) {
+    public int store(String fn, String ln, String email, String username, String password) {
         try {
-            System.out.println(name + country + phno + username + password);
             String enc = pass.encrypt(password, username);
-            String pupd = "NO";
             database dm = new database();
             Connection con = dm.getConnect();
-            String query = "Insert into User values('" + name + "','" + country + "','" + phno + "','" + username + "','" + enc + "','" + pupd + "')";
+            String query = "Insert into public.\"User\"(username, email, first_name, last_name, password_hash) values('" + username + "','" + email + "','" + fn + "','" + ln + "','" + enc + "')";
             Statement st = con.createStatement();
-            String querycheck = "Select * from User where username='" + username + "'";
+            String query2 = "Insert into public.\"Wallet\"(username, name) values('" + username + "','My Wallet')";
+            System.out.println(query2);
+            String querycheck = "Select * from public.\"User\" where username='" + username + "'";
+            System.out.println(querycheck);
             ResultSet rt = st.executeQuery(querycheck);
             if (rt.next()) {
                 return (0);
             } else {
                 st.executeUpdate(query);
-
+                st.executeUpdate(query2);
                 return (1);
             }
-        } catch (Exception exception) {
-            exception.printStackTrace();
+        } catch (SQLException exception) {
             return (3);
         }
     }
@@ -76,8 +77,7 @@ public class signin {
             } else {
                 return (0);
             }
-        } catch (Exception exception) {
-            exception.printStackTrace();
+        } catch (SQLException exception) {
             return (3);
         }
     }
@@ -104,8 +104,7 @@ public class signin {
             } else {
                 return (0);
             }
-        } catch (Exception exception) {
-            exception.printStackTrace();
+        } catch (SQLException exception) {
             return (3);
         }
     }
@@ -127,8 +126,7 @@ public class signin {
 
                 return (1);
             }
-        } catch (Exception exception) {
-            exception.printStackTrace();
+        } catch (SQLException exception) {
             return (3);
         }
     }
@@ -137,14 +135,13 @@ public class signin {
         try {
             database dm = new database();
             Connection con = dm.getConnect();
-            String query = "Select password_hash from User where username='" + user + "'";
+            String query = "Select password_hash from public.\"User\" where username='" + user + "'";
             Statement st = con.createStatement();
             ResultSet rt = st.executeQuery(query);
             if (rt.next()) {
-                String pas = rt.getString("password");
+                String pas = rt.getString("password_hash");
                 String dec = pass.decrypt(pas, user);
                 if (dec.equals(password)) {
-
                     return (1);
                 } else {
                     return (2);
@@ -152,8 +149,7 @@ public class signin {
             } else {
                 return (4);
             }
-        } catch (Exception exception) {
-            exception.printStackTrace();
+        } catch (SQLException exception) {
             return (3);
         }
     }
@@ -179,8 +175,7 @@ public class signin {
             } else {
                 return 4; // User not found
             }
-        } catch (Exception exception) {
-            exception.printStackTrace();
+        } catch (SQLException exception) {
             return 3; // Error occurred
         }
     }
@@ -210,8 +205,7 @@ public class signin {
             ps.setString(2, user);
             ps.executeUpdate();
             return 1; // Password update successful
-        } catch (Exception exception) {
-            exception.printStackTrace();
+        } catch (SQLException exception) {
             return 3; // Error occurred
         }
     }

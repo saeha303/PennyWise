@@ -4,14 +4,21 @@
       gap: 1rem;
       align-items: center;
     }
-    .field {
-      flex: 1;
-    }
-    .input-group {
-      flex: 1;
-    }
-    .input-group .form-select {
-        width: auto; /* Allow the width to adjust automatically */
-        flex: 0 1 auto; /* Ensure it can shrink but not grow */
-        white-space: nowrap; /* Prevent text from wrapping to the next line */
-      }
+.field {
+  flex: 1;
+}
+.input-group {
+  flex: 1;
+}
+.input-group .form-select {
+    width: auto; /* Allow the width to adjust automatically */
+    flex: 0 1 auto; /* Ensure it can shrink but not grow */
+    white-space: nowrap; /* Prevent text from wrapping to the next line */
+  }
+  .mt-dataImport {
+    max-width: 680px
+}
+
+.mt-dataImport input[type=file] {
+    display: none
+}

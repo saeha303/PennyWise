@@ -13,7 +13,7 @@ String sec=request.getParameter("pk");
 String ct=request.getParameter("cost");
 String name=request.getParameter("pname");
 String username=(String)session.getAttribute("User");
-mains wer=new mains();
+expense wer=new expense();
 %>
 <script>
  var sd='<%= wer.updmain(username, name, sec, ct)  %>';

@@ -1,6 +1,6 @@
- <%@ page import="getdetails.*" %>
+ <%@ page import="org.getdetails.*" %>
  <%@ page import="java.util.*" %>
- <%@ page import="register.*" %>
+ <%@ page import="org.register.*" %>
 <!DOCTYPE html>
 <html>
 <head>

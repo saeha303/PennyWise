@@ -11,7 +11,7 @@
 <%
 String sad=request.getParameter("sd");
 String username=(String)session.getAttribute("User");
-mains sde=new mains();
+expense sde=new expense();
 %>
 <script>
 var ch='<%= sde.deletemain(sad,username)%>';
