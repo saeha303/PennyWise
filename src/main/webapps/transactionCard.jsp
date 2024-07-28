@@ -8,7 +8,7 @@
         <select class="form-select" aria-label="Default select example">
           <option disabled selected>--Select Wallet--</option>
           <% for (int i = 0; i < w_list.size(); i++) { %>
-            <option name="wallet_options" value="<%= i+1 %>"><%= w.getName(w_list.get(i).name) %><% } %></option>
+            <option name="wallet_options" value="<%= i+1 %>"><% if(i==0 || !w_list.get(i).name.equals(w_list.get(i-1).name)){ %><%= w.getName(w_list.get(i).name) %><% } %></option><% } %>
         </select>
       </div>
     </div>

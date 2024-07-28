@@ -344,12 +344,49 @@
 
                       </body>
                       <script>
-                        function edit(event) {
-                          console.log('at least here')
-                          if (document.getElementById('filter_txt').value !== 'filter') {
-                            console.log(document.getElementById('filter_txt').value)
+                        document.addEventListener('DOMContentLoaded', () => {
+                          const netWorthFilter = document.getElementById('net-worth-filter');
+                          console.log(netWorthFilter)
+                          netWorthFilter.addEventListener('click', () => {
+                            console.log(netWorthFilter.value)
+                            const user = '<%= (String)session.getAttribute("User") %>';
+                            const wallet = netWorthFilter.value;
+                            const xhr = new XMLHttpRequest();
+                            console.log(user);
+                            xhr.open('GET', `http://localhost:9090/api/net-worth?user=${user}&wallet=${wallet}`, true);
+                            xhr.setRequestHeader('Content-Type', 'application/json');
+                  
+                            xhr.onreadystatechange = function () {
+                              if (xhr.readyState === XMLHttpRequest.DONE) {
+                                if (xhr.status === 200) {
+                                  const data = JSON.parse(xhr.responseText);
+                                  updateProgressBar(data);
+                                } else {
+                                  console.error('Error:', xhr.statusText);
+                                }
+                              }
+                            };
+                  
+                            xhr.send();
+                          });
+                  
+                          function updateProgressBar(netWorth) {
+                            console.log(netWorth)
+                            const progressBar = document.querySelector('.progress-bar');
+                  
+                            if (netWorth[2] < 70) {
+                              progressBar.className = 'progress-bar progress-bar-striped progress-bar-animated';
+                            } else if (netWorth[2] >= 90) {
+                              progressBar.className = 'progress-bar progress-bar-striped bg-danger progress-bar-animated';
+                            } else if (netWorth[2] >= 70) {
+                              progressBar.className = 'progress-bar progress-bar-striped bg-warning progress-bar-animated';
+                            }
+                  
+                            progressBar.style.width = `${netWorth[3]}%`;
+                            progressBar.setAttribute('aria-valuenow', netWorth[3]);
+                            progressBar.textContent = `${netWorth[3]}%`;
                           }
-                        }
+                        });
                       </script>
 
         </html>
