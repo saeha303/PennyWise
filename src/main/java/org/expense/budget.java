@@ -92,8 +92,8 @@ public class budget {
 			ResultSet rt=st.executeQuery(querycheck);
 			if(rt.next())
 			{
-				result.add(0,rt.getString("start_date"));
-				result.add(1,rt.getString("end_date"));
+				result.add(0,rt.getString("start_date")+" 00:00:00");
+				result.add(1,rt.getString("end_date")+" 23:59:59");
 			}
 
 			System.out.println(result);

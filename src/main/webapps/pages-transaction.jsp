@@ -2,6 +2,7 @@
   <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <%@ page import="org.category.*" %>
       <%@ page import="org.expense.*" %>
+        <%@ page import="com.google.gson.*" %>
         <!DOCTYPE html>
         <html lang="en">
         <%@ include file="header.jsp" %>
@@ -138,12 +139,12 @@
                                             <div class="tab-pane fade show active" id="home-justified" role="tabpanel"
                                               aria-labelledby="home-tab">
                                               <% tab_var1="From" ; btn_txt="Add Expense" ; %>
-                                                <%@ include file="transactionCard.jsp" %>
+                                                <%@ include file="expenseTransaction.jsp" %>
                                             </div>
                                             <div class="tab-pane fade" id="profile-justified" role="tabpanel"
                                               aria-labelledby="profile-tab">
                                               <% tab_var1="To" ; btn_txt="Add Income" ; %>
-                                                <%@ include file="transactionCard.jsp" %>
+                                                <%@ include file="incomeTransaction.jsp" %>
                                             </div>
                                             <div class="tab-pane fade" id="contact-justified" role="tabpanel"
                                               aria-labelledby="contact-tab">

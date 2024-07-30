@@ -1,17 +1,21 @@
 package org.controller;
+import java.util.List;
+
 import org.expense.expense;
+import org.income.income;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
-import java.util.List;
 //
+@CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping("/api")
 public class PennyWiseController {
@@ -20,18 +24,37 @@ public class PennyWiseController {
    public PennyWiseController() {
 
    }
-   @CrossOrigin(origins = "http://localhost:8080")
+   
     @GetMapping("/net-worth")
     public ResponseEntity<List<Integer>> getNetWorth(@RequestParam String user, @RequestParam String wallet) {
         // Replace with your actual logic to retrieve net worth
         List<Integer> netWorth = new expense().getNetWorth(user, wallet);
         return new ResponseEntity<>(netWorth, HttpStatus.OK);
     }
-//    @PostMapping("/save")
-//    public ResponseEntity<HttpStatus> saveExpense(@RequestBody NewExpense newExpense) {
-//        return new ResponseEntity<>(expenseManagementService.addExpense(newExpense) ? HttpStatus.OK : HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
+    @PostMapping("/addExpense")
+    public ResponseEntity<String> addExpense(@RequestBody expense newExpense) {
+        int result = new expense().store(newExpense);
 
+        if (result == 1) {
+            // If the store method returns 1 (success), return HTTP 200 OK
+            return new ResponseEntity<>("Expense added successfully", HttpStatus.OK);
+        } else {
+            // If the store method returns 3 (failure), return HTTP 500 Internal Server Error
+            return new ResponseEntity<>("Failed to add expense", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @PostMapping("/addIncome")
+    public ResponseEntity<String> addIncome(@RequestBody income newIncome) {
+        int result = new income().store(newIncome);
+
+        if (result == 1) {
+            // If the store method returns 1 (success), return HTTP 200 OK
+            return new ResponseEntity<>("Income added successfully", HttpStatus.OK);
+        } else {
+            // If the store method returns 3 (failure), return HTTP 500 Internal Server Error
+            return new ResponseEntity<>("Failed to add expense", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 //    @GetMapping("/report")
 //    public ResponseEntity<List<MonthlyReport>> getReport(@ModelAttribute ReportRequest reportRequest) {
 //        List<MonthlyReport> monthlyReportList = expenseManagementService.getReport(reportRequest);
