@@ -9,10 +9,11 @@
           <h6>Choose wallet</h6>
         </li>
         <% for(int i=0; i<w_list.size(); i++) { %>
+          <% if(i==0 || !w_list.get(i).name.equals(w_list.get(i-1).name)){ %>
           <li value="<%= w_list.get(i).name %>">
             <a class="dropdown-item"
               onclick="document.getElementById('net-worth-filter').value='<%= w_list.get(i).name %>'">
-              <% if(i==0 || !w_list.get(i).name.equals(w_list.get(i-1).name)){ %>
+              
                 <%= w.getName(w_list.get(i).name) %>
                   <% } %>
             </a>
@@ -23,9 +24,10 @@
 
     </div>
     <div class="card-body">
-      <h5 class="card-title">Net Worth</h5>
+      <h5 class="card-title" id="filter_holder">Net Worth <span 
+        aria-labelledby="today">|My Wallet</span></h5>
       <div class="row" id="net-worth-card">
-        <!-- <div class="col-lg-2 ps-3">
+        <div class="col-lg-2 ps-3">
           <h6>Income</h6>
           <span class="text-info small pt-1 fw-bold">
             <%= netWorth.get(1) %>
@@ -47,7 +49,7 @@
           <span class="text-info small pt-1 fw-bold">
             <%= netWorth.get(0) %>
           </span>
-        </div> -->
+        </div>
 
       </div>
     </div>

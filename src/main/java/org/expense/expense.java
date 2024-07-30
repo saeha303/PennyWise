@@ -1,24 +1,19 @@
 package org.expense;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.math.BigDecimal;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import org.db.database;
-import org.example.Main;
 
 public class expense {
 	public int id, wallet, amount;
 	public String username, category, note, spent_on;
 	int[] arr={31,29,31,30,31,30,31,31,30,31,30,31};
 	List<Integer> dayOfMonth=new ArrayList<>();
-//	31,29,31,30,31,30,31,31,30,31,30,31
 	public String correctApostrophe(String str){
 		String[] temp=str.split("'");
 		if(temp.length>1){
@@ -100,10 +95,10 @@ public class expense {
 		}
 		strMonthYear =  new String(new StringBuilder()
 				.append(year).append(strMonthPrefix).append(month + 1)         // Month is 0 based, just add 1
-				.append(strDayPrefix).append(day));
+				.append(strDayPrefix).append(day).append(" 23:59:59"));
 		String lastMonth=new String(new StringBuilder()
 				.append(year).append(strMonthPrefix).append(month)         // Month is 0 based, just add 1
-				.append("-").append("01"));
+				.append("-").append("01").append(" 00:00:00"));
 
 		try
 		{
@@ -148,7 +143,7 @@ public class expense {
 			Connection con=dm.getConnect();
 			Statement st=con.createStatement();
 			wallet=correctApostrophe(wallet);
-			String querycheck="select category,color,sum(amount) as amount from public.\"Expense\" join public.\"Category\" on public.\"Expense\".category=public.\"Category\".name where wallet in (select id from public.\"Wallet\" where username='"+username+"' and name='"+wallet+"') and spent_on between '"+start+"' and '"+end+"' group by category,color order by amount desc";
+			String querycheck="select category,color,sum(amount) as amount from public.\"Expense\" join public.\"Category\" on public.\"Expense\".category=public.\"Category\".name where wallet in (select id from public.\"Wallet\" where username='"+username+"' and name='"+wallet+"') and spent_on between '"+start+" 00:00:00' and '"+end+" 23:59:59' group by category,color order by amount desc";
 			ResultSet rt=st.executeQuery(querycheck);
 			while(rt.next())
 			{
@@ -177,7 +172,7 @@ public class expense {
 			Connection con=dm.getConnect();
 			Statement st=con.createStatement();
 			wallet=correctApostrophe(wallet);
-			String querycheck="select category,color,sum(amount) as amount from public.\"Expense\" join public.\"Category\" on public.\"Expense\".category=public.\"Category\".name where wallet in (select id from public.\"Wallet\" where username='"+username+"' and name='"+wallet+"') and spent_on='"+strMonthYear+"' group by category,color order by amount desc";
+			String querycheck="select category,color,sum(amount) as amount from public.\"Expense\" join public.\"Category\" on public.\"Expense\".category=public.\"Category\".name where wallet in (select id from public.\"Wallet\" where username='"+username+"' and name='"+wallet+"') and spent_on::date='"+strMonthYear+"' group by category,color order by amount desc";
 			System.out.println(querycheck);
 			ResultSet rt=st.executeQuery(querycheck);
 			while(rt.next())
@@ -224,6 +219,39 @@ public class expense {
 		catch (SQLException exception) {
 		}
 		return result;
+	}
+	public int store(expense newExpense) {
+		Connection con = null;
+		PreparedStatement pst = null;
+		try {
+			database dm = new database();
+			con = dm.getConnect();
+			String query="INSERT INTO public.\"Expense\"(username, category, note, amount, wallet, spent_on) VALUES ('"+newExpense.username+"','"+newExpense.category+"','"+newExpense.note+"','"+newExpense.amount+"','"+newExpense.wallet+"','"+newExpense.spent_on+"');";
+			System.out.println(query);
+//			return 1;
+			pst = con.prepareStatement("INSERT INTO public.\"Expense\" (username, category, note, amount, wallet, spent_on) VALUES (?, ?, ?, ?, ?, ?)");
+
+			pst.setString(1, newExpense.username);
+			pst.setString(2, newExpense.category);
+			pst.setString(3, newExpense.note);
+			pst.setBigDecimal(4, BigDecimal.valueOf(newExpense.amount)); // Adjust if necessary
+			pst.setBigDecimal(5, BigDecimal.valueOf(newExpense.wallet));
+			pst.setTimestamp(6, Timestamp.valueOf(newExpense.spent_on)); // Adjust if necessary
+
+			int rowsAffected = pst.executeUpdate();
+			return rowsAffected > 0 ? 1 : 0;
+		} catch (SQLException exception) {
+			exception.printStackTrace();
+			return 3;
+		} finally {
+			// Close resources
+			try {
+				if (pst != null) pst.close();
+				if (con != null) con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 
@@ -333,35 +361,9 @@ public class expense {
 		     return(3);
 		    }
 	}
-	
-	
-	public int exp(String pname,String sector,String cost,String username) {
-		try
-		{
-			System.out.println(pname+username);
-			database dm=new database();
-		    Connection con=dm.getConnect();
-		    
-		    LocalDate date=now();
-		    String query="Insert into main values('" + pname + "','" + sector + "','" + cost + "','" + username + "','" + date + "')";
-		    Statement st=con.createStatement();
-		    String querycheck="Select * from main where pname='"+ pname +"' and username='"+ username +"' and date='"+ date +"'";
-		    ResultSet rt=st.executeQuery(querycheck);
-		    if(rt.next())
-		    {
-		      return(0);
-		    }
-		    else
-		    {
-			st.executeUpdate(query);
-		     return(1);
-		    }
-         }
-	   catch (SQLException exception) {
-		     
-		     return(3);
-		    }
-	}
+
+
+
 	public List<List<String>> mdetails(String user)
 	{
 		List<List<String>> dum=new ArrayList<>();
