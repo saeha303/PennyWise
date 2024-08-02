@@ -1,13 +1,11 @@
 package org.income;
 
-import org.db.database;
-import org.expense.expense;
-
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Timestamp;
+
+import org.db.database;
 
 public class income {
     public int id,amount,wallet;
@@ -21,8 +19,12 @@ public class income {
             String query="INSERT INTO public.\"Income\"(username, note, amount, wallet) VALUES ('"+newIncome.username+"','"+newIncome.note+"','"+newIncome.amount+"','"+newIncome.wallet+"');";
             System.out.println(query);
 //			return 1;
-            pst = con.prepareStatement("INSERT INTO public.\"Income\" (username, note, amount, wallet) VALUES (?, ?, ?, ?)");
-
+            query="INSERT INTO public.\"Income\" (username, note, amount, wallet) VALUES (?, ?, ?, ?)";
+            System.out.println(query);
+            pst = con.prepareStatement(query);
+            System.out.println("ball");
+            System.out.println(pst);
+            System.out.println("baal");
             pst.setString(1, newIncome.username);
             pst.setString(2, newIncome.note);
             pst.setBigDecimal(3, BigDecimal.valueOf(newIncome.amount)); // Adjust if necessary
@@ -37,7 +39,6 @@ public class income {
             // Close resources
             try {
                 if (pst != null) pst.close();
-                if (con != null) con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }

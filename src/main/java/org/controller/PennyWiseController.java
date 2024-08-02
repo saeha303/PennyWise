@@ -31,14 +31,23 @@ public class PennyWiseController {
         List<Integer> netWorth = new expense().getNetWorth(user, wallet);
         return new ResponseEntity<>(netWorth, HttpStatus.OK);
     }
+    @GetMapping("/top-expense")
+    public ResponseEntity<List<expense>> getTopExpense(@RequestParam String user, @RequestParam String wallet) {
+        // Replace with your actual logic to retrieve net worth
+        List<expense> topExpense = new expense().getDailyDonutChart(user, wallet);
+        topExpense=topExpense.subList(0, Math.min(3, topExpense.size()));
+        return new ResponseEntity<>(topExpense, HttpStatus.OK);
+    }
     @PostMapping("/addExpense")
     public ResponseEntity<String> addExpense(@RequestBody expense newExpense) {
         int result = new expense().store(newExpense);
-
+        System.out.println("in controller: "+result);
         if (result == 1) {
+            System.out.println("case 1");
             // If the store method returns 1 (success), return HTTP 200 OK
             return new ResponseEntity<>("Expense added successfully", HttpStatus.OK);
         } else {
+            System.out.println("case 2");
             // If the store method returns 3 (failure), return HTTP 500 Internal Server Error
             return new ResponseEntity<>("Failed to add expense", HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -52,7 +61,7 @@ public class PennyWiseController {
             return new ResponseEntity<>("Income added successfully", HttpStatus.OK);
         } else {
             // If the store method returns 3 (failure), return HTTP 500 Internal Server Error
-            return new ResponseEntity<>("Failed to add expense", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Failed to add income", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 //    @GetMapping("/report")

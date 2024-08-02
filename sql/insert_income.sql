@@ -10,3 +10,4 @@ INSERT INTO public."Income"(
 INSERT INTO public."Income"(
 	username, wallet, amount, note)
 	VALUES ('jane_doe','10','3000','Gift Card');
+INSERT INTO public."Income"(username, note, amount, wallet) VALUES ('john_doe','Transfer from 1 to 14','200','14');

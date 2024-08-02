@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS public."Expense"
     note character varying(255) COLLATE pg_catalog."default" NOT NULL,
     wallet bigint NOT NULL,
     amount bigint NOT NULL,
-    spent_on date NOT NULL,
+    spent_on timestamp without time zone NOT NULL,
     CONSTRAINT "Expense_pkey" PRIMARY KEY (id),
     CONSTRAINT "Expense_category_fkey" FOREIGN KEY (category)
         REFERENCES public."Category" (name) MATCH SIMPLE

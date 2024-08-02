@@ -102,32 +102,30 @@
                                             <div class="card info-card customers-card">
 
                                               <div class="filter">
-                                                <a class="icon" href="#" data-bs-toggle="dropdown"><i
+                                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="ri-filter-2-line"></i><i
                                                     class="bi bi-three-dots"></i></a>
-                                                <ul id="filter_txt"
-                                                  class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
-                                                  onclick="edit(event)">
-                                                  <li class="dropdown-header text-start" value="filter"
-                                                    aria-selected="true">
-                                                    <h6>Filter</h6>
+                                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" id="top-expense-filter" aria-valuenow="">
+                                                  <li class="dropdown-header text-start" value="filter" aria-selected="true">
+                                                    <h6>Choose wallet</h6>
                                                   </li>
-
-                                                  <li value="Today"><a class="dropdown-item" id="today"
-                                                      data-bs-target="#filter_holder" aria-valuetext="Today">Today</a>
-                                                  </li>
-                                                  <li value="This Month"><a class="dropdown-item"
-                                                      aria-valuetext="This Month">This
-                                                      Month</a></li>
-                                                  <li value="This Year"><a class="dropdown-item"
-                                                      aria-valuetext="This Year">This
-                                                      Year</a></li>
+                                                  <% for(int i=0; i<w_list.size(); i++) { %>
+                                                    <% if(i==0 || !w_list.get(i).name.equals(w_list.get(i-1).name)){ %>
+                                                    <li value="<%= w_list.get(i).name %>">
+                                                      <a class="dropdown-item"
+                                                        onclick="document.getElementById('top-expense-filter').value='<%= w_list.get(i).name %>'">
+                                                        
+                                                          <%= w.getName(w_list.get(i).name) %>
+                                                            <% } %>
+                                                      </a>
+                                                    </li>
+                                                    <% } %>
                                                 </ul>
                                               </div>
                                               <div class="card-body">
-                                                <h5 class="card-title">Top Expense <span id="filter_holder"
-                                                    aria-labelledby="today">|Placeholder</span>
+                                                <h5 class="card-title" id="te_filter_holder">Top Expense <span 
+                                                    aria-labelledby="today">|My Wallet</span>
                                                 </h5>
-                                                <div class="fields">
+                                                <div class="fields" id="top-expense-card">
                                                   <% for(int i=0; i<dailyReport.size()&&i<3; i++) { %>
                                                     <div class="field d-flex align-items-center mb-3">
                                                       <div
@@ -138,10 +136,22 @@
                                                         <h6>
                                                           <%= dailyReport.get(i).amount %>
                                                         </h6>
-                                                        <span class="text-danger small pt-1 fw-bold">12%</span> <span
-                                                          class="text-muted small pt-2 ps-1">decrease</span>
+                                                        <span class="text-muted small pt-1 fw-bold"><%= dailyReport.get(i).category %></span></br>
+                                                        <span class="text-danger small pt-1 fw-bold"><%= Math.abs(dailyReport.get(i).wallet) %>%</span> <span
+                                                          class="text-muted small pt-2 ps-1">
+                                                          <% if (dailyReport.get(i).wallet>=0) {%>
+                                                          increase than last month
+                                                          <% } else{%>
+                                                          decrease than last month
+                                                          <% } %>
+                                                          </span>
                                                       </div>
                                                     </div>
+                                                    <% }
+                                                    if(dailyReport.size()==0){ %>
+                                                      <h6 class="text-muted">
+                                                        No Expenses
+                                                      </h6>
                                                     <% } %>
 
                                                 </div>
@@ -152,23 +162,30 @@
 
                                           <!-- Reports -->
                                           <div class="col-12">
-                                            <div class="card">
-
-                                              <div class="filter">
-                                                <a class="icon" href="#" data-bs-toggle="dropdown"><i
-                                                    class="bi bi-three-dots"></i></a>
-                                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                                  <li class="dropdown-header text-start">
-                                                    <h6>Filter</h6>
-                                                  </li>
-
-                                                  <li><a class="dropdown-item" href="#">Today</a></li>
-                                                  <li><a class="dropdown-item" href="#">This Month</a></li>
-                                                  <li><a class="dropdown-item" href="#">This Year</a></li>
-                                                </ul>
-                                              </div>
-
+                                            <!-- <div class="card"> -->
                                               <div class="card">
+
+                                                <div class="filter">
+                                                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="ri-filter-2-line"></i><i
+                                                      class="bi bi-three-dots"></i></a>
+                                                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" id="top-expense-filter" aria-valuenow="">
+                                                    <li class="dropdown-header text-start" value="filter" aria-selected="true">
+                                                      <h6>Choose wallet</h6>
+                                                    </li>
+                                                    <% for(int i=0; i<w_list.size(); i++) { %>
+                                                      <% if(i==0 || !w_list.get(i).name.equals(w_list.get(i-1).name)){ %>
+                                                      <li value="<%= w_list.get(i).name %>">
+                                                        <a class="dropdown-item"
+                                                          onclick="document.getElementById('top-expense-filter').value='<%= w_list.get(i).name %>'">
+                                                          
+                                                            <%= w.getName(w_list.get(i).name) %>
+                                                              <% } %>
+                                                        </a>
+                                                      </li>
+                                                      <% } %>
+                                                  </ul>
+                                                </div>
+
                                                 <div class="card-body">
                                                   <h5 class="card-title">Report<span> |Today</span></h5>
 
@@ -200,7 +217,7 @@
                                                 </div>
                                               </div>
 
-                                            </div>
+                                            <!-- </div> -->
                                           </div><!-- End Reports -->
 
                                       </div>
@@ -346,64 +363,66 @@
                               </main><!-- End #main -->
 
                               <%@ include file="footer.jsp" %>
-                                <script>
-                                  document.addEventListener('DOMContentLoaded', () => {
-                                    const netWorthFilter = document.getElementById('net-worth-filter');
-                                    netWorthFilter.addEventListener('click', () => {
-                                      const user = '<%= (String)session.getAttribute("User") %>';
-                                      const wallet = netWorthFilter.value;
-                                      const text = document.getElementById("filter_holder");
-                                      text.innerHTML = `Net Worth <span>|` + wallet + `</span>`;
-                                      const xhr = new XMLHttpRequest();
-                                      console.log(user);
-                                      const url = "http://localhost:9090/api/net-worth?user=" + user + "&wallet=" + encodeURIComponent(wallet);
-                                      console.log(url)
-                                      xhr.open('GET', url, true);
-                                      xhr.setRequestHeader('Content-Type', 'application/json');
-
-                                      xhr.onreadystatechange = function () {
-                                        if (xhr.readyState === XMLHttpRequest.DONE) {
-                                          if (xhr.status === 200) {
-                                            const data = JSON.parse(xhr.responseText);
-                                            updateProgressBar(data);
-                                          } else {
-                                            console.error('Error:', xhr.statusText);
-                                          }
+                              <script>
+                                document.addEventListener('DOMContentLoaded', () => {
+                                  const topExpenseFilter = document.getElementById('top-expense-filter');
+                                  topExpenseFilter.addEventListener('click', () => {
+                                    const user = '<%= (String)session.getAttribute("User") %>';
+                                    const wallet = topExpenseFilter.value;
+                                    console.log(wallet)
+                                    const text = document.getElementById("te_filter_holder");
+                                    text.innerHTML = `Top Expense <span>|` + wallet + `</span>`;
+                                    const xhr = new XMLHttpRequest();
+                                    console.log(user);
+                                    const url = "http://localhost:9090/api/top-expense?user=" + user + "&wallet=" + encodeURIComponent(wallet);
+                                    console.log(url)
+                                    xhr.open('GET', url, true);
+                                    xhr.setRequestHeader('Content-Type', 'application/json');
+                            
+                                    xhr.onreadystatechange = function () {
+                                      if (xhr.readyState === XMLHttpRequest.DONE) {
+                                        if (xhr.status === 200) {
+                                          const data = JSON.parse(xhr.responseText);
+                                          updateTopExpense(data);
+                                        } else {
+                                          console.error('Error:', xhr.statusText);
                                         }
-                                      };
-
-                                      xhr.send();
-
-                                    });
-
-                                    function updateProgressBar(netWorth) {
-                                      const container = document.getElementById("net-worth-card");
-                                      const part1 = `<div class="col-lg-2 ps-3">
-                                                      <h6>Income</h6>
-                                                      <span class="text-info small pt-1 fw-bold">`+
-                                                              netWorth[1] +
-                                                              `</span>
-                                                    </div>`;
-                                      const str = netWorth[2] < 70 ? `` : netWorth[2] >= 90 ? `bg-danger` : `bg-warning`
-                                      const part2 = `<div class="col-lg-8">
-                                                      <div class="progress mt-3">
-                                                        <div class="progress-bar progress-bar-striped `+ str + ` progress-bar-animated" role="progressbar"
-                                                          style="width: `+ netWorth[3] + `%" aria-valuenow="` + netWorth[3] + `" aria-valuemin="0"
-                                                          aria-valuemax="100">`+ netWorth[3] + `%
-                                                        </div>
-                                                      </div>
-                                                    </div>`;
-                                      const part3 = `<div class="col-lg-2 ps-3">
-                                                      <h6>Expense</h6>
-                                                      <span class="text-info small pt-1 fw-bold">
-                                                        `+ netWorth[0] + `
-                                                      </span>
-                                                    </div>`;
-                                      container.innerHTML = part1 + part2 + part3;
-
-                                    }
+                                      }
+                                    };
+                            
+                                    xhr.send();
+                            
                                   });
-                                </script>
+                            
+                                  function updateTopExpense(topExpense) {
+                                    const container = document.getElementById("top-expense-card");
+                                    let html=''
+                                    const part1 = `<div class="field d-flex align-items-center mb-3">
+                                                    <div
+                                                      class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                                      <i class="bi bi-people"></i>
+                                                    </div>
+                                                    <div class="ps-3">
+                                                    <h6>`;
+                                    for(let i=0;i<topExpense.length;i++){
+                                        const str = topExpense[i].wallet >=0 ? `increase than last month` : `decrease than last month`;
+                                        html+=part1+topExpense[i].amount+
+                                              `</h6>`+`<span class="text-muted small pt-1 fw-bold">`+topExpense[i].category+`</span></br>
+                                              <span class="text-danger small pt-2 fw-bold">`+Math.abs(topExpense[i].wallet)+`%</span> <span
+                                                        class="text-muted small pt-3 ps-1">`+str+` </span>
+                                                    </div>
+                                                  </div>`;
+                                    }
+                                    if(topExpense.length===0){
+                                      html+=` <h5 class="text-muted">
+                                                No Expenses
+                                              </h5>`
+                                    }
+                                    container.innerHTML = html;
+                            
+                                  }
+                                });
+                              </script>
                         </body>
 
 
