@@ -34,9 +34,14 @@ NO AI, wait for internet
 how to create endpoint
 
 ============================================================DATABASE CONNECTION
-Connect to database
-install postgresql
-install pgadmin gui
-make a database, name it PennyWise, you will see a schema named public, create the tables inside it
-run query for creating and inserting data, table creation serial- User->Category->Budget->Wallet->Expense->Income->RecurringExpenses, insert data after creating each table
-take help of chateu gpteu or give me a message if shit doesn't work
+1. Connect to database
+2. install postgresql
+3. install pgadmin gui
+4. make a database, name it PennyWise, you will see a schema named public, create the tables inside it
+5. run query for creating and inserting data, table creation serial- User->Category->Budget->Wallet->Expense->Income->RecurringExpenses, insert data after creating each table
+6. take help of chateu gpteu or give me a message if shit doesn't work
+
+
+
+
+
