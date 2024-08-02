@@ -1,4 +1,3 @@
-
 <ul class="list-group list-group-flush">
   <li class="list-group-item justify-content-between align-items-start">
     <div class="fields">
@@ -8,8 +7,8 @@
         </label>
         <div class="row mb-3">
           <div>
-            <select class="form-select" aria-label="Default select example" id="walletSelect1"
-              onchange="updateGroupOptions1()">
+            <select class="form-select" aria-label="Default select example" id="walletSelect3"
+              onchange="updateGroupOptions(3)">
               <option disabled selected>--Select Wallet--</option>
               <% for (int i=0; i < w_list.size(); i++) { %>
                 <% if(i==0 || !w_list.get(i).name.equals(w_list.get(i-1).name)){ %>
@@ -17,7 +16,7 @@
                     <%= w.getName(w_list.get(i).name) %>
                   </option>
                   <% } %>
-              <% } %>
+                    <% } %>
             </select>
           </div>
         </div>
@@ -26,8 +25,8 @@
         <label class="col-form-label">Group</label>
         <div class="row mb-3">
           <div>
-            <select class="form-select" aria-label="Default select example" id="groupSelect1"
-              onchange="updateGroupDescOptions1()">
+            <select class="form-select" aria-label="Default select example" id="groupSelect3"
+              onchange="updateGroupDescOptions(3)">
               <option disabled selected>--Select Group--</option>
             </select>
           </div>
@@ -39,8 +38,8 @@
         <label class="col-form-label">Group Description</label>
         <div class="row mb-3">
           <div>
-            <select class="form-select" aria-label="Default select example" id="groupDescSelect1"
-              onchange="updateGroupNumberOptions1()">
+            <select class="form-select" aria-label="Default select example" id="groupDescSelect3"
+              onchange="updateGroupNumberOptions(3)">
               <option disabled selected>--Select Group Description--</option>
             </select>
           </div>
@@ -50,254 +49,203 @@
         <label class="col-form-label">Group Number</label>
         <div class="row mb-3">
           <div>
-            <select class="form-select" aria-label="Default select example" id="groupNumSelect1" onchange="updateWalletID1()">
+            <select class="form-select" aria-label="Default select example" id="groupNumSelect3"
+              onchange="updateWalletID(3)">
               <option disabled selected>--Select Group Number--</option>
             </select>
           </div>
         </div>
       </div>
     </div>
-    <input type="hidden" id="selectedWalletID1" value="">
-</li>
-<li class="list-group-item justify-content-between align-items-start">
-  <div class="fields">
-    <div class="field">
-      <label class="col-form-label">
-        <%= tab_var2 %>
-      </label>
-      <div class="row mb-3">
-        <div>
-          <select class="form-select" aria-label="Default select example" id="walletSelect2"
-            onchange="updateGroupOptions2()">
-            <option disabled selected>--Select Wallet--</option>
-            <% for (int i=0; i < w_list.size(); i++) { %>
-              <% if(i==0 || !w_list.get(i).name.equals(w_list.get(i-1).name)){ %>
-                <option name="wallet_options" value="<%= w_list.get(i).name %>">
-                  <%= w.getName(w_list.get(i).name) %>
-                </option>
-                <% } %>
-            <% } %>
-          </select>
+    <input type="hidden" id="selectedWalletID3" value="">
+  </li>
+  <li class="list-group-item justify-content-between align-items-start">
+    <div class="fields">
+      <div class="field">
+        <label class="col-form-label">
+          <%= tab_var2 %>
+        </label>
+        <div class="row mb-3">
+          <div>
+            <select class="form-select" aria-label="Default select example" id="walletSelect4"
+              onchange="updateGroupOptions(4)">
+              <option disabled selected>--Select Wallet--</option>
+              <% for (int i=0; i < w_list.size(); i++) { %>
+                <% if(i==0 || !w_list.get(i).name.equals(w_list.get(i-1).name)){ %>
+                  <option name="wallet_options" value="<%= w_list.get(i).name %>">
+                    <%= w.getName(w_list.get(i).name) %>
+                  </option>
+                  <% } %>
+                    <% } %>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label class="col-form-label">Group</label>
+        <div class="row mb-3">
+          <div>
+            <select class="form-select" aria-label="Default select example" id="groupSelect4"
+              onchange="updateGroupDescOptions(4)">
+              <option disabled selected>--Select Group--</option>
+            </select>
+          </div>
         </div>
       </div>
     </div>
-    <div class="field">
-      <label class="col-form-label">Group</label>
-      <div class="row mb-3">
-        <div>
-          <select class="form-select" aria-label="Default select example" id="groupSelect2"
-            onchange="updateGroupDescOptions2()">
-            <option disabled selected>--Select Group--</option>
-          </select>
+    <div class="fields">
+      <div class="field">
+        <label class="col-form-label">Group Description</label>
+        <div class="row mb-3">
+          <div>
+            <select class="form-select" aria-label="Default select example" id="groupDescSelect4"
+              onchange="updateGroupNumberOptions(4)">
+              <option disabled selected>--Select Group Description--</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label class="col-form-label">Group Number</label>
+        <div class="row mb-3">
+          <div>
+            <select class="form-select" aria-label="Default select example" id="groupNumSelect4"
+              onchange="updateWalletID(4)">
+              <option disabled selected>--Select Group Number--</option>
+            </select>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="fields">
-    <div class="field">
-      <label class="col-form-label">Group Description</label>
-      <div class="row mb-3">
-        <div>
-          <select class="form-select" aria-label="Default select example" id="groupDescSelect2"
-            onchange="updateGroupNumberOptions2()">
-            <option disabled selected>--Select Group Description--</option>
-          </select>
+    <input type="hidden" id="selectedWalletID4" value="">
+  </li>
+  <li class="list-group-item justify-content-between align-items-start">
+    <div class="fields">
+      <div class="field">
+        <label class="col-form-label">Amount</label>
+        <div class="input-group mb-3">
+          <input type="number" class="form-control" value="0" id="amount3">
+          <span class="input-group-text" id="inputGroupPrepend">Tk</span>
+        </div>
+      </div>
+      <div class="field">
+        <label class="col-form-label" style="color: transparent;">Bro</label>
+        <div class="input-group mb-3">
+          <button type="submit" class="btn btn-primary" onclick="addTransfer(event)">
+            <%= btn_txt %>
+          </button>
         </div>
       </div>
     </div>
-    <div class="field">
-      <label class="col-form-label">Group Number</label>
-      <div class="row mb-3">
-        <div>
-          <select class="form-select" aria-label="Default select example" id="groupNumSelect2" onchange="updateWalletID2()">
-            <option disabled selected>--Select Group Number--</option>
-          </select>
-        </div>
-      </div>
-    </div>
-  </div>
-  <input type="hidden" id="selectedWalletID2" value="">
-</li>
-<li class="list-group-item justify-content-between align-items-start">
-<div class="fields">
-  <div class="field">
-    <label class="col-form-label">Amount</label>
-    <div class="input-group mb-3">
-      <input type="number" class="form-control" value="0" id="amount1">
-      <span class="input-group-text" id="inputGroupPrepend">Tk</span>
-    </div>
-  </div>
-  <div class="field">
-    <label class="col-form-label" style="color: transparent;">Bro</label>
-    <div class="input-group mb-3">
-      <button type="submit" class="btn btn-primary"><%= btn_txt %></button>
-    </div>
-  </div>
-</div>
-</li>
+  </li>
 </ul>
 <script>
-  function updateGroupOptions1() {
-  var walletSelect = document.getElementById("walletSelect1");
-  var selectedName = walletSelect.value;
-  console.log(selectedName);
-  var groupSelect = document.getElementById("groupSelect1");
-  groupSelect.innerHTML = '<option disabled selected>--Select Group--</option>';
-  var uniqueNames = new Set();
-  var selectedWalletObjects = walletObjects.filter(function (wallet) {
-    return wallet.name === selectedName;
-  });
-  console.log(selectedWalletObjects);
-  let prev = '';
-  selectedWalletObjects.forEach(function (wallet) {
-    if (wallet.type !== prev) {
-      var option = document.createElement("option");
-      option.value = wallet.type;
-      option.text = wallet.type;
-      groupSelect.appendChild(option);
-      prev = wallet.type;
+  function getDatetime() {
+    // Get current date and time
+    let now = new Date();
+
+    // Extract date components
+    let year = now.getFullYear();
+    let month = ('0' + (now.getMonth() + 1)).slice(-2); // Months are zero-indexed
+    let day = ('0' + now.getDate()).slice(-2);
+
+    // Extract time components
+    let hours = ('0' + now.getHours()).slice(-2);
+    let minutes = ('0' + now.getMinutes()).slice(-2);
+    let seconds = ('0' + now.getSeconds()).slice(-2);
+
+    // Format the date and time
+    let formattedDateTime = year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds
+    return formattedDateTime
+  }
+  function addTransfer(event) {
+    event.preventDefault();
+
+    if (document.getElementById("groupSelect3").value === 'Cash') {
+        var id = document.getElementById("selectedWalletID3");
+        var selectedGrpNumObjects = walletObjects.filter(function (wallet) {
+            return wallet.type === 'Cash';
+        });
+        selectedGrpNumObjects.forEach(function (wallet) {
+            id.value = wallet.id;
+        });
+        console.log("id: " + id.value);
     }
-  });
+
+    const username = '<%= (String)session.getAttribute("User") %>';
+    const category = 'Transfer';
+    const walletFrom = document.getElementById("selectedWalletID3").value;
+    const walletTo = document.getElementById("selectedWalletID4").value;
+    const note = 'Transfer from ' + document.getElementById("walletSelect3").value + ' to ' + document.getElementById("walletSelect4").value;
+    const amount = document.getElementById("amount3").value;
+    const spent_on = getDatetime();
+
+    // Create a JSON object from form data
+    const newExpense = {
+        username: username,
+        note: note,
+        category: category,
+        wallet: walletFrom,
+        amount: amount,
+        spent_on: spent_on
+    };
+    console.log(spent_on);
+
+    const xhr = new XMLHttpRequest();
+    let url = "http://localhost:9090/api/addExpense";
+    console.log(url);
+    xhr.open('POST', url, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            console.log("done")
+            console.log(xhr.response)
+            if (xhr.status === 200) {
+                console.log("and dusted")
+                console.log('Expense successfully added');
+
+                if (document.getElementById("groupSelect4").value === 'Cash') {
+                    var id = document.getElementById("selectedWalletID4");
+                    var selectedGrpNumObjects = walletObjects.filter(function (wallet) {
+                        return wallet.type === 'Cash';
+                    });
+                    selectedGrpNumObjects.forEach(function (wallet) {
+                        id.value = wallet.id;
+                    });
+                    console.log("id: " + id.value);
+                }
+
+                const newIncome = {
+                    username: username,
+                    note: note,
+                    wallet: walletTo,
+                    amount: amount
+                };
+                url = "http://localhost:9090/api/addIncome";
+                console.log(url);
+                xhr.open('POST', url, true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            alert('Transfer successfully done');
+                        } else {
+                            console.error('Error:', xhr.statusText);
+                        }
+                    }
+                };
+
+                xhr.send(JSON.stringify(newIncome));
+
+            } else {
+                console.error('Error:', xhr.statusText);
+            }
+        }
+    };
+
+    xhr.send(JSON.stringify(newExpense));
 }
 
-function updateGroupDescOptions1() {
-  var grpSelect = document.getElementById("groupSelect1");
-  var selectedGrp = grpSelect.value;
-  console.log(selectedGrp);
-  var groupDescSelect = document.getElementById("groupDescSelect1");
-  groupDescSelect.innerHTML = '<option disabled selected>--Select Group Description--</option>';
-
-  var selectedGrpObjects = walletObjects.filter(function (wallet) {
-    return wallet.type === selectedGrp;
-  });
-  console.log(selectedGrpObjects);
-  let prev = '';
-  selectedGrpObjects.forEach(function (wallet) {
-    if (wallet.type_unique_name !== prev) {
-      var option = document.createElement("option");
-      option.value = wallet.type_unique_name;
-      option.text = wallet.type_unique_name;
-      groupDescSelect.appendChild(option);
-      prev = wallet.type_unique_name;
-    }
-  });
-}
-
-function updateGroupNumberOptions1() {
-  var grpDescSelect = document.getElementById("groupDescSelect1");
-  var selectedGrpDesc = grpDescSelect.value;
-  console.log(selectedGrpDesc);
-  var groupNumSelect = document.getElementById("groupNumSelect1");
-  groupNumSelect.innerHTML = '<option disabled selected>--Select Group Number--</option>';
-
-  var selectedGrpDescObjects = walletObjects.filter(function (wallet) {
-    return wallet.type_unique_name === selectedGrpDesc;
-  });
-  console.log(selectedGrpDescObjects);
-  let prev = '';
-  selectedGrpDescObjects.forEach(function (wallet) {
-    if (wallet.type_unique_number !== prev) {
-      var option = document.createElement("option");
-      option.value = wallet.type_unique_number;
-      option.text = wallet.type_unique_number;
-      groupNumSelect.appendChild(option);
-      prev = wallet.type_unique_number;
-    }
-  });
-}
-
-function updateWalletID1() {
-  var grpNumSelect = document.getElementById("groupNumSelect1");
-  var selectedGrpNum = grpNumSelect.value;
-  var id = document.getElementById("selectedWalletID1");
-  var selectedGrpNumObjects = walletObjects.filter(function (wallet) {
-    return wallet.type_unique_number === selectedGrpNum;
-  });
-  selectedGrpNumObjects.forEach(function (wallet) {
-    id.value = wallet.id;
-  });
-  console.log("id: " + id.value);
-}
-
-function updateGroupOptions2() {
-  var walletSelect = document.getElementById("walletSelect2");
-  var selectedName = walletSelect.value;
-  console.log(selectedName);
-  var groupSelect = document.getElementById("groupSelect2");
-  groupSelect.innerHTML = '<option disabled selected>--Select Group--</option>';
-  var uniqueNames = new Set();
-  var selectedWalletObjects = walletObjects.filter(function (wallet) {
-    return wallet.name === selectedName;
-  });
-  console.log(selectedWalletObjects);
-  let prev = '';
-  selectedWalletObjects.forEach(function (wallet) {
-    if (wallet.type !== prev) {
-      var option = document.createElement("option");
-      option.value = wallet.type;
-      option.text = wallet.type;
-      groupSelect.appendChild(option);
-      prev = wallet.type;
-    }
-  });
-}
-
-function updateGroupDescOptions2() {
-  var grpSelect = document.getElementById("groupSelect2");
-  var selectedGrp = grpSelect.value;
-  console.log(selectedGrp);
-  var groupDescSelect = document.getElementById("groupDescSelect2");
-  groupDescSelect.innerHTML = '<option disabled selected>--Select Group Description--</option>';
-
-  var selectedGrpObjects = walletObjects.filter(function (wallet) {
-    return wallet.type === selectedGrp;
-  });
-  console.log(selectedGrpObjects);
-  let prev = '';
-  selectedGrpObjects.forEach(function (wallet) {
-    if (wallet.type_unique_name !== prev) {
-      var option = document.createElement("option");
-      option.value = wallet.type_unique_name;
-      option.text = wallet.type_unique_name;
-      groupDescSelect.appendChild(option);
-      prev = wallet.type_unique_name;
-    }
-  });
-}
-
-function updateGroupNumberOptions2() {
-  var grpDescSelect = document.getElementById("groupDescSelect2");
-  var selectedGrpDesc = grpDescSelect.value;
-  console.log(selectedGrpDesc);
-  var groupNumSelect = document.getElementById("groupNumSelect2");
-  groupNumSelect.innerHTML = '<option disabled selected>--Select Group Number--</option>';
-
-  var selectedGrpDescObjects = walletObjects.filter(function (wallet) {
-    return wallet.type_unique_name === selectedGrpDesc;
-  });
-  console.log(selectedGrpDescObjects);
-  let prev = '';
-  selectedGrpDescObjects.forEach(function (wallet) {
-    if (wallet.type_unique_number !== prev) {
-      var option = document.createElement("option");
-      option.value = wallet.type_unique_number;
-      option.text = wallet.type_unique_number;
-      groupNumSelect.appendChild(option);
-      prev = wallet.type_unique_number;
-    }
-  });
-}
-
-function updateWalletID2() {
-  var grpNumSelect = document.getElementById("groupNumSelect2");
-  var selectedGrpNum = grpNumSelect.value;
-  var id = document.getElementById("selectedWalletID2");
-  var selectedGrpNumObjects = walletObjects.filter(function (wallet) {
-    return wallet.type_unique_number === selectedGrpNum;
-  });
-  selectedGrpNumObjects.forEach(function (wallet) {
-    id.value = wallet.id;
-  });
-  console.log("id: " + id.value);
-}
 </script>

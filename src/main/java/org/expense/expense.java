@@ -1,7 +1,13 @@
 package org.expense;
 
 import java.math.BigDecimal;
-import java.sql.*;
+import java.math.RoundingMode;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -105,7 +111,7 @@ public class expense {
 			database dm=new database();
 			Connection con=dm.getConnect();
 			Statement st=con.createStatement();
-			String querycheck="select name,category,public.\"Expense\".amount,spent_on from public.\"Expense\" join public.\"Wallet\" on public.\"Expense\".wallet=public.\"Wallet\".id where public.\"Expense\".username='"+username+"' and spent_on between '"+lastMonth+"' and '"+strMonthYear+"'";
+			String querycheck="select name,category,public.\"Expense\".amount,spent_on from public.\"Expense\" join public.\"Wallet\" on public.\"Expense\".wallet=public.\"Wallet\".id where public.\"Expense\".username='"+username+"' and spent_on between '"+lastMonth+"' and '"+strMonthYear+"'  LIMIT 10;";
 			System.out.println(querycheck);
 			ResultSet rt=st.executeQuery(querycheck);
 			while(rt.next())
@@ -177,14 +183,18 @@ public class expense {
 			ResultSet rt=st.executeQuery(querycheck);
 			while(rt.next())
 			{
+				System.out.println("nope");
 				expense w=new expense();
 				w.category=rt.getString("category");
 				w.amount=rt.getInt("amount");
 				// just using the variables with the correct data type
 				w.note=rt.getString("color");
+				if(result.size()<3){
+					w.wallet=compareMonthlySpending(w.category,username,wallet);
+				}
 				result.add(w);
 			}
-
+			System.out.println("out:");
 			System.out.println(result);
 		}
 		catch (SQLException exception) {
@@ -239,6 +249,7 @@ public class expense {
 			pst.setTimestamp(6, Timestamp.valueOf(newExpense.spent_on)); // Adjust if necessary
 
 			int rowsAffected = pst.executeUpdate();
+			System.out.println(rowsAffected);
 			return rowsAffected > 0 ? 1 : 0;
 		} catch (SQLException exception) {
 			exception.printStackTrace();
@@ -247,14 +258,103 @@ public class expense {
 			// Close resources
 			try {
 				if (pst != null) pst.close();
-				if (con != null) con.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
 	}
+	public int compareMonthlySpending(String category, String username, String wallet) {
+		Connection con = null;
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		System.out.println(category);
+		try {
+			database dm=new database();
+			con = dm.getConnect();
+			// Query to get current month's spending
+			String currentMonthQuery = "SELECT SUM(amount) AS current_month_spending "
+					+ "FROM public.\"Expense\" "
+					+ "WHERE category = ? AND wallet in (select id from public.\"Wallet\" where username = ? AND name=?) "
+					+ "AND DATE_TRUNC('month', spent_on) = DATE_TRUNC('month', CURRENT_DATE)";
 
+			// Query to get previous month's spending
+			String previousMonthQuery = "SELECT SUM(amount) AS previous_month_spending "
+					+ "FROM public.\"Expense\" "
+					+ "WHERE category = ? AND wallet in (select id from public.\"Wallet\" where username = ? AND name=?) "
+					+ "AND DATE_TRUNC('month', spent_on) = DATE_TRUNC('month', CURRENT_DATE - INTERVAL '1 month')";
 
+			// Get current month's spending
+			pst = con.prepareStatement(currentMonthQuery);
+			pst.setString(1, category);
+			pst.setString(2, username);
+			pst.setString(3, wallet);
+			rs = pst.executeQuery();
+			BigDecimal currentMonthSpending = rs.next() && rs.getBigDecimal("current_month_spending") != null
+					? rs.getBigDecimal("current_month_spending")
+					: BigDecimal.ZERO;
+			rs.close();
+			pst.close();
+
+			// Get previous month's spending
+			pst = con.prepareStatement(previousMonthQuery);
+			pst.setString(1, category);
+			pst.setString(2, username);
+			pst.setString(3, wallet);
+			rs = pst.executeQuery();
+			BigDecimal previousMonthSpending = rs.next() && rs.getBigDecimal("previous_month_spending") != null
+					? rs.getBigDecimal("previous_month_spending")
+					: BigDecimal.ZERO;
+
+			// Calculate the difference
+			System.out.println(currentMonthSpending);
+			System.out.println(previousMonthSpending);
+			BigDecimal difference = currentMonthSpending.subtract(previousMonthSpending);
+			BigDecimal percentage = BigDecimal.ZERO;
+			if (previousMonthSpending.compareTo(BigDecimal.ZERO) != 0) {
+				percentage = difference.divide(previousMonthSpending, 4, RoundingMode.HALF_UP).multiply(new BigDecimal(100));
+			}
+			BigDecimal roundedPercentage = percentage.setScale(2, RoundingMode.HALF_UP);
+
+			return roundedPercentage.intValue();
+
+		} catch (SQLException exception) {
+			exception.printStackTrace();
+			return 0;
+		} finally {
+			// Close resources
+			try {
+				if (rs != null) rs.close();
+				if (pst != null) pst.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	public void updateFau(){
+
+		Connection con = null;
+		PreparedStatement pst = null;
+		try {
+			database dm = new database();
+			con = dm.getConnect();
+			String query="UPDATE public.\"Expense\"\n" +
+					"SET spent_on = '2024-08-02'::date + spent_on::time\n" +
+					"WHERE spent_on::date = '2024-08-01'\n" +
+					"AND username = 'john_doe';";
+			System.out.println(query);
+			Statement st = con.createStatement();
+			st.executeUpdate(query);
+		} catch (SQLException exception) {
+			exception.printStackTrace();
+		} finally {
+			// Close resources
+			try {
+				if (pst != null) pst.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	public String gntotalup(String username)
 	{
 		String ans="0";

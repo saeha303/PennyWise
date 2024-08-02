@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS public."Recurring_expense"
     time_of_remainder timestamp without time zone NOT NULL,
     amount bigint NOT NULL,
     details character varying(255) COLLATE pg_catalog."default",
+    date date NOT NULL,
     CONSTRAINT "Recurring_expense_pkey" PRIMARY KEY (id)
 )
 
