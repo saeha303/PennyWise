@@ -338,8 +338,8 @@ public class expense {
 			database dm = new database();
 			con = dm.getConnect();
 			String query="UPDATE public.\"Expense\"\n" +
-					"SET spent_on = '2024-08-02'::date + spent_on::time\n" +
-					"WHERE spent_on::date = '2024-08-01'\n" +
+					"SET spent_on = '2024-08-03'::date + spent_on::time\n" +
+					"WHERE spent_on::date = '2024-08-02'\n" +
 					"AND username = 'john_doe';";
 			System.out.println(query);
 			Statement st = con.createStatement();
@@ -354,6 +354,35 @@ public class expense {
 				e.printStackTrace();
 			}
 		}
+	}
+	public List<expense> getExpenses(String username){
+		List<expense> result=new ArrayList<>();
+		try
+		{
+			database dm=new database();
+			Connection con=dm.getConnect();
+			Statement st=con.createStatement();
+			String querycheck="select * from public.\"Expense\" where username='"+username+"';";
+			System.out.println(querycheck);
+			ResultSet rt=st.executeQuery(querycheck);
+			while(rt.next())
+			{
+				expense w=new expense();
+				w.id=rt.getInt("id");
+				w.category=rt.getString("category");
+				w.amount=rt.getInt("amount");
+				w.note=rt.getString("note");//name
+				w.spent_on=rt.getString("spent_on");
+				w.wallet=rt.getInt("wallet");
+				w.username=rt.getString("username");//
+				result.add(w);
+			}
+
+			System.out.println(result);
+		}
+		catch (SQLException exception) {
+		}
+		return result;
 	}
 	public String gntotalup(String username)
 	{
