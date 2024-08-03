@@ -3,39 +3,39 @@
     <%@ page import="org.category.*" %>
       <%@ page import="org.expense.*" %>
         <%@ page import="com.google.gson.*" %>
-        <!DOCTYPE html>
-        <html lang="en">
-        <%@ include file="header.jsp" %>
-          <% expense e=new expense(); session.setAttribute("User","john_doe"); String tab_var1="" ,tab_var2="" ; String
-            btn_txt="" ; String filter_txt="" ; String str="text-danger" ; category cat=new category(); List<category>
-            cat_list=cat.getCategories();
-            wallet w=new wallet();
-            String user=(String)session.getAttribute("User");
-            List<wallet> w_list=w.getWallets(user);
-                List<wallet> filtered_wal_list=new ArrayList<>();
-                    System.out.println("pages-transaction "+user);
-                    System.out.println(w_list);
-                    %>
+          <!DOCTYPE html>
+          <html lang="en">
+          <%@ include file="header.jsp" %>
+            <% expense e=new expense(); session.setAttribute("User","john_doe"); String tab_var1="" ,tab_var2="" ;
+              String btn_txt="" ; String filter_txt="" ; String str="text-danger" ; category cat=new category();
+              List<category>
+              cat_list=cat.getCategories();
+              wallet w=new wallet();
+              String user=(String)session.getAttribute("User");
+              List<wallet> w_list=w.getWallets(user);
+                List<expense> expenseList=new expense().getExpenses(user);
+                  List<wallet> filtered_wal_list=new ArrayList<>();
+                      %>
 
-                    <body>
+                      <body>
 
-                      <%@ include file="navbar.jsp" %>
-                        <%@ include file="sidebar.jsp" %>
+                        <%@ include file="navbar.jsp" %>
+                          <%@ include file="sidebar.jsp" %>
 
 
-                          <main id="main" class="main">
+                            <main id="main" class="main">
 
-                            <div class="pagetitle">
-                              <h1>Transactions</h1>
-                              <nav>
-                                <ol class="breadcrumb">
-                                  <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                                  <li class="breadcrumb-item active">Transactions</li>
-                                </ol>
-                              </nav>
-                            </div><!-- End Page Title -->
-                            <section class="section dashboard">
-                              <!-- <div class="card">
+                              <div class="pagetitle">
+                                <h1>Transactions</h1>
+                                <nav>
+                                  <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                    <li class="breadcrumb-item active">Transactions</li>
+                                  </ol>
+                                </nav>
+                              </div><!-- End Page Title -->
+                              <section class="section dashboard">
+                                <!-- <div class="card">
                                                         <div class="card-body">
                                                             <h5 class="card-title"></h5>
                                                             <div class="d-flex align-items-start">
@@ -87,135 +87,151 @@
 
                                                         </div>
                                                     </div> -->
-                              <div class="card">
-                                <div class="card-body">
-                                  <div class="fields">
-                                    <div class="field">
-                                      <!-- Pills Tabs -->
-                                      <h5 class="card-title"> </h5>
-                                      <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                                        <li class="nav-item" role="presentation">
-                                          <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
-                                            data-bs-target="#pills-home" type="button" role="tab"
-                                            aria-controls="pills-home" aria-selected="true"><i
-                                              class="bi bi-plus-lg"></i></button>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                          <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill"
-                                            data-bs-target="#pills-profile" type="button" role="tab"
-                                            aria-controls="pills-profile" aria-selected="false" tabindex="-1"><i
-                                              class="bi bi-calendar"></i></button>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                          <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill"
-                                            data-bs-target="#pills-contact" type="button" role="tab"
-                                            aria-controls="pills-contact" aria-selected="false" tabindex="-1"><i
-                                              class="ri-filter-2-line"></i></button>
-                                        </li>
-                                      </ul>
-                                      <div class="tab-content pt-2" id="myTabContent">
-                                        <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
-                                          aria-labelledby="home-tab">
-                                          <ul class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
-                                            <li class="nav-item flex-fill" role="presentation">
-                                              <button class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab"
-                                                data-bs-target="#home-justified" type="button" role="tab"
-                                                aria-controls="home" aria-selected="true">Expense</button>
-                                            </li>
-                                            <li class="nav-item flex-fill" role="presentation">
-                                              <button class="nav-link w-100" id="profile-tab" data-bs-toggle="tab"
-                                                data-bs-target="#profile-justified" type="button" role="tab"
-                                                aria-controls="profile" aria-selected="false"
-                                                tabindex="-1">Income</button>
-                                            </li>
-                                            <li class="nav-item flex-fill" role="presentation">
-                                              <button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab"
-                                                data-bs-target="#contact-justified" type="button" role="tab"
-                                                aria-controls="contact" aria-selected="false"
-                                                tabindex="-1">Transfer</button>
-                                            </li>
-                                          </ul>
-                                          <div class="tab-content pt-2" id="myTabjustifiedContent">
-                                            <div class="tab-pane fade show active" id="home-justified" role="tabpanel"
-                                              aria-labelledby="home-tab">
-                                              <% tab_var1="From" ; btn_txt="Add Expense" ; %>
-                                                <%@ include file="expenseTransaction.jsp" %>
-                                            </div>
-                                            <div class="tab-pane fade" id="profile-justified" role="tabpanel"
-                                              aria-labelledby="profile-tab">
-                                              <% tab_var1="To" ; btn_txt="Add Income" ; %>
-                                                <%@ include file="incomeTransaction.jsp" %>
-                                            </div>
-                                            <div class="tab-pane fade" id="contact-justified" role="tabpanel"
-                                              aria-labelledby="contact-tab">
-                                              <% tab_var1="From" ; tab_var2="To" ; btn_txt="Add Transfer" ; %>
-                                                <%@ include file="transferTransactionCard.jsp" %>
+                                <div class="card">
+                                  <div class="card-body">
+                                    <div class="fields">
+                                      <div class="field">
+                                        <!-- Pills Tabs -->
+                                        <h5 class="card-title"> </h5>
+                                        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                                          <li class="nav-item" role="presentation">
+                                            <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
+                                              data-bs-target="#pills-home" type="button" role="tab"
+                                              aria-controls="pills-home" aria-selected="true"><i
+                                                class="bi bi-plus-lg"></i></button>
+                                          </li>
+                                          <li class="nav-item" role="presentation">
+                                            <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill"
+                                              data-bs-target="#pills-contact" type="button" role="tab"
+                                              aria-controls="pills-contact" aria-selected="false" tabindex="-1"><i
+                                                class="ri-filter-2-line"></i></button>
+                                          </li>
+                                          <li class="nav-item" role="presentation">
+                                            <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill"
+                                              data-bs-target="#pills-profile" type="button" role="tab"
+                                              aria-controls="pills-profile" aria-selected="false" tabindex="-1"><i
+                                                class="bi bi-calendar"></i></button>
+                                          </li>
+                                          <li>
+                                            <button class="nav-link" data-bs-toggle="pill" type="button"
+                                              aria-selected="false"><i class="ri-refresh-line"></i></button>
+                                          </li>
+                                          
+                                        </ul>
+                                        <div class="tab-content pt-2" id="myTabContent">
+                                          <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
+                                            aria-labelledby="home-tab">
+                                            <ul class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
+                                              <li class="nav-item flex-fill" role="presentation">
+                                                <button class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab"
+                                                  data-bs-target="#home-justified" type="button" role="tab"
+                                                  aria-controls="home" aria-selected="true">Expense</button>
+                                              </li>
+                                              <li class="nav-item flex-fill" role="presentation">
+                                                <button class="nav-link w-100" id="profile-tab" data-bs-toggle="tab"
+                                                  data-bs-target="#profile-justified" type="button" role="tab"
+                                                  aria-controls="profile" aria-selected="false"
+                                                  tabindex="-1">Income</button>
+                                              </li>
+                                              <li class="nav-item flex-fill" role="presentation">
+                                                <button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab"
+                                                  data-bs-target="#contact-justified" type="button" role="tab"
+                                                  aria-controls="contact" aria-selected="false"
+                                                  tabindex="-1">Transfer</button>
+                                              </li>
+                                            </ul>
+                                            <div class="tab-content pt-2" id="myTabjustifiedContent">
+                                              <div class="tab-pane fade show active" id="home-justified" role="tabpanel"
+                                                aria-labelledby="home-tab">
+                                                <% tab_var1="From" ; btn_txt="Add Expense" ; %>
+                                                  <%@ include file="expenseTransaction.jsp" %>
+                                              </div>
+                                              <div class="tab-pane fade" id="contact-justified" role="tabpanel"
+                                                aria-labelledby="contact-tab">
+                                                <% tab_var1="From" ; tab_var2="To" ; btn_txt="Add Transfer" ; %>
+                                                  <%@ include file="transferTransactionCard.jsp" %>
+                                              </div>
+                                              <div class="tab-pane fade" id="profile-justified" role="tabpanel"
+                                                aria-labelledby="profile-tab">
+                                                <% tab_var1="To" ; btn_txt="Add Income" ; %>
+                                                  <%@ include file="incomeTransaction.jsp" %>
+                                              </div>
+
                                             </div>
                                           </div>
-                                        </div>
-                                        <div class="tab-pane fade" id="pills-profile" role="tabpanel"
-                                          aria-labelledby="profile-tab">
-                                          <div class="fields">
+                                          <div class="tab-pane fade" id="pills-contact" role="tabpanel"
+                                            aria-labelledby="contact-tab">
                                             <div class="field">
-                                              <h6>Start date</h6><input type="date">
-                                              <h6> </h6>
-                                              <h6>End date</h6><input type="date">
+                                              <div class="row mb-3">
+                                                <label for="inputText" class="col-sm-2 col-form-label">Wallet
+                                                  name</label>
+                                                <div class="col-sm-10">
+                                                  <select class="form-select" id="walletSelect5"
+                                                    onchange="updateGroupOptions(5)"
+                                                    aria-label="Default select example">
+                                                    <option disabled selected value="">--Select Wallet--</option>
+                                                    <% for (int i=0; i < w_list.size(); i++) { %>
+                                                      <% if(i==0 || !w_list.get(i).name.equals(w_list.get(i-1).name)){
+                                                        %>
+                                                        <option name="wallet_options" value="<%= w_list.get(i).name %>">
+                                                          <%= w.getName(w_list.get(i).name) %>
+                                                            <% } %>
+                                                              <% } %>
+                                                        </option>
+                                                  </select>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="field">
+                                              <div class="row mb-3">
+                                                <label class="col-sm-2 col-form-label">Group</label>
+                                                <div class="col-sm-10">
+                                                  <select class="form-select" aria-label="Default select example"
+                                                    id="groupSelect5" onchange="applyFilter()">
+                                                    <option disabled selected value="">--Select Group--</option>
+                                                    <!-- <option value="Cash">Cash</option>
+                                                  <option value="Card">Card</option>
+                                                  <option value="Account">Accout</option>
+                                                  <option value="Mobile Money">Mobile Money</option> -->
+                                                  </select>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="field">
+                                              <div class="input-group mb-3">
+                                                <button type="reset" class="btn btn-secondary"
+                                                  onclick="reset()">Reset</button>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="tab-pane fade" id="pills-profile" role="tabpanel"
+                                            aria-labelledby="profile-tab">
+                                            <div class="fields">
+                                              <div class="field datesets">
+                                                <h6>Start date</h6><input type="date" id="startDate">
+                                                <h6> - </h6>
+                                                <h6>End date</h6><input type="date" id="endDate"
+                                                  onchange="filterByDate()">
+                                              </div>
                                             </div>
                                           </div>
 
+                                        </div><!-- End Pills Tabs -->
+                                      </div>
+                                      <div class="field">
+                                        <h5 class="card-title">Filtered Transactions</h5>
+                                        <div id="applied-filters">
+
                                         </div>
-                                        <div class="tab-pane fade" id="pills-contact" role="tabpanel"
-                                          aria-labelledby="contact-tab">
-                                          <div class="field">
-                                            <div class="row mb-3">
-                                              <label for="inputText" class="col-sm-2 col-form-label">Wallet name</label>
-                                              <div class="col-sm-10">
-                                                <select class="form-select" id="wallet"
-                                                  aria-label="Default select example">
-                                                  <option disabled selected value="">--Select Wallet--</option>
-                                                  <% for (int i=0; i < w_list.size(); i++) { %>
-                                                    <option name="wallet_options" value="<%= w_list.get(i).name %>">
-                                                      <%= w.getName(w_list.get(i).name) %>
-                                                        <% } %>
-                                                    </option>
-                                                </select>
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <div class="field">
-                                            <div class="row mb-3">
-                                              <label class="col-sm-2 col-form-label">Group</label>
-                                              <div class="col-sm-10">
-                                                <select class="form-select" id="group"
-                                                  aria-label="Default select example">
-                                                  <option disabled selected value="">--Select Group--</option>
-                                                  <option value="Cash">Cash</option>
-                                                  <option value="Card">Card</option>
-                                                  <option value="Account">Accout</option>
-                                                  <option value="Mobile Money">Mobile Money</option>
-                                                </select>
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <div class="field">
-                                            <div class="input-group mb-3">
-                                              <button type="submit" class="btn btn-primary"
-                                                onclick="applyFilter(event)">Apply</button>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div><!-- End Pills Tabs -->
-                                    </div>
-                                    <div class="field">
-                                      <h5 class="card-title">Filtered Transactions</h5>
-                                      <ul class="list-group list-group-flush" id="filtered-transactions">
-                                        <!-- <% if(filtered_wal_list.size()==0){%>
+                                        <ul class="list-group list-group-flush scrollable-ul"
+                                          id="filtered-transactions">
+                                          <!-- <% if(filtered_wal_list.size()==0){%> -->
                                           <li class="list-group-item d-flex justify-content-between align-items-start">
                                             <div class="ms-2 me-auto">
                                               <div class="fw-bold">No Transactions Found</div>
                                             </div>
                                           </li>
-                                          <%} else{ for (int i=0; i < filtered_wal_list.size(); i++) { wallet
+                                          <!-- <%} else{ for (int i=0; i < filtered_wal_list.size(); i++) { wallet
                                             tw=filtered_wal_list.get(i); %>
 
                                             <li
@@ -233,44 +249,160 @@
                                               </span>
                                             </li>
                                             <% }} %> -->
-                                      </ul><!-- End with custom content -->
+                                        </ul><!-- End with custom content -->
+                                      </div>
                                     </div>
+
                                   </div>
-
                                 </div>
-                              </div>
-                            </section>
+                              </section>
 
-                          </main><!-- End #main -->
+                            </main><!-- End #main -->
 
-                          <%@ include file="footer.jsp" %>
+                            <%@ include file="footer.jsp" %>
 
-                    </body>
-                    <script>
-                      function applyFilter(event) {
-                        event.preventDefault(); // Prevent form from submitting
-                        var wallet = document.getElementById('wallet').value;
-                        var group = document.getElementById('group').value;
-                        var xhr = new XMLHttpRequest();
-                        xhr.open("POST", "changePassword.jsp", true); // Posting to the same JSP page
-                        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                        xhr.onreadystatechange = function () {
-                          if (xhr.readyState === 4 && xhr.status === 200) {
-                            var response = xhr.responseText.trim();
-                            console.log(response)
-                            // var var_1 = response.split('//')
-                            const var_2 = response.map((req) => {
-                              console.log(req)
+                      </body>
+                      <script>
+                        const nothing = `<li class="list-group-item d-flex justify-content-between align-items-start">
+                                            <div class="ms-2 me-auto">
+                                              <div class="fw-bold">No Transactions Found</div>
+                                            </div>
+                                          </li>`;
+                        const container = document.getElementById('filtered-transactions');
+                        var walletObjects = <%= new Gson().toJson(w_list) %>;
+                        var expenseObjects = <%= new Gson().toJson(expenseList) %>;
+                        let selectedWalletObjects;
+                        let filtered_by_wg = [];
+                        function getDatetime() {
+                          // Get current date and time
+                          let now = new Date();
+
+                          // Extract date components
+                          let year = now.getFullYear();
+                          let month = ('0' + (now.getMonth() + 1)).slice(-2); // Months are zero-indexed
+                          let day = ('0' + now.getDate()).slice(-2);
+
+                          // Format the date and time
+                          let formattedDateTime = year + "-" + month + "-" + day
+                          return formattedDateTime
+                        }
+                        function updateGroupOptions(setNumber) {
+                          var walletSelect = document.getElementById("walletSelect" + setNumber);
+                          var selectedName = walletSelect.value;
+                          var groupSelect = document.getElementById("groupSelect" + setNumber);
+                          groupSelect.innerHTML = '<option disabled selected>--Select Group--</option>';
+
+                          selectedWalletObjects = walletObjects.filter(function (wallet) {
+                            return wallet.name === selectedName;
+                          });
+
+                          let prev = '';
+                          selectedWalletObjects.forEach(function (wallet) {
+                            if (wallet.type !== prev) {
+                              var option = document.createElement("option");
+                              option.value = wallet.type;
+                              option.text = wallet.type;
+                              groupSelect.appendChild(option);
+                              prev = wallet.type;
+                            }
+                          });
+                        }
+                        function applyFilter() {
+                          const applied = document.getElementById("applied-filters");
+                          applied.innerHTML += `<span class="badge rounded-pill bg-light text-dark">` + document.getElementById("walletSelect5").value + `</span>` + `<span class="badge rounded-pill bg-light text-dark">` + document.getElementById("groupSelect5").value + `</span>`
+                          var groupSelect = document.getElementById("groupSelect5");
+                          var selectedGroup = groupSelect.value;
+                          selectedWalletObjects = selectedWalletObjects.filter(function (wallet) {
+                            return wallet.type === selectedGroup;
+                          });
+                          if (selectedWalletObjects.length === 0) {
+                            selectedWalletObjects = walletObjects.filter(function (wallet) {
+                              return wallet.type === selectedGroup;
                             });
-                            // console.log(var_1)
                           }
-                        };
+                          const username = '<%= (String)session.getAttribute("User") %>'
 
-                        xhr.send("action=applyFilter" +
-                          "&wallet=" + encodeURIComponent(wallet) +
-                          "&group=" + encodeURIComponent(group));
-                      }
 
-                    </script>
+                          if (expenseObjects.length === 0) {
+                            console.log(1)
+                            container.innerHTML = nothing;
+                          } else {
+                            console.log(2)
+                            console.log(selectedWalletObjects)
+                            selectedWalletObjects.forEach(function (wallet) {
+                              filtered_by_wg = expenseObjects.filter(function (expense) {
+                                return expense.wallet === wallet.id;
+                              });
+                              console.log(filtered_by_wg)
+                            });
+                            if (selectedWalletObjects.length === 0) {
+                              filtered_by_wg = []
+                            }
+                            if (filtered_by_wg.length === 0) {
+                              console.log(3)
+                              container.innerHTML = nothing;
+                            } else {
+                              console.log(4)
+                              update();
+                            }
 
-        </html>
+                          }
+                        }
+                        function update() {
+                          let html = '';
+                          const part1 = `<li
+                                          class="list-group-item d-flex justify-content-between align-items-start">
+                                          <div class="ms-2 me-auto">
+                                            <div class="fw-bold">`
+                          filtered_by_wg.forEach(function (expense) {
+                            html += part1 +
+                              expense.category +
+                              `</div>` +
+                              expense.note + `<br />` +
+                              expense.spent_on +
+                              `</div>
+                                  <span class="badge bg-primary rounded-pill">`+
+                              expense.amount + ` Tk
+                                  </span>
+                                </li>`;
+                          });
+
+                          container.innerHTML = html;
+                        }
+                        function reset() {
+                          const walletSelect = document.getElementById('walletSelect5');
+                          walletSelect.selectedIndex = 0;
+                          const groupSelect = document.getElementById('groupSelect5');
+                          groupSelect.innerHTML = `<option disabled selected value="">--Select Group--</option>`;
+                          filtered_by_wg = []
+                          document.getElementById('filtered-transactions').innerHTML = nothing;
+                          document.getElementById('applied-filters').innerHTML='';
+                        }
+                        function filterByDate() {
+                          console.log("came to data JOSHUA")
+                          const startDate = document.getElementById("startDate").value;
+                          const endDate = document.getElementById("endDate").value;
+                          // console.log(startDate)
+                          // console.log(endDate)
+                          const start = new Date(startDate);
+                          const end = new Date(endDate);
+                          filtered_by_wg = filtered_by_wg.filter(expense => {
+                            const spentOn = new Date( expense.spent_on.split(' ')[0]);
+                            return spentOn >= start && spentOn <= end;
+                          });
+                          if (filtered_by_wg.length === 0) {
+                            filtered_by_wg = expenseObjects.filter(expense => {
+                              const spentOn = new Date( expense.spent_on.split(' ')[0]);
+                              return spentOn >= start && spentOn <= end;
+                            });
+                          }
+                          if (filtered_by_wg.length === 0) {
+                            container.innerHTML = nothing;
+                          }
+                          else {
+                            update();
+                          }
+                        }
+                      </script>
+
+          </html>

@@ -22,3 +22,25 @@
 .mt-dataImport input[type=file] {
     display: none
 }
+.scrollable-ul {
+  height: 200px; /* Set a fixed height */
+  overflow-y: auto; /* Enable vertical scrolling */
+  /*border: 1px solid #ccc;  Optional: Add a border for better visibility */
+  padding: 10px; /* Optional: Add padding */
+  list-style-type: none; /* Optional: Remove default list styles */
+  margin: 0; /* Optional: Remove default margin */
+}
+
+.scrollable-ul li {
+  padding: 5px 0; /* Optional: Add padding to list items */
+}
+.datesets {
+  display: flex;
+  align-items: center;
+}
+.datesets h6 {
+  margin: 0 10px 0 0;
+}
+.datesets input {
+  margin-right: 20px;
+}

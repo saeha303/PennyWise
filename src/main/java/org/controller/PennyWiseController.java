@@ -38,6 +38,12 @@ public class PennyWiseController {
         topExpense=topExpense.subList(0, Math.min(3, topExpense.size()));
         return new ResponseEntity<>(topExpense, HttpStatus.OK);
     }
+    @GetMapping("/report-expense")
+    public ResponseEntity<List<expense>> getReportExpense(@RequestParam String user, @RequestParam String wallet) {
+        // Replace with your actual logic to retrieve net worth
+        List<expense> reportExpense = new expense().getDailyDonutChart(user, wallet);
+        return new ResponseEntity<>(reportExpense, HttpStatus.OK);
+    }
     @PostMapping("/addExpense")
     public ResponseEntity<String> addExpense(@RequestBody expense newExpense) {
         int result = new expense().store(newExpense);

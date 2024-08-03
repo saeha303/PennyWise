@@ -102,27 +102,29 @@
                                             <div class="card info-card customers-card">
 
                                               <div class="filter">
-                                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="ri-filter-2-line"></i><i
-                                                    class="bi bi-three-dots"></i></a>
-                                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" id="top-expense-filter" aria-valuenow="">
-                                                  <li class="dropdown-header text-start" value="filter" aria-selected="true">
+                                                <a class="icon" href="#" data-bs-toggle="dropdown"><i
+                                                    class="ri-filter-2-line"></i><i class="bi bi-three-dots"></i></a>
+                                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
+                                                  id="top-expense-filter" aria-valuenow="">
+                                                  <li class="dropdown-header text-start" value="filter"
+                                                    aria-selected="true">
                                                     <h6>Choose wallet</h6>
                                                   </li>
                                                   <% for(int i=0; i<w_list.size(); i++) { %>
                                                     <% if(i==0 || !w_list.get(i).name.equals(w_list.get(i-1).name)){ %>
-                                                    <li value="<%= w_list.get(i).name %>">
-                                                      <a class="dropdown-item"
-                                                        onclick="document.getElementById('top-expense-filter').value='<%= w_list.get(i).name %>'">
-                                                        
+                                                      <li value="<%= w_list.get(i).name %>">
+                                                        <a class="dropdown-item"
+                                                          onclick="document.getElementById('top-expense-filter').value='<%= w_list.get(i).name %>'">
+
                                                           <%= w.getName(w_list.get(i).name) %>
                                                             <% } %>
-                                                      </a>
-                                                    </li>
-                                                    <% } %>
+                                                        </a>
+                                                      </li>
+                                                      <% } %>
                                                 </ul>
                                               </div>
                                               <div class="card-body">
-                                                <h5 class="card-title" id="te_filter_holder">Top Expense <span 
+                                                <h5 class="card-title" id="te_filter_holder">Top Expense <span
                                                     aria-labelledby="today">|My Wallet</span>
                                                 </h5>
                                                 <div class="fields" id="top-expense-card">
@@ -136,23 +138,25 @@
                                                         <h6>
                                                           <%= dailyReport.get(i).amount %>
                                                         </h6>
-                                                        <span class="text-muted small pt-1 fw-bold"><%= dailyReport.get(i).category %></span></br>
-                                                        <span class="text-danger small pt-1 fw-bold"><%= Math.abs(dailyReport.get(i).wallet) %>%</span> <span
-                                                          class="text-muted small pt-2 ps-1">
+                                                        <span class="text-muted small pt-1 fw-bold">
+                                                          <%= dailyReport.get(i).category %>
+                                                        </span></br>
+                                                        <span class="text-danger small pt-1 fw-bold">
+                                                          <%= Math.abs(dailyReport.get(i).wallet) %>%
+                                                        </span> <span class="text-muted small pt-2 ps-1">
                                                           <% if (dailyReport.get(i).wallet>=0) {%>
-                                                          increase than last month
-                                                          <% } else{%>
-                                                          decrease than last month
-                                                          <% } %>
-                                                          </span>
+                                                            increase than last month
+                                                            <% } else{%>
+                                                              decrease than last month
+                                                              <% } %>
+                                                        </span>
                                                       </div>
                                                     </div>
-                                                    <% }
-                                                    if(dailyReport.size()==0){ %>
+                                                    <% } if(dailyReport.size()==0){ %>
                                                       <h6 class="text-muted">
                                                         No Expenses
                                                       </h6>
-                                                    <% } %>
+                                                      <% } %>
 
                                                 </div>
                                               </div>
@@ -163,59 +167,110 @@
                                           <!-- Reports -->
                                           <div class="col-12">
                                             <!-- <div class="card"> -->
-                                              <div class="card">
+                                            <div class="card">
 
-                                                <div class="filter">
-                                                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="ri-filter-2-line"></i><i
-                                                      class="bi bi-three-dots"></i></a>
-                                                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" id="top-expense-filter" aria-valuenow="">
-                                                    <li class="dropdown-header text-start" value="filter" aria-selected="true">
-                                                      <h6>Choose wallet</h6>
-                                                    </li>
-                                                    <% for(int i=0; i<w_list.size(); i++) { %>
-                                                      <% if(i==0 || !w_list.get(i).name.equals(w_list.get(i-1).name)){ %>
+                                              <div class="filter">
+                                                <a class="icon" href="#" data-bs-toggle="dropdown"><i
+                                                    class="ri-filter-2-line"></i><i class="bi bi-three-dots"></i></a>
+                                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
+                                                  id="report-expense-filter" aria-valuenow="">
+                                                  <li class="dropdown-header text-start" value="filter"
+                                                    aria-selected="true">
+                                                    <h6>Choose wallet</h6>
+                                                  </li>
+                                                  <% for(int i=0; i<w_list.size(); i++) { %>
+                                                    <% if(i==0 || !w_list.get(i).name.equals(w_list.get(i-1).name)){ %>
                                                       <li value="<%= w_list.get(i).name %>">
                                                         <a class="dropdown-item"
-                                                          onclick="document.getElementById('top-expense-filter').value='<%= w_list.get(i).name %>'">
-                                                          
-                                                            <%= w.getName(w_list.get(i).name) %>
-                                                              <% } %>
+                                                          onclick="document.getElementById('report-expense-filter').value='<%= w_list.get(i).name %>'">
+
+                                                          <%= w.getName(w_list.get(i).name) %>
+                                                            <% } %>
                                                         </a>
                                                       </li>
                                                       <% } %>
-                                                  </ul>
-                                                </div>
-
-                                                <div class="card-body">
-                                                  <h5 class="card-title">Report<span> |Today</span></h5>
-
-                                                  <!-- Doughnut Chart -->
-                                                  <canvas id="doughnutChart"
-                                                    style="max-height: 400px; display: block; box-sizing: border-box; height: 400px; width: 642px;"
-                                                    width="964" height="600"></canvas>
-                                                  <script>
-                                                    document.addEventListener("DOMContentLoaded", () => {
-                                                      new Chart(document.querySelector('#doughnutChart'), {
-                                                        type: 'doughnut',
-                                                        data: {
-                                                          labels: [<% for(int i = 0; i<dailyReport.size(); i++) { %> "<%= dailyReport.get(i).category %>",<% } %>
-                                                ],
-                                                      datasets: [{
-                                                        label: 'Spent',
-                                                        data: [<% for(int i = 0; i<dailyReport.size(); i++) { %> "<%= dailyReport.get(i).amount %>",<% } %>],
-                                                    backgroundColor: [
-                                                  <% for (int i = 0; i < dailyReport.size(); i++) { %> "<%= dailyReport.get(i).note %>",<% } %>
-                                                  ],
-                                                    hoverOffset: 4
-                                                }]
-                                              }
-                                            });
-                                          });
-                                                  </script>
-                                                  <!-- End Doughnut CHart -->
-
-                                                </div>
+                                                </ul>
                                               </div>
+
+                                              <div class="card-body">
+                                                <h5 class="card-title" id="re_filter_holder">Report<span> |My
+                                                    Wallet</span></h5>
+
+                                                <!-- Doughnut Chart -->
+                                                <canvas id="doughnutChart"
+                                                  style="max-height: 400px; display: block; box-sizing: border-box; height: 400px; width: 642px;"
+                                                  width="964" height="600"></canvas>
+                                                <script>
+                                                  const reportExpenseFilter = document.getElementById('report-expense-filter');
+                                                  document.addEventListener("DOMContentLoaded", () => {
+                                                    donutChart()
+                                                  });
+                                                  reportExpenseFilter.addEventListener('click', () => {
+                                                    donutChart()
+                                                  });
+                                                  let doughnutChart;
+                                                  function donutChart() {
+
+                                                    let wallet = reportExpenseFilter.value === undefined ? 'My Wallet' : reportExpenseFilter.value
+                                                    let data;
+                                                    let label_list = []
+                                                    let data_list = []
+                                                    let color_list = []
+                                                    // reportExpenseFilter.addEventListener('click', () => {
+                                                    const user = '<%= (String)session.getAttribute("User") %>';
+                                                    console.log(wallet)
+                                                    const text = document.getElementById("re_filter_holder");
+                                                    text.innerHTML = `Report <span>|` + wallet + `</span>`;
+                                                    const xhr = new XMLHttpRequest();
+                                                    console.log(user);
+                                                    const url = "http://localhost:9090/api/report-expense?user=" + user + "&wallet=" + encodeURIComponent(wallet);
+                                                    console.log(url)
+                                                    xhr.open('GET', url, true);
+                                                    xhr.setRequestHeader('Content-Type', 'application/json');
+
+                                                    xhr.onreadystatechange = function () {
+                                                      if (xhr.readyState === XMLHttpRequest.DONE) {
+                                                        if (xhr.status === 200) {
+                                                          data = JSON.parse(xhr.responseText);
+                                                          // if (data.length > 0) {
+                                                            label_list = data.map(expense => expense.category)
+                                                            data_list = data.map(expense => expense.amount)
+                                                            color_list = data.map(expense => expense.note)
+                                                            if (doughnutChart) {
+                                                              doughnutChart.destroy();
+                                                            }
+                                                            doughnutChart = new Chart(document.querySelector('#doughnutChart'), {
+                                                              type: 'doughnut',
+                                                              data: {
+                                                                labels: label_list,
+                                                                datasets: [{
+                                                                  label: 'Spent',
+                                                                  data: data_list,
+                                                                  backgroundColor: color_list,
+                                                                  hoverOffset: 4
+                                                                }]
+                                                              }
+                                                            });
+                                                          // }else{
+                                                          //   if (doughnutChart) {
+                                                          //     doughnutChart.destroy();
+                                                          //   }
+                                                          //   document.querySelector('#doughnutChart').innerHTML=`<h5 class='text-muted'>No Expense</h5>`
+                                                          // }
+                                                          
+                                                        } else {
+                                                          console.error('Error:', xhr.statusText);
+                                                        }
+                                                      }
+                                                    };
+
+                                                    xhr.send();
+                                                  }
+                                                </script>
+                                                <!-- End Doughnut CHart -->
+
+                                              </div>
+                                            </div>
 
                                             <!-- </div> -->
                                           </div><!-- End Reports -->
@@ -363,66 +418,66 @@
                               </main><!-- End #main -->
 
                               <%@ include file="footer.jsp" %>
-                              <script>
-                                document.addEventListener('DOMContentLoaded', () => {
-                                  const topExpenseFilter = document.getElementById('top-expense-filter');
-                                  topExpenseFilter.addEventListener('click', () => {
-                                    const user = '<%= (String)session.getAttribute("User") %>';
-                                    const wallet = topExpenseFilter.value;
-                                    console.log(wallet)
-                                    const text = document.getElementById("te_filter_holder");
-                                    text.innerHTML = `Top Expense <span>|` + wallet + `</span>`;
-                                    const xhr = new XMLHttpRequest();
-                                    console.log(user);
-                                    const url = "http://localhost:9090/api/top-expense?user=" + user + "&wallet=" + encodeURIComponent(wallet);
-                                    console.log(url)
-                                    xhr.open('GET', url, true);
-                                    xhr.setRequestHeader('Content-Type', 'application/json');
-                            
-                                    xhr.onreadystatechange = function () {
-                                      if (xhr.readyState === XMLHttpRequest.DONE) {
-                                        if (xhr.status === 200) {
-                                          const data = JSON.parse(xhr.responseText);
-                                          updateTopExpense(data);
-                                        } else {
-                                          console.error('Error:', xhr.statusText);
+                                <script>
+                                  document.addEventListener('DOMContentLoaded', () => {
+                                    const topExpenseFilter = document.getElementById('top-expense-filter');
+                                    topExpenseFilter.addEventListener('click', () => {
+                                      const user = '<%= (String)session.getAttribute("User") %>';
+                                      const wallet = topExpenseFilter.value;
+                                      console.log(wallet)
+                                      const text = document.getElementById("te_filter_holder");
+                                      text.innerHTML = `Top Expense <span>|` + wallet + `</span>`;
+                                      const xhr = new XMLHttpRequest();
+                                      console.log(user);
+                                      const url = "http://localhost:9090/api/top-expense?user=" + user + "&wallet=" + encodeURIComponent(wallet);
+                                      console.log(url)
+                                      xhr.open('GET', url, true);
+                                      xhr.setRequestHeader('Content-Type', 'application/json');
+
+                                      xhr.onreadystatechange = function () {
+                                        if (xhr.readyState === XMLHttpRequest.DONE) {
+                                          if (xhr.status === 200) {
+                                            const data = JSON.parse(xhr.responseText);
+                                            updateTopExpense(data);
+                                          } else {
+                                            console.error('Error:', xhr.statusText);
+                                          }
                                         }
-                                      }
-                                    };
-                            
-                                    xhr.send();
-                            
-                                  });
-                            
-                                  function updateTopExpense(topExpense) {
-                                    const container = document.getElementById("top-expense-card");
-                                    let html=''
-                                    const part1 = `<div class="field d-flex align-items-center mb-3">
+                                      };
+
+                                      xhr.send();
+
+                                    });
+
+                                    function updateTopExpense(topExpense) {
+                                      const container = document.getElementById("top-expense-card");
+                                      let html = ''
+                                      const part1 = `<div class="field d-flex align-items-center mb-3">
                                                     <div
                                                       class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                                       <i class="bi bi-people"></i>
                                                     </div>
                                                     <div class="ps-3">
                                                     <h6>`;
-                                    for(let i=0;i<topExpense.length;i++){
-                                        const str = topExpense[i].wallet >=0 ? `increase than last month` : `decrease than last month`;
-                                        html+=part1+topExpense[i].amount+
-                                              `</h6>`+`<span class="text-muted small pt-1 fw-bold">`+topExpense[i].category+`</span></br>
-                                              <span class="text-danger small pt-2 fw-bold">`+Math.abs(topExpense[i].wallet)+`%</span> <span
-                                                        class="text-muted small pt-3 ps-1">`+str+` </span>
+                                      for (let i = 0; i < topExpense.length; i++) {
+                                        const str = topExpense[i].wallet >= 0 ? `increase than last month` : `decrease than last month`;
+                                        html += part1 + topExpense[i].amount +
+                                          `</h6>` + `<span class="text-muted small pt-1 fw-bold">` + topExpense[i].category + `</span></br>
+                                              <span class="text-danger small pt-2 fw-bold">`+ Math.abs(topExpense[i].wallet) + `%</span> <span
+                                                        class="text-muted small pt-3 ps-1">`+ str + ` </span>
                                                     </div>
                                                   </div>`;
-                                    }
-                                    if(topExpense.length===0){
-                                      html+=` <h5 class="text-muted">
+                                      }
+                                      if (topExpense.length === 0) {
+                                        html += ` <h5 class="text-muted">
                                                 No Expenses
                                               </h5>`
+                                      }
+                                      container.innerHTML = html;
+
                                     }
-                                    container.innerHTML = html;
-                            
-                                  }
-                                });
-                              </script>
+                                  });
+                                </script>
                         </body>
 
 
