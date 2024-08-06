@@ -26,9 +26,41 @@ public class PennyWiseController {
    }
    @GetMapping("/pages-report")
     public String pagesReport(){
-       System.out.println("I called a ceo??????");
         return "pages-report";
     }
+    @GetMapping("/index")
+    public String index(){
+        return "index";
+    }
+    @GetMapping("/pages-transaction")
+    public String pagesTransaction(){
+        return "pages-transaction";
+    }
+    @GetMapping("/pages-wallets")
+    public String pagesWallets(){
+        return "pages-wallets";
+    }
+    @GetMapping("/pages-settings")
+    public String pagesSettings(){
+        return "pages-settings";
+    }
+    @GetMapping("/users-profile")
+    public String pagesProfile(){
+        return "users-profile";
+    }
+    @GetMapping("/pages-register")
+    public String pagesRegister(){
+        return "pages-register";
+    }
+    @GetMapping("/pages-login")
+    public String pagesLogin(){
+        return "pages-login";
+    }
+    @GetMapping("/pages-special-thanks")
+    public String pagesST(){
+        return "pages-special-thanks";
+    }
+
     @GetMapping("/net-worth")
     public ResponseEntity<List<Integer>> getNetWorth(@RequestParam String user, @RequestParam String wallet) {
         // Replace with your actual logic to retrieve net worth
