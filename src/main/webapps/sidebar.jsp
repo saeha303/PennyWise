@@ -26,7 +26,7 @@
         </li><!-- End Transactions Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
+        <a class="nav-link collapsed" href="pages-report.jsp">
           <i class="bi bi-newspaper"></i>
            <span>Reports</span>
         </a>
