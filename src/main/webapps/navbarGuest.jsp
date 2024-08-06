@@ -19,7 +19,23 @@
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
 
-      <a class="btn-getstarted flex-md-shrink-0" href="index.jsp">Get Started</a>
+      <a class="btn-getstarted flex-md-shrink-0" href="javascript:void(0);" onclick="loadEndpoint('index')">Get Started</a>
 
     </div>
+    <script>
+      function loadEndpoint(str) {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', 'http://localhost:9090/api/'+str, true);
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+              window.location.href = 'http://localhost:8080/PennyWiseJF/'+str;
+            } else {
+              console.error('Error:', xhr.statusText);
+            }
+          }
+        };
+        xhr.send();
+      }
+    </script>
   </header>

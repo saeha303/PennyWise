@@ -4,18 +4,108 @@
    
   <welcome-file-list>
     <welcome-file>indexGuest.jsp</welcome-file>
-    <welcome-file>sign.jsp</welcome-file>
-    <welcome-file>reg.jsp</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>login.jsp</welcome-file>
-    <welcome-file>validate.jsp</welcome-file>
-    <welcome-file>onboard.jsp</welcome-file>
-     <welcome-file>ontake.jsp</welcome-file>
-     <welcome-file>planupd.jsp</welcome-file>
-    <welcome-file>acdetail.html</welcome-file>
-    <welcome-file>main.jsp</welcome-file>
-    <welcome-file>report.jsp</welcome-file>
    
   </welcome-file-list>
    
+<!-- JSP Servlet -->
+  <servlet>
+    <servlet-name>jsp</servlet-name>
+    <servlet-class>org.apache.jasper.servlet.JspServlet</servlet-class>
+    <init-param>
+      <param-name>fork</param-name>
+      <param-value>false</param-value>
+    </init-param>
+    <load-on-startup>3</load-on-startup>
+  </servlet>
+
+  <!-- JSP Servlet Mapping -->
+  <servlet-mapping>
+    <servlet-name>jsp</servlet-name>
+    <url-pattern>*.jsp</url-pattern>
+  </servlet-mapping>
+
+  <!-- Pretty URL Mapping -->
+  <servlet>
+    <servlet-name>pagesReport</servlet-name>
+    <jsp-file>/pages-report.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>pagesReport</servlet-name>
+    <url-pattern>/pages-report</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>index</servlet-name>
+    <jsp-file>/index.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>index</servlet-name>
+    <url-pattern>/index</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>pagesTransaction</servlet-name>
+    <jsp-file>/pages-transaction.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>pagesTransaction</servlet-name>
+    <url-pattern>/pages-transaction</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>pagesWallets</servlet-name>
+    <jsp-file>/pages-wallets.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>pagesWallets</servlet-name>
+    <url-pattern>/pages-wallets</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>pagesSettings</servlet-name>
+    <jsp-file>/pages-settings.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>pagesSettings</servlet-name>
+    <url-pattern>/pages-settings</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>pagesProfile</servlet-name>
+    <jsp-file>/users-profile.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>pagesProfile</servlet-name>
+    <url-pattern>/users-profile</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>pagesRegister</servlet-name>
+    <jsp-file>/pages-register.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>pagesRegister</servlet-name>
+    <url-pattern>/pages-register</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>pagesLogin</servlet-name>
+    <jsp-file>/pages-login.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>pagesLogin</servlet-name>
+    <url-pattern>/pages-login</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>pagesST</servlet-name>
+    <jsp-file>/pages-special-thanks.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>pagesST</servlet-name>
+    <url-pattern>/pages-special-thanks</url-pattern>
+  </servlet-mapping>
 </web-app>
