@@ -24,7 +24,11 @@ public class PennyWiseController {
    public PennyWiseController() {
 
    }
-   
+   @GetMapping("/pages-report")
+    public String pagesReport(){
+       System.out.println("I called a ceo??????");
+        return "pages-report";
+    }
     @GetMapping("/net-worth")
     public ResponseEntity<List<Integer>> getNetWorth(@RequestParam String user, @RequestParam String wallet) {
         // Replace with your actual logic to retrieve net worth

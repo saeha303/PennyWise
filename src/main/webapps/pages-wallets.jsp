@@ -7,8 +7,6 @@
         <%@ include file="header.jsp" %>
           <% String user=(String)session.getAttribute("User"); wallet wal=new wallet(); List<wallet>
             w_list=wal.getWallets(user);
-            System.out.println("pages-transaction "+user);
-            System.out.println(w_list);
             %>
 
             <body>
@@ -122,7 +120,7 @@
                                 <li class="list-group-item d-flex justify-content-between align-items-start">
                                   <div class="ms-2 me-auto">
                                     <div class="fw-bold">
-                                      <%= w.name %>
+                                      <%= w.getName(w.name) %>
                                     </div>
                                     <%= w.type %><br />
                                       <%= w.type_unique_name %><br />
