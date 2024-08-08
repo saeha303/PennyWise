@@ -60,6 +60,10 @@ public class PennyWiseController {
     public String pagesST(){
         return "pages-special-thanks";
     }
+    @GetMapping("/pages-recurring-exp")
+    public String pagesRecurExp(){
+        return "pages-recurring-exp";
+    }
 
     @GetMapping("/net-worth")
     public ResponseEntity<List<Integer>> getNetWorth(@RequestParam String user, @RequestParam String wallet) {

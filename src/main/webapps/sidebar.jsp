@@ -18,6 +18,14 @@
         </a>
       </li><!-- End Transactions Page Nav -->
 
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="javascript:void(0);" onclick="loadEndpoint('pages-recurring-exp')">
+          <i class="ri-repeat-one-line"></i>
+          <span>Recurring Expenses</span>
+        </a>
+      </li>
+      <!-- End Contact Page Nav -->
+
         <li class="nav-item">
           <a class="nav-link collapsed" href="javascript:void(0);" onclick="loadEndpoint('pages-wallets')">
             <i class="bi bi-person-vcard"></i>
@@ -52,14 +60,6 @@
           <span>Profile</span>
         </a>
       </li><!-- End Profile Page Nav -->
-
-      <!-- <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-contact.html">
-          <i class="bi bi-envelope"></i>
-          <span>Contact</span>
-        </a>
-      </li> -->
-      <!-- End Contact Page Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="javascript:void(0);" onclick="loadEndpoint('pages-register')">

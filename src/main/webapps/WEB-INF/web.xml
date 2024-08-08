@@ -108,4 +108,13 @@
     <servlet-name>pagesST</servlet-name>
     <url-pattern>/pages-special-thanks</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>pagesRecurExp</servlet-name>
+    <jsp-file>/pages-recurring-exp.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>pagesRecurExp</servlet-name>
+    <url-pattern>/pages-recurring-exp</url-pattern>
+  </servlet-mapping>
 </web-app>
