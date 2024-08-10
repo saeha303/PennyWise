@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS public."Recurring_expense"
 (
     id serial NOT NULL,
     username character varying(255) COLLATE pg_catalog."default" NOT NULL,
-    wallet bigint NOT NULL,
+    wallet character varying(255)  NOT NULL,
     amount bigint NOT NULL,
     category character varying(255) COLLATE pg_catalog."default" NOT NULL,
     frequency character varying(25) COLLATE pg_catalog."default" NOT NULL,
@@ -21,10 +21,6 @@ CREATE TABLE IF NOT EXISTS public."Recurring_expense"
         ON DELETE NO ACTION,
     FOREIGN KEY (username)
         REFERENCES public."User" (username) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
-    FOREIGN KEY (wallet)
-        REFERENCES public."Wallet" (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )

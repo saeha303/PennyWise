@@ -3,6 +3,7 @@ import java.util.List;
 
 import org.expense.expense;
 import org.income.income;
+import org.expense.recurring;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -96,6 +97,20 @@ public class PennyWiseController {
             System.out.println("case 2");
             // If the store method returns 3 (failure), return HTTP 500 Internal Server Error
             return new ResponseEntity<>("Failed to add expense", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @PostMapping("/addRecurExpense")
+    public ResponseEntity<String> addRecurExpense(@RequestBody recurring newExpense) {
+        int result = new recurring().store(newExpense);
+        System.out.println("in controller: "+result);
+        if (result == 1) {
+            System.out.println("case 1");
+            // If the store method returns 1 (success), return HTTP 200 OK
+            return new ResponseEntity<>("Recurring expense added successfully", HttpStatus.OK);
+        } else {
+            System.out.println("case 2");
+            // If the store method returns 3 (failure), return HTTP 500 Internal Server Error
+            return new ResponseEntity<>("Failed to add recurring expense", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     @PostMapping("/addIncome")

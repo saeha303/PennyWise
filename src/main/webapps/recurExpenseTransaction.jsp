@@ -55,18 +55,16 @@
   var recurObjects = <%= new Gson().toJson(recur_list) %>;
   let selectedWalletObjects;
   function updateGroupOptions(setNumber) {
-    var walletId =parseInt(document.getElementById("vernon").value,10) ;
-    console.log(walletId)
-    var selectedName = walletObjects.filter(function (wallet) {
-      return wallet.id === walletId;
-    });
-    selectedName=selectedName[0].name
+    var selectedName =document.getElementById("vernon").value ;
+    // selectedName = selectedName.replace(/\\/g, '');
     console.log(selectedName)
+    
     var groupSelect = document.getElementById("groupSelect" + setNumber);
     groupSelect.innerHTML = '<option disabled selected>--Select Group--</option>';
 
     selectedWalletObjects = walletObjects.filter(function (wallet) {
-      return wallet.name === selectedName;
+      
+      return wallet.name.replace(/\\/g, '') === selectedName;
     });
 
     let prev = '';
@@ -79,7 +77,6 @@
         prev = wallet.type;
       }
     });
-    updateGroupDescOptions(setNumber)
   }
   function updateGroupDescOptions(setNumber) {
     var grpSelect = document.getElementById("groupSelect" + setNumber);
@@ -101,7 +98,6 @@
         prev = wallet.type_unique_name;
       }
     });
-    updateGroupNumberOptions(setNumber)
   }
   function updateGroupNumberOptions(setNumber) {
     var grpDescSelect = document.getElementById("groupDescSelect" + setNumber);
@@ -155,7 +151,7 @@
     const username = '<%= (String)session.getAttribute("User") %>'
     const category =recurObjects[parseInt(document.getElementById("joshua").value)].category 
     const note = recurObjects[parseInt(document.getElementById("joshua").value)].details 
-    const wallet = parseInt(document.getElementById("vernon").value)
+    const wallet = document.getElementById("selectedWalletID6").value
     const amount = recurObjects[parseInt(document.getElementById("joshua").value)].amount 
     const spent_on = recurObjects[parseInt(document.getElementById("joshua").value)].start_date +' '+recurObjects[parseInt(document.getElementById("joshua").value)].time
     // Create a JSON object from form data

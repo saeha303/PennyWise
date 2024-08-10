@@ -2,15 +2,13 @@ package org.expense;
 
 import org.db.database;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.math.BigDecimal;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class recurring {
-    public int id, wallet, amount;
+    public int id, amount;
 
     @Override
     public String toString() {
@@ -28,7 +26,14 @@ public class recurring {
                 '}';
     }
 
-    public String username, category, details, frequency,start_date,end_date,time;
+    public String username, wallet, category, details, frequency,start_date,end_date,time;
+    public String getName(String str){
+        StringBuilder stringBuffer=new StringBuilder(str);
+        int idx=stringBuffer.indexOf("\\");
+        if(idx>=0)
+            return new String(stringBuffer.deleteCharAt(idx));
+        return str;
+    }
     public List<recurring> getRecurExpenses(String username){
         List<recurring> result=new ArrayList<>();
         try
@@ -47,7 +52,13 @@ public class recurring {
                 w.amount=rt.getInt("amount");
                 w.details=rt.getString("details");
                 w.frequency=rt.getString("frequency");
-                w.wallet=rt.getInt("wallet");
+                String str=rt.getString("wallet");
+                StringBuilder stringBuffer=new StringBuilder(str);
+                int idx=stringBuffer.indexOf("'");
+                if(idx>=0)
+                    stringBuffer.insert(idx,"\\");
+                w.wallet=new String(stringBuffer);
+                System.out.println(w.wallet);
                 w.username=rt.getString("username");//
                 w.start_date=rt.getString("time_of_remainder").split(" ")[0];
                 w.end_date=rt.getString("end_date");
@@ -59,5 +70,40 @@ public class recurring {
         catch (SQLException exception) {
         }
         return result;
+    }
+    public int store(recurring newExpense) {
+        Connection con = null;
+        PreparedStatement pst = null;
+        try {
+            database dm = new database();
+            con = dm.getConnect();
+//			return 1;
+            pst = con.prepareStatement("INSERT INTO public.\"Recurring_expense\" (username, wallet, amount, category, frequency, start_date, end_date, time_of_remainder, details)\n" +
+                    "VALUES \n" +
+                    "(?, ?, ?, ?, ?, ?, ?, ?, ?);");
+
+            pst.setString(1, newExpense.username);
+            pst.setString(2, newExpense.category);
+            pst.setBigDecimal(3, BigDecimal.valueOf(newExpense.amount));
+            pst.setString(4, newExpense.category); // Adjust if necessary
+            pst.setString(5, newExpense.frequency);
+            pst.setDate(6, Date.valueOf(newExpense.start_date)); // Adjust if necessary
+            pst.setDate(7, Date.valueOf(newExpense.end_date));
+            pst.setTimestamp(8, Timestamp.valueOf(newExpense.time));
+            pst.setString(9, newExpense.details);
+            int rowsAffected = pst.executeUpdate();
+            System.out.println(rowsAffected);
+            return rowsAffected > 0 ? 1 : 0;
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+            return 3;
+        } finally {
+            // Close resources
+            try {
+                if (pst != null) pst.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
