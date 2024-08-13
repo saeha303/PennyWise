@@ -316,4 +316,57 @@
     }, 200);
   }
 
+  document.getElementById('search-form').addEventListener('submit', async function(event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    // Get the search query
+    const query = document.querySelector('input[name="query"]').value;
+
+    // Fetch results from the server
+    try {
+        const response = await fetch(`http://localhost:9090/api/search?query=${encodeURIComponent(query)}`);
+        if (!response.ok) throw new Error('Network response was not ok.');
+
+        const data = await response.json();
+        displayResults(data);
+    } catch (error) {
+        console.error('Error fetching search results:', error);
+        document.getElementById('results-container').innerHTML = '<p>Sorry, there was an error fetching the results.</p>';
+    }
+});
+
+function displayResults(items) {
+    const resultsContainer = document.getElementById('results-container');
+    resultsContainer.innerHTML = ''; // Clear previous results
+    const dd_container=document.createElement('div');
+    dd_container.className = 'search-dropdown';
+    resultsContainer.appendChild(dd_container);
+    if (items.length === 0) {
+      dd_container.innerHTML = `
+        <div class="search-item">
+        <p>No results found.1<br>
+        No results found.2<br>
+        No results found.3</p>
+        </div>
+        <div class="search-item">
+        <p>No results found.1<br>
+        No results found.2<br>
+        No results found.3</p>
+        </div>
+        `;
+        return;
+    }
+
+    // Generate HTML for the items
+    items.forEach(item => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'search-item';
+        itemDiv.innerHTML = `
+            <p>Category: ${item.category}</p><br>
+            <p>Description: ${item.note}</p><br>
+            <p>Amount: ${item.amount}</p>
+        `;
+        resultsContainer.appendChild(itemDiv);
+    });
+}
 })();
