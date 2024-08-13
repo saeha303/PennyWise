@@ -422,6 +422,7 @@ h6 {
 }
 
 .header .search-form {
+  position: relative;
   width: 100%;
 }
 

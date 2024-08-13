@@ -44,3 +44,27 @@
 .datesets input {
   margin-right: 20px;
 }
+.search-item{
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  height: auto;
+}
+.header .search-dropdown{
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 100%; 
+  left: 0;
+  z-index: 1;
+  list-style: none;
+  border: 1px solid rgba(1, 41, 112, 0.2);
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 0;
+  font-size: 15px;
+  width: 100%;
+  color: #012970;
+  padding: 7px 7px 7px 8px;
+  border-radius: 3px;
+}
