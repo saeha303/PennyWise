@@ -1,8 +1,3 @@
-table creation serial- User->Category->Budget->Wallet->Expense->Income
-insert in User and Category
-change password in john_doe
-
-
 
 #### Always run tomcat after you change the backend (.java) files
 #### Always refresh the browser, use ctrl+F5
@@ -30,9 +25,6 @@ BUDGET
 SETTINGS
 11. Data import, export and shit
 
-NO AI, wait for internet
-how to create endpoint
-
 ============================================================DATABASE CONNECTION
 1. Connect to database
 2. install postgresql
@@ -40,6 +32,11 @@ how to create endpoint
 4. make a database, name it PennyWise, you will see a schema named public, create the tables inside it
 5. run query for creating and inserting data, table creation serial- User->Category->Budget->Wallet->Expense->Income->RecurringExpenses, insert data after creating each table
 6. take help of chateu gpteu or give me a message if shit doesn't work
+
+FOR ARONNO:
+1. the Reports and Budget pages are not done, start with that, take help from other pages for components, or for fresh samples keep the index.html
+open on the browser from the 'NICE ADMIN' project and copy-paste whatever you need
+2. Later habibi... happy frontend journey
 
 
 

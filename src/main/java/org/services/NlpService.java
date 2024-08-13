@@ -45,7 +45,7 @@ public class NlpService {
             return tokens[span.getStart()];
         }
         String[] array=Span.spansToStrings(spans,tokens);
-        
+
         for(String s:array){
             System.out.println(s);
         }
