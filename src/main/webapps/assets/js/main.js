@@ -369,4 +369,7 @@ function displayResults(items) {
         resultsContainer.appendChild(itemDiv);
     });
 }
+
+
+
 })();

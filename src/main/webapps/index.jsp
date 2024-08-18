@@ -233,31 +233,31 @@
                                                         if (xhr.status === 200) {
                                                           data = JSON.parse(xhr.responseText);
                                                           // if (data.length > 0) {
-                                                            label_list = data.map(expense => expense.category)
-                                                            data_list = data.map(expense => expense.amount)
-                                                            color_list = data.map(expense => expense.note)
-                                                            if (doughnutChart) {
-                                                              doughnutChart.destroy();
+                                                          label_list = data.map(expense => expense.category)
+                                                          data_list = data.map(expense => expense.amount)
+                                                          color_list = data.map(expense => expense.note)
+                                                          if (doughnutChart) {
+                                                            doughnutChart.destroy();
+                                                          }
+                                                          doughnutChart = new Chart(document.querySelector('#doughnutChart'), {
+                                                            type: 'doughnut',
+                                                            data: {
+                                                              labels: label_list,
+                                                              datasets: [{
+                                                                label: 'Spent',
+                                                                data: data_list,
+                                                                backgroundColor: color_list,
+                                                                hoverOffset: 4
+                                                              }]
                                                             }
-                                                            doughnutChart = new Chart(document.querySelector('#doughnutChart'), {
-                                                              type: 'doughnut',
-                                                              data: {
-                                                                labels: label_list,
-                                                                datasets: [{
-                                                                  label: 'Spent',
-                                                                  data: data_list,
-                                                                  backgroundColor: color_list,
-                                                                  hoverOffset: 4
-                                                                }]
-                                                              }
-                                                            });
+                                                          });
                                                           // }else{
                                                           //   if (doughnutChart) {
                                                           //     doughnutChart.destroy();
                                                           //   }
                                                           //   document.querySelector('#doughnutChart').innerHTML=`<h5 class='text-muted'>No Expense</h5>`
                                                           // }
-                                                          
+
                                                         } else {
                                                           console.error('Error:', xhr.statusText);
                                                         }
@@ -419,6 +419,27 @@
 
                               <%@ include file="footer.jsp" %>
                                 <script>
+                                  document.addEventListener('DOMContentLoaded', function () {
+                                    const searchInput = document.querySelector('input[name="query"]');
+                                    const searchDropdown = document.getElementById('results-container');
+                                    console.log(searchInput)
+
+                                    console.log(searchDropdown)
+                                    // Show dropdown when input is focused
+                                    searchInput.addEventListener('focus', function () {
+                                      searchDropdown.style.display = 'block';
+                                    });
+
+                                    // Hide dropdown when mouse leaves the search area
+                                    document.addEventListener('click', function (event) {
+                                      const isClickInside = searchInput.contains(event.target) || searchDropdown.contains(event.target);
+
+                                      if (!isClickInside) {
+                                        searchDropdown.style.display = 'none';
+                                      }
+                                    });
+                                  });
+
                                   document.addEventListener('DOMContentLoaded', () => {
                                     const topExpenseFilter = document.getElementById('top-expense-filter');
                                     topExpenseFilter.addEventListener('click', () => {
