@@ -22,7 +22,7 @@ public class NlpService {
     public NlpService() {
         try  {
 
-            InputStream modelIn1 = new FileInputStream("C:\\Users\\hp\\Desktop\\javafest\\PennyWiseJF\\src\\main\\java\\org\\models\\en-ner-date.bin");
+            InputStream modelIn1 = new FileInputStream("C:\\Users\\hp\\Desktop\\javafest\\PennyWiseJF\\src\\main\\java\\org\\models\\en-ner-time.bin");
             InputStream modelIn2 = new FileInputStream("C:\\Users\\hp\\Desktop\\javafest\\PennyWiseJF\\src\\main\\java\\org\\models\\en-token.bin");
             TokenizerModel model2 = new TokenizerModel(modelIn2);
             TokenNameFinderModel model1 = new TokenNameFinderModel(modelIn1);
@@ -35,7 +35,7 @@ public class NlpService {
     }
 
     public String extractDate(String query) {
-        String[] tokens = tokenizer.tokenize("12:18 is a famous book by Colin Hoover");
+        String[] tokens = tokenizer.tokenize("July is a famous book by Colin Hoover");
         for(String s:tokens){
             System.out.println(s);
         }

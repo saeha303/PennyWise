@@ -12,7 +12,6 @@ import org.expense.*;
 public class Main {
     public static void main(String[] args) throws IOException {
         System.out.println("Hello world!");
-        InputStream modelIn = Main.class.getResourceAsStream("C:\\Users\\hp\\Desktop\\javafest\\PennyWiseJF\\src\\main\\java\\org\\models\\en-ner-date.bin");
-        System.out.println(modelIn);
+        new expense().updateFau();
     }
 }

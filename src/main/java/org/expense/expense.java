@@ -81,6 +81,28 @@ public class expense {
 				.append(strDayPrefix).append(day));
 		return strMonthYear;
 	}
+	public String getYesterday(){
+		Calendar now = Calendar.getInstance();
+		int year = now.get(Calendar.YEAR);
+		int month = now.get(Calendar.MONTH);
+		int day=now.get(Calendar.DATE);
+		String strMonthYear="", strMonthPrefix ="",strDayPrefix="";
+
+		if(month <= 9 ){
+			strMonthPrefix = "-0";
+		}else{
+			strMonthPrefix = "-";
+		}
+		if(day-1<=9){
+			strDayPrefix = "-0";
+		}else{
+			strDayPrefix = "-";
+		}
+		strMonthYear =  new String(new StringBuilder()
+				.append(year).append(strMonthPrefix).append(month + 1)         // Month is 0 based, just add 1
+				.append(strDayPrefix).append(day-1));
+		return strMonthYear;
+	}
 	public List<expense> getRecentActivity(String username){
 		List<expense> result=new ArrayList<>();
 		Calendar now = Calendar.getInstance();
@@ -338,8 +360,8 @@ public class expense {
 			database dm = new database();
 			con = dm.getConnect();
 			String query="UPDATE public.\"Expense\"\n" +
-					"SET spent_on = '2024-08-03'::date + spent_on::time\n" +
-					"WHERE spent_on::date = '2024-08-02'\n" +
+					"SET spent_on = '"+getToday()+"'::date + spent_on::time\n" +
+					"WHERE spent_on::date = '"+getYesterday()+"'\n" +
 					"AND username = 'john_doe';";
 			System.out.println(query);
 			Statement st = con.createStatement();
