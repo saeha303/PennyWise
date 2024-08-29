@@ -23,7 +23,11 @@ open on the browser from the 'NICE ADMIN' project and copy-paste whatever you ne
 5. change any one of the budget tables end date to 31-8-2024, there is a little logical problem, I'll tell you later in meeting
 
 
-
+python ./src/main/resources/python/api.py
+python ./src/main/resources/python/data-generation.py
+python ./src/main/resources/python/budget-training.py
+python ./src/main/resources/python/budget-predict.py
+.\myenv\Scripts\activate
 
 
 

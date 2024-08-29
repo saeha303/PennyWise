@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS public."Budget"
     start_date date NOT NULL,
     end_date date NOT NULL,
     amount bigint NOT NULL,
-    CONSTRAINT "Budget_pkey" PRIMARY KEY (username),
+    CONSTRAINT "Budget_pkey" PRIMARY KEY (username, wallet),
     CONSTRAINT "Budget_username_fkey" FOREIGN KEY (username)
         REFERENCES public."User" (username) MATCH SIMPLE
         ON UPDATE NO ACTION

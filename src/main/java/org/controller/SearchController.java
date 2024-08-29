@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.expense.expense;
 import org.services.FuzzySearchService;
-import org.services.NlpService;
+import org.services.AiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,21 +18,26 @@ public class SearchController {
     private FuzzySearchService fuzzySearchService=new FuzzySearchService();
 
     @Autowired
-    private NlpService nlpService=new NlpService();
+    private AiService aiService=new AiService();
 
     @GetMapping("/search")
-    public List<expense> searchExpenses(@RequestParam String query) {
-        try {
-            String date = nlpService.extractDate(query);
-            if (date != null) {
-                // Handle date-based search if necessary
-                System.out.println(date);
-            }
-            return fuzzySearchService.search(query);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Collections.emptyList();
-        }
+    public String searchExpenses(@RequestParam String query) {
+        // return aiService.processQuery(query);
+        return "None";
     }
+//    public List<expense> searchExpenses(@RequestParam String query) {
+//        // try {
+//        //     String date = nlpService.extractDate(query);
+//        //     if (date != null) {
+//        //         // Handle date-based search if necessary
+//        //         System.out.println(date);
+//        //     }
+//        //     return fuzzySearchService.search(query);
+//        // } catch (Exception e) {
+//        //     e.printStackTrace();
+//        //     return Collections.emptyList();
+//        // }
+//        return nlpService.processQuery(query);
+//    }
 }
 

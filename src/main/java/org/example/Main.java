@@ -12,6 +12,7 @@ import org.expense.*;
 public class Main {
     public static void main(String[] args) throws IOException {
         System.out.println("Hello world!");
-        new expense().updateFau();
+        System.out.println(new budget().budgetPredictReal("john_doe","Dad's Wallet"));
+        System.out.println('\n');
     }
 }

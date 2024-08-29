@@ -1,13 +1,18 @@
 package org.controller;
 import java.util.List;
 
-import org.expense.expense;
-import org.expense.recurring;
+import org.expense.*;
 import org.income.income;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 //
 @CrossOrigin(origins = "http://localhost:8080")
@@ -66,6 +71,12 @@ public class PennyWiseController {
         List<Integer> netWorth = new expense().getNetWorth(user, wallet);
         return new ResponseEntity<>(netWorth, HttpStatus.OK);
     }
+    @GetMapping("/budget-report")
+    public ResponseEntity<List<Integer>> getBudgetReport(@RequestParam String user, @RequestParam String wallet) {
+        // Replace with your actual logic to retrieve net worth
+        List<Integer> budget = new budget().budgetPredictReal(user, wallet);
+        return new ResponseEntity<>(budget, HttpStatus.OK);
+    }
     @GetMapping("/top-expense")
     public ResponseEntity<List<expense>> getTopExpense(@RequestParam String user, @RequestParam String wallet) {
         // Replace with your actual logic to retrieve net worth
@@ -77,6 +88,12 @@ public class PennyWiseController {
     public ResponseEntity<List<expense>> getReportExpense(@RequestParam String user, @RequestParam String wallet) {
         // Replace with your actual logic to retrieve net worth
         List<expense> reportExpense = new expense().getDailyDonutChart(user, wallet);
+        return new ResponseEntity<>(reportExpense, HttpStatus.OK);
+    }
+    @GetMapping("/report-expense-super-bar")
+    public ResponseEntity<List<expense>> getReportBar(@RequestParam String user, @RequestParam String wallet, @RequestParam String month) {
+        // Replace with your actual logic to retrieve net worth
+        List<expense> reportExpense = new expense().getMonthlyBar(user, wallet, month);
         return new ResponseEntity<>(reportExpense, HttpStatus.OK);
     }
     @PostMapping("/addExpense")
