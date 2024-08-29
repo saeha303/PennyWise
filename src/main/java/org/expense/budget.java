@@ -1,5 +1,6 @@
 package org.expense;
 
+import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,8 +8,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import org.db.database;
+import org.json.JSONObject;
 
 public class budget {
 	public int id, wallet, amount;
@@ -47,33 +52,77 @@ public class budget {
 		}
 		return str;
 	}
-	public budget getBudget(String username,String wallet){
-		budget b=new budget();
-		String strMonthYear=getToday();
+	public List<Integer> getBudget(String username,String wallet){
+//		budget b=new budget();
+//		String strMonthYear=getToday();
+		List<Integer> result=new ArrayList<>();
+		int id=0;
 		try
 		{
 			database dm=new database();
 			Connection con=dm.getConnect();
 			Statement st=con.createStatement();
 			wallet=correctApostrophe(wallet);
-			String querycheck="select * from public.\"Budget\" where wallet in (select id from public.\"Wallet\" where username='"+username+"' and name='"+wallet+"') and '"+strMonthYear+"' between start_date and end_date";
+			String querycheck="select id,name from public.\"Wallet\" where username='"+username+"' and name='"+wallet+"'";
 			System.out.println(querycheck);
 			ResultSet rt=st.executeQuery(querycheck);
-			if(rt.next())
+			while(rt.next())
 			{
-				b.id=rt.getInt("id");
-				b.username=rt.getString("username");
-				b.wallet=rt.getInt("wallet");
-				b.startDate=rt.getString("start_date");
-				b.endDate=rt.getString("end_date");
-				b.amount=rt.getInt("amount");
+				if(rt.getString(("name")).equals(wallet)){
+					id=rt.getInt("id");
+				}
 			}
-
-			System.out.println(b);
 		}
 		catch (SQLException exception) {
 		}
-		return b;
+//		return b;
+
+		try {
+		// 1. Send a request to the Python API
+		String apiUrl = "http://localhost:5000/predict-budget";  // Replace with your actual API URL
+		URL url = new URL(apiUrl);
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setRequestMethod("POST");
+		conn.setRequestProperty("Content-Type", "application/json");
+
+		// Add the JSON data to the request (username, wallet, month)
+		conn.setDoOutput(true);
+		String jsonInputString = "{"
+				+ "\"username\": \""+username+"\","
+				+ "\"wallet\": \""+id+"\","
+				+ "\"month\": "+Calendar.getInstance().get(Calendar.MONTH)+1
+				+ "}";
+		conn.getOutputStream().write(jsonInputString.getBytes("UTF-8"));
+
+		// 2. Read the response
+		BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+		String inputLine;
+		StringBuilder content = new StringBuilder();
+		while ((inputLine = in.readLine()) != null) {
+			content.append(inputLine);
+		}
+
+		// Close the connections
+		in.close();
+		conn.disconnect();
+
+		// 3. Parse the JSON response
+		JSONObject jsonResponse = new JSONObject(content.toString());
+
+		// 4. Extract the values and store them in a list
+		for (String key : jsonResponse.keySet()) {
+
+			double budgetValue = jsonResponse.getDouble(key);
+			result.add((int) budgetValue);
+		}
+
+		// Print the extracted list
+		System.out.println("Predicted Budgets: " + result);
+
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+		return result;
 	}
 
 	public List<String> getStartEndDate(String username,String wallet){
@@ -115,9 +164,9 @@ public class budget {
 				'}';
 	}
 
-	public List<budget> getActualSpending(String username, String wallet){
+	public List<Integer> getActualSpending(String username, String wallet){
 //		budget b=new budget();
-		List<budget> result=new ArrayList<>();
+		List<Integer> result=new ArrayList<>();
 		List<String> b_list=new budget().getStartEndDate(username,wallet);
 		String strMonthYear=getToday();
 		try
@@ -132,18 +181,21 @@ public class budget {
 				ResultSet rt=st.executeQuery(querycheck);
 				while(rt.next())
 				{
-					budget b=new budget();
-					b.wallet=rt.getInt("amount");
-					b.startDate=rt.getString("falls_under");//using as falls_under
-					result.add(b);
+					result.add((int)rt.getInt("amount"));
 				}
 
-				System.out.println(result);
+				System.out.println("Actual spending:"+result);
 			}
 
 		}
 		catch (SQLException exception) {
 		}
+		return result;
+	}
+	public List<Integer> budgetPredictReal(String username, String wallet){
+		List<Integer> result=new ArrayList<>();
+		result.addAll(getBudget(username,wallet));
+		result.addAll(getActualSpending(username,wallet));
 		return result;
 	}
 }

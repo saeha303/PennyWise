@@ -92,7 +92,7 @@
 
   </div>
 </div>
-<input type="hidden" id="_selectedWalletID" value="">
+<input type="hidden" id="selectedWalletID2" value="">
 <script>
   function addIncome(event) {
     event.preventDefault();
