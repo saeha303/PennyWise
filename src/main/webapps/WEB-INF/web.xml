@@ -117,4 +117,13 @@
     <servlet-name>pagesRecurExp</servlet-name>
     <url-pattern>/pages-recurring-exp</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>pagesBudget</servlet-name>
+    <jsp-file>/pages-budget.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>pagesBudget</servlet-name>
+    <url-pattern>/pages-budget</url-pattern>
+  </servlet-mapping>
 </web-app>

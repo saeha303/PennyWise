@@ -38,7 +38,7 @@ public class signin {
             Connection con = dm.getConnect();
             String query = "Insert into public.\"User\"(username, email, first_name, last_name, password_hash) values('" + username + "','" + email + "','" + fn + "','" + ln + "','" + enc + "')";
             Statement st = con.createStatement();
-            String query2 = "Insert into public.\"Wallet\"(username, name) values('" + username + "','My Wallet')";
+            String query2 = "Insert into public.\"Wallet\"(username, name, amount, type,type_unique_name,type_unique_nunmber) values('" + username + "','My Wallet','0','Cash','','')";
             System.out.println(query2);
             String querycheck = "Select * from public.\"User\" where username='" + username + "'";
             System.out.println(querycheck);

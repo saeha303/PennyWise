@@ -40,3 +40,4 @@ build/
 .smarttomcat
 myenv/
 get-pip.py
+command.txt

@@ -1,7 +1,9 @@
 package org.controller;
 import java.util.List;
 
-import org.expense.*;
+import org.expense.budget;
+import org.expense.expense;
+import org.expense.recurring;
 import org.income.income;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -64,6 +66,10 @@ public class PennyWiseController {
     public String pagesRecurExp(){
         return "pages-recurring-exp";
     }
+    @GetMapping("/pages-budget")
+    public String pagesBudget(){
+        return "pages-budget";
+    }
 
     @GetMapping("/net-worth")
     public ResponseEntity<List<Integer>> getNetWorth(@RequestParam String user, @RequestParam String wallet) {
@@ -122,6 +128,20 @@ public class PennyWiseController {
             System.out.println("case 2");
             // If the store method returns 3 (failure), return HTTP 500 Internal Server Error
             return new ResponseEntity<>("Failed to add recurring expense", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @PostMapping("/addBudget")
+    public ResponseEntity<String> addBudget(@RequestBody budget newExpense) {
+        int result = new budget().store(newExpense);
+        System.out.println("in controller: "+result);
+        if (result == 1) {
+            System.out.println("case 1");
+            // If the store method returns 1 (success), return HTTP 200 OK
+            return new ResponseEntity<>("Budget added successfully", HttpStatus.OK);
+        } else {
+            System.out.println("case 2");
+            // If the store method returns 3 (failure), return HTTP 500 Internal Server Error
+            return new ResponseEntity<>("Failed to add budget", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     @PostMapping("/addIncome")
