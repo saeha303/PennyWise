@@ -112,10 +112,6 @@
                                               aria-controls="pills-profile" aria-selected="false" tabindex="-1"><i
                                                 class="bi bi-calendar"></i></button>
                                           </li>
-                                          <li>
-                                            <button class="nav-link" data-bs-toggle="pill" type="button"
-                                              aria-selected="false"><i class="ri-refresh-line"></i></button>
-                                          </li>
 
                                         </ul>
                                         <div class="tab-content pt-2" id="myTabContent">

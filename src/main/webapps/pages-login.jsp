@@ -114,7 +114,7 @@
           window.location="index.jsp"
         } else if (response === "2") {
           alert("Password and Username mismatches");
-		      window.location="login.jsp";
+		      window.location="pages-login.jsp";
         } else if (response === "4") {
           alert("Username does not exists!!!!");
 		      window.location="pages-register.jsp";

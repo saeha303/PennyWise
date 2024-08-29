@@ -19,7 +19,7 @@
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
 
-      <a class="btn-getstarted flex-md-shrink-0" href="javascript:void(0);" onclick="loadEndpoint('index')">Get Started</a>
+      <a class="btn-getstarted flex-md-shrink-0" href="javascript:void(0);" onclick="loadEndpoint('pages-login')">Get Started</a>
 
     </div>
     <script>

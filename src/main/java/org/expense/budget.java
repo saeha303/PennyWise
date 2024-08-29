@@ -1,23 +1,25 @@
 package org.expense;
 
-import java.io.OutputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.math.BigDecimal;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+
 import org.db.database;
 import org.json.JSONObject;
 
 public class budget {
-	public int id, wallet, amount;
-	public String username, startDate,endDate;
+	public int id, amount;
+	public String username, startDate,endDate, wallet;
 //	there can be only one ongoing budget
 	public String getToday(){
 		Calendar now = Calendar.getInstance();
@@ -136,7 +138,7 @@ public class budget {
 			Connection con=dm.getConnect();
 			Statement st=con.createStatement();
 			wallet=correctApostrophe(wallet);
-			String querycheck="select start_date,end_date from public.\"Budget\" where wallet in (select id from public.\"Wallet\" where username='"+username+"' and name='"+wallet+"') and '"+strMonthYear+"' between start_date and end_date";
+			String querycheck="select start_date,end_date from public.\"Budget\" where wallet='"+wallet+"' and '"+strMonthYear+"' between start_date and end_date";
 			System.out.println(querycheck);
 			ResultSet rt=st.executeQuery(querycheck);
 			if(rt.next())
@@ -197,5 +199,64 @@ public class budget {
 		result.addAll(getBudget(username,wallet));
 		result.addAll(getActualSpending(username,wallet));
 		return result;
+	}
+	public List<budget> getBudgetList(String username){
+//		budget b=new budget();
+//		String strMonthYear=getToday();
+		List<budget> result=new ArrayList<>();
+		int id=0;
+		try
+		{
+			database dm=new database();
+			Connection con=dm.getConnect();
+			Statement st=con.createStatement();
+			String querycheck="select * from public.\"Budget\" where username='"+username+"'";
+			System.out.println(querycheck);
+			ResultSet rt=st.executeQuery(querycheck);
+			while(rt.next())
+			{
+				budget b=new budget();
+				b.id=rt.getInt("id");
+				b.username=rt.getString("username");
+				b.wallet=rt.getString("wallet");
+				b.startDate=rt.getString("start_date");
+				b.endDate=rt.getString("end_date");
+				b.amount=rt.getInt("amount");
+				result.add(b);
+			}
+		}
+		catch (SQLException exception) {
+		}
+		return result;
+	}
+	public int store(budget newExpense) {
+		Connection con = null;
+		PreparedStatement pst = null;
+		try {
+			database dm = new database();
+			con = dm.getConnect();
+//			String query="SELECT * FROM public.\"Budget\" where username='"+username+"' and wallet='"+wallet+"' and strMonthYear+\"' between start_date and end_date);";
+//			return 1;
+			pst = con.prepareStatement("INSERT INTO public.\"Budget\" (username, wallet, start_date, end_date, amount) VALUES (?, ?, ?, ?, ?, ?)");
+
+			pst.setString(1, newExpense.username);
+			pst.setString(2, newExpense.wallet);
+			pst.setString(3, newExpense.startDate);
+			pst.setString(4, newExpense.endDate); // Adjust if necessary
+			pst.setBigDecimal(5, BigDecimal.valueOf(newExpense.amount));
+
+			int rowsAffected = pst.executeUpdate();
+			return rowsAffected > 0 ? 1 : 0;
+		} catch (SQLException exception) {
+			exception.printStackTrace();
+			return 3;
+		} finally {
+			// Close resources
+			try {
+				if (pst != null) pst.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
