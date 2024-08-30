@@ -166,14 +166,16 @@
                       var wallet_name = document.getElementById('walletSelect6').value;
                       console.log(wallet_name)
                       var start_date = document.getElementById('start_date').value;
+                      console.log(start_date)
                       var end_date = document.getElementById('end_date').value;
+                      console.log(end_date)
                       var amount = document.getElementById('amount').value;
                       const newExpense = {
                         username: username,
                         wallet: wallet_name,
                         amount: amount,
-                        start_date: start_date,
-                        end_date: end_date,
+                        startDate: start_date,
+                        endDate: end_date,
                       };
                       console.log(newExpense)
                       const xhr = new XMLHttpRequest();

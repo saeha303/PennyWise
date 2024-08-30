@@ -5,11 +5,7 @@ import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -178,7 +174,7 @@ public class budget {
 			Statement st=con.createStatement();
 			wallet=correctApostrophe(wallet);
 			if(b_list!=null){
-				String querycheck="select falls_under,sum(amount) as amount from public.\"Expense\" join public.\"Category\" on public.\"Expense\".category=public.\"Category\".name where wallet in (select id from public.\"Wallet\" where username='"+username+"' and name='"+wallet+"') and spent_on between '"+b_list.get(0)+"' and '"+b_list.get(1)+"' group by falls_under  order by falls_under asc";
+				String querycheck="select falls_under,sum(amount)/25 as amount from public.\"Expense\" join public.\"Category\" on public.\"Expense\".category=public.\"Category\".name where wallet in (select id from public.\"Wallet\" where username='"+username+"' and name='"+wallet+"') and spent_on between '"+b_list.get(0)+"' and '"+b_list.get(1)+"' group by falls_under  order by falls_under asc";
 				System.out.println(querycheck);
 				ResultSet rt=st.executeQuery(querycheck);
 				while(rt.next())
@@ -229,20 +225,22 @@ public class budget {
 		}
 		return result;
 	}
+
 	public int store(budget newExpense) {
 		Connection con = null;
 		PreparedStatement pst = null;
 		try {
 			database dm = new database();
 			con = dm.getConnect();
+			newExpense.wallet=newExpense.wallet.replace("\\", "");
 //			String query="SELECT * FROM public.\"Budget\" where username='"+username+"' and wallet='"+wallet+"' and strMonthYear+\"' between start_date and end_date);";
 //			return 1;
-			pst = con.prepareStatement("INSERT INTO public.\"Budget\" (username, wallet, start_date, end_date, amount) VALUES (?, ?, ?, ?, ?, ?)");
+			pst = con.prepareStatement("INSERT INTO public.\"Budget\" (username, wallet, start_date, end_date, amount) VALUES (?, ?, ?, ?, ?)");
 
 			pst.setString(1, newExpense.username);
 			pst.setString(2, newExpense.wallet);
-			pst.setString(3, newExpense.startDate);
-			pst.setString(4, newExpense.endDate); // Adjust if necessary
+			pst.setDate(3, Date.valueOf(newExpense.startDate));
+			pst.setDate(4, Date.valueOf(newExpense.endDate)); // Adjust if necessary
 			pst.setBigDecimal(5, BigDecimal.valueOf(newExpense.amount));
 
 			int rowsAffected = pst.executeUpdate();

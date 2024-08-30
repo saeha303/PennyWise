@@ -4,6 +4,9 @@ import org.db.database;
 
 import java.math.BigDecimal;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,7 +92,22 @@ public class recurring {
             pst.setString(5, newExpense.frequency);
             pst.setDate(6, Date.valueOf(newExpense.start_date)); // Adjust if necessary
             pst.setDate(7, Date.valueOf(newExpense.end_date));
-            pst.setTimestamp(8, Timestamp.valueOf(newExpense.time));
+            // Assuming newExpense.startDate is in the format "yyyy-MM-dd"
+            String datePart = newExpense.start_date; // e.g., "2024-08-30"
+            String timePart = newExpense.time; // e.g., "08:05:00"
+
+// Parse the start date and time
+            LocalDate startDate = LocalDate.parse(datePart);
+            LocalTime time = LocalTime.parse(timePart);
+
+// Combine the start date with the provided time
+            LocalDateTime dateTime = LocalDateTime.of(startDate, time);
+
+// Convert to Timestamp
+            Timestamp timestamp = Timestamp.valueOf(dateTime);
+
+// Use the timestamp in your prepared statement
+            pst.setTimestamp(8, timestamp);
             pst.setString(9, newExpense.details);
             int rowsAffected = pst.executeUpdate();
             System.out.println(rowsAffected);
