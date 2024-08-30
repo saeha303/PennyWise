@@ -140,7 +140,7 @@
   </li>
 </ul>
 <script>
-  function getDatetime() {
+  function getMyDatetime() {
     // Get current date and time
     let now = new Date();
 
@@ -156,6 +156,7 @@
 
     // Format the date and time
     let formattedDateTime = year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds
+    console.log(formattedDateTime)
     return formattedDateTime
   }
   function addTransfer(event) {
@@ -175,11 +176,12 @@
     const username = '<%= (String)session.getAttribute("User") %>';
     const category = 'Transfer';
     const walletFrom = document.getElementById("selectedWalletID3").value;
-    const walletTo = document.getElementById("selectedWalletID4").value;
+    var walletTo = document.getElementById("selectedWalletID4").value;
+    console.log(walletTo)
     const note = 'Transfer from ' + document.getElementById("walletSelect3").value + ' to ' + document.getElementById("walletSelect4").value;
     const amount = document.getElementById("amount3").value;
-    const spent_on = getDatetime();
-
+    const spent_on = getMyDatetime();
+    console.log(spent_on);
     // Create a JSON object from form data
     const newExpense = {
         username: username,
@@ -213,6 +215,7 @@
                     selectedGrpNumObjects.forEach(function (wallet) {
                         id.value = wallet.id;
                     });
+                    walletTo=id.value;
                     console.log("id: " + id.value);
                 }
 

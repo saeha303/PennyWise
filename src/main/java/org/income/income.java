@@ -1,9 +1,7 @@
 package org.income;
 
 import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 import org.db.database;
 
@@ -16,22 +14,39 @@ public class income {
         try {
             database dm = new database();
             con = dm.getConnect();
-            String query="INSERT INTO public.\"Income\"(username, note, amount, wallet) VALUES ('"+newIncome.username+"','"+newIncome.note+"','"+newIncome.amount+"','"+newIncome.wallet+"');";
-            System.out.println(query);
-//			return 1;
-            query="INSERT INTO public.\"Income\" (username, note, amount, wallet) VALUES (?, ?, ?, ?)";
-            System.out.println(query);
-            pst = con.prepareStatement(query);
-            System.out.println("ball");
-            System.out.println(pst);
-            System.out.println("baal");
+
+            // Insert the new income
+            pst = con.prepareStatement("INSERT INTO public.\"Income\" (username, note, amount, wallet) VALUES (?, ?, ?, ?)");
             pst.setString(1, newIncome.username);
             pst.setString(2, newIncome.note);
             pst.setBigDecimal(3, BigDecimal.valueOf(newIncome.amount)); // Adjust if necessary
             pst.setBigDecimal(4, BigDecimal.valueOf(newIncome.wallet));
 
             int rowsAffected = pst.executeUpdate();
-            return rowsAffected > 0 ? 1 : 0;
+
+            // Check the current amount in the wallet
+            String querycheck = "SELECT amount FROM public.\"Wallet\" WHERE username = ? AND id = ?";
+            PreparedStatement pstCheck = con.prepareStatement(querycheck);
+            pstCheck.setString(1, newIncome.username);
+            pstCheck.setBigDecimal(2, BigDecimal.valueOf(newIncome.wallet));
+
+            ResultSet rt = pstCheck.executeQuery();
+            int amount = 0;
+            if (rt.next()) {
+                amount = rt.getInt("amount");
+            }
+
+            // Add the new income amount to the wallet amount
+            amount += newIncome.amount;
+            String updateQuery = "UPDATE public.\"Wallet\" SET amount = ? WHERE id = ?";
+            PreparedStatement pstUpdate = con.prepareStatement(updateQuery);
+            pstUpdate.setInt(1, amount);
+            pstUpdate.setBigDecimal(2, BigDecimal.valueOf(newIncome.wallet));
+
+            int updateRows = pstUpdate.executeUpdate();
+
+            return rowsAffected > 0 && updateRows > 0 ? 1 : 0;
+
         } catch (SQLException exception) {
             exception.printStackTrace();
             return 3;
@@ -44,4 +59,5 @@ public class income {
             }
         }
     }
+
 }

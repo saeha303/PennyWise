@@ -132,6 +132,7 @@ public class PennyWiseController {
     }
     @PostMapping("/addBudget")
     public ResponseEntity<String> addBudget(@RequestBody budget newExpense) {
+        System.out.println(newExpense);
         int result = new budget().store(newExpense);
         System.out.println("in controller: "+result);
         if (result == 1) {

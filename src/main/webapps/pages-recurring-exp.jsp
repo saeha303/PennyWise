@@ -235,6 +235,7 @@
                       var start_date = document.getElementById('start_date').value;
                       var end_date = document.getElementById('end_date').value;
                       var time = document.getElementById('time').value;
+                      console.log(time)
                       var note = document.getElementById('note').value;
                       var amount = document.getElementById('amount').value;
                       const newExpense = {

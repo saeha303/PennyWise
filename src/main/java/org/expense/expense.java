@@ -282,10 +282,9 @@ public class expense {
 		try {
 			database dm = new database();
 			con = dm.getConnect();
-			String query="INSERT INTO public.\"Expense\"(username, category, note, amount, wallet, spent_on) VALUES ('"+newExpense.username+"','"+newExpense.category+"','"+newExpense.note+"','"+newExpense.amount+"','"+newExpense.wallet+"','"+newExpense.spent_on+"');";
-//			return 1;
-			pst = con.prepareStatement("INSERT INTO public.\"Expense\" (username, category, note, amount, wallet, spent_on) VALUES (?, ?, ?, ?, ?, ?)");
 
+			// Insert the new expense
+			pst = con.prepareStatement("INSERT INTO public.\"Expense\" (username, category, note, amount, wallet, spent_on) VALUES (?, ?, ?, ?, ?, ?)");
 			pst.setString(1, newExpense.username);
 			pst.setString(2, newExpense.category);
 			pst.setString(3, newExpense.note);
@@ -294,7 +293,30 @@ public class expense {
 			pst.setTimestamp(6, Timestamp.valueOf(newExpense.spent_on)); // Adjust if necessary
 
 			int rowsAffected = pst.executeUpdate();
-			return rowsAffected > 0 ? 1 : 0;
+
+			// Check the current amount in the wallet
+			String querycheck = "SELECT amount FROM public.\"Wallet\" WHERE username = ? AND id = ?";
+			PreparedStatement pstCheck = con.prepareStatement(querycheck);
+			pstCheck.setString(1, newExpense.username);
+			pstCheck.setBigDecimal(2, BigDecimal.valueOf(newExpense.wallet));
+
+			ResultSet rt = pstCheck.executeQuery();
+			int amount = 0;
+			if (rt.next()) {
+				amount = rt.getInt("amount");
+			}
+
+			// Subtract the new expense amount from the wallet amount
+			amount -= newExpense.amount;
+			String updateQuery = "UPDATE public.\"Wallet\" SET amount = ? WHERE id = ?";
+			PreparedStatement pstUpdate = con.prepareStatement(updateQuery);
+			pstUpdate.setInt(1, amount);
+			pstUpdate.setBigDecimal(2, BigDecimal.valueOf(newExpense.wallet));
+
+			int updateRows = pstUpdate.executeUpdate();
+
+			return rowsAffected > 0 && updateRows > 0 ? 1 : 0;
+
 		} catch (SQLException exception) {
 			exception.printStackTrace();
 			return 3;
@@ -307,6 +329,7 @@ public class expense {
 			}
 		}
 	}
+
 	public int compareMonthlySpending(String category, String username, String wallet) {
 		Connection con = null;
 		PreparedStatement pst = null;
@@ -380,7 +403,7 @@ public class expense {
 			con = dm.getConnect();
 			String query="UPDATE public.\"Expense\"\n" +
 					"SET spent_on = '"+getToday()+"'::date + spent_on::time\n" +
-					"WHERE spent_on::date = '2024-08-18'\n" +
+					"WHERE spent_on::date = '2024-08-29'\n" +
 					"AND username = 'john_doe';";
 			Statement st = con.createStatement();
 			st.executeUpdate(query);
