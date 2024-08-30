@@ -5,8 +5,8 @@ expenses. This app is particularly useful for users who want to monitor their sp
 budgets, and get insights into their financial health.
 
 Creators:
-Sumaiya Saeha
-Debjany Ghosh Aronno
+1. Sumaiya Saeha
+2. Debjany Ghosh Aronno
 
 For details check out the attached pdf: PennyWise.pdf
 
