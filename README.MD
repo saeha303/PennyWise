@@ -54,7 +54,7 @@ An advanced **Expense Tracker** application built with **Spring Boot**, **JSP**,
 
 ## Setup
 
-### 1. Clone the Repository
+1. Clone the Repository
 ```bash
 git clone https://github.com/saeha303/PennyWise.git
 ```
