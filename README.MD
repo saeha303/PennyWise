@@ -19,7 +19,8 @@ Steps to follow:
 # PennyWise - Expense Tracker with Smart AI Features
 
 An advanced **Expense Tracker** application built with **Spring Boot**, **JSP**, and **PostgreSQL**, featuring AI-driven **Budget Recommendations** to enhance user experience and financial management.
-[Warch demo video](https://youtu.be/oLC5Y84_blQ)
+
+[Watch demo video](https://youtu.be/oLC5Y84_blQ)
 
 ---
 
