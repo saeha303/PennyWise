@@ -22,9 +22,7 @@ An advanced **Expense Tracker** application built with **Spring Boot**, **JSP**,
 
 [Watch demo video](https://youtu.be/oLC5Y84_blQ)
 
----
-
-## Features
+## 🚀 Features
 
 ### Core Features
 - **Daily Expense Logging:** Add, categorize, and annotate your daily expenses with ease.
@@ -36,7 +34,17 @@ An advanced **Expense Tracker** application built with **Spring Boot**, **JSP**,
 <!-- - **Smart Search:** Process natural language queries such as _"show me the expenses in July"_ or _"find transport expenses last week"_ using **NLP**.-->
 - **Budget Recommendations:** Personalized budget recommendations based on spending patterns using a trained **Random Forest Regressor**.
 
----
+## Tech Stack
+
+### Backend
+- **Spring Boot** for API and application logic.
+- **PostgreSQL** for the database.
+### Frontend
+- **JSP** for rendering views.
+- **HTML** and **CSS**.
+### AI & Machine Learning
+- **Python** for data processing and ML model training (using **scikit-learn**).
+- **Pre-trained Random Forest Regressor** model for budget recommendations.
 
 ## Prerequisites
 
@@ -50,9 +58,7 @@ An advanced **Expense Tracker** application built with **Spring Boot**, **JSP**,
 - Backend: Spring Boot
 - ML: scikit-learn, pandas, numpy
 
----
-
-## Setup
+## 💻 Setup
 
 1. Clone the Repository
 ```bash
