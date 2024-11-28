@@ -57,6 +57,7 @@ An advanced **Expense Tracker** application built with **Spring Boot**, **JSP**,
 ### 1. Clone the Repository
 ```bash
 git clone https://github.com/saeha303/PennyWise.git
+
 2. Install Tomcat to run the web application
 3. Install PostgreSQL for database
 4. Install pgadmin4 to manage the database
