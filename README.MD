@@ -20,7 +20,7 @@ Steps to follow:
 
 An advanced **Expense Tracker** application built with **Spring Boot**, **JSP**, and **PostgreSQL**, featuring AI-driven **Budget Recommendations** to enhance user experience and financial management.
 
-[Watch demo video](https://youtu.be/oLC5Y84_blQ)
+[Watch demo video](https://youtu.be/vc_qpHqHA-M)
 
 ## 🚀 Features
 
