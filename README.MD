@@ -21,6 +21,7 @@ Steps to follow:
 An advanced **Expense Tracker** application built with **Spring Boot**, **JSP**, and **PostgreSQL**, featuring AI-driven **Budget Recommendations** to enhance user experience and financial management.
 
 [Live demo](https://pennywise-rho-five.vercel.app/PennyWiseJF/)
+
 [Watch demo video](https://youtu.be/vc_qpHqHA-M)
 
 ## 🚀 Features
