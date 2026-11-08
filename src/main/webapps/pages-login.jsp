@@ -53,10 +53,10 @@
                       <a href="pages-forgot-password.jsp" class="small">Forgot password?</a>
                     </div>
                     <div class="col-6">
-                      <button class="btn btn-primary w-100" type="submit">Login</button>
+                      <button type="reset" class="btn btn-secondary w-100">Reset</button>
                     </div>
                     <div class="col-6">
-                      <button type="reset" class="btn btn-secondary w-100">Reset</button>
+                      <button class="btn btn-primary w-100" type="submit">Login</button>
                     </div>
                     <div class="col-12">
                       <button type="button" class="btn btn-outline-primary w-100" onclick="demoLogin()">
