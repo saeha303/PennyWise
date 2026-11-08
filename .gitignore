@@ -44,3 +44,5 @@ command.txt
 .env
 .run/
 __pycache__/
+.vercel
+.env*
