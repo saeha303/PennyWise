@@ -40,6 +40,7 @@ What `driver.py` does:
 
 - **Login account:** it uses its own `smoke_test` / `SmokeTest123` account. It registers the account if needed and sets the password through the forgot-password action, so it never touches `john_doe` or anyone else's password. (A reset of `john_doe` during testing once wiped a password the user had set.)
 - **Pages:** pass any JSP names as arguments. The default is `index.jsp`.
+- **`--demo`:** logs in through the "Try as demo user" button instead, as `demo_user`, which has sample data. Run `psql "$U" -f sql/create_demo_user.sql` to create or reset that account; it copies john_doe's sample data with dates shifted to the last month.
 - **Screenshots:** saved to `.run/shots/<page>.png`. Open them and look at them; a page can return 200 and still be broken.
 - **Failure rules:** a page fails if it shows a Tomcat 500 or "Exception", if a JavaScript error is thrown, or if a request to localhost returns 4xx/5xx. Failures from outside servers (CDNs) are printed only as `warning (external)`.
 
@@ -80,7 +81,8 @@ If you ever reload them into a new database:
 
 ## Gotchas
 
-- **Every login shows john_doe's data.** `index.jsp:16`, `pages-report.jsp` and `pages-transaction.jsp` run `session.setAttribute("User","john_doe")`, overwriting the logged-in user. The dashboard header says john_doe even when `smoke_test` is logged in. This is an app bug, not a setup problem.
+- **Login is enforced by `org.register.AuthFilter`** (registered in `WEB-INF/web.xml` for `*.jsp`). Pages not on its public list redirect to the login page without a session. A new public page must be added to `PUBLIC_PAGES`, or logged-out visitors can't reach it.
+- **Empty accounts exercise code that sample data hides.** Until Nov 2026 every page was forced to show john_doe's data, so crashes for users with no data went unnoticed (`getNetWorth` UNION, `getActualSpending` with no budget). Test new pages with both the empty `smoke_test` account and `--demo`.
 - **Never `source .env`.** The Neon URL contains `&`, so bash backgrounds part of the line and `DATABASE_URL` ends up empty. The scripts read it with `grep | cut`.
 - **Neon URL needs an explicit `:5432`.** On this machine libpq defaults to port **2345**, the local system Postgres. Without a port, `psql` and `psycopg2` hang until they time out instead of reaching Neon. JDBC defaults to 5432, so only the Python side and psql break, which is confusing.
 - **Two app servers, one origin.** The JSPs run in standalone Tomcat (context `/PennyWiseJF`) and import `org.*` classes directly. Spring Boot only serves `/api/*` JSON. The pages use relative `/api/...` and `/PennyWiseJF/...` URLs, so always browse through Caddy on `:8080`. Opening Tomcat's `:8081` directly renders the pages, but every API call 404s.

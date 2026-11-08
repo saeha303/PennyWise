@@ -20,13 +20,20 @@
         signin signIn = new signin();
         int result = signIn.resetPassword(user, email, newPassword, renewPassword);
         out.print(result);
+    }else if(action.equals("demoLogin")){
+        // "Try as demo user": shared demo account, data created/reset by sql/create_demo_user.sql
+        session.setAttribute("User","demo_user");
+        session.setAttribute("name","Demo User");
+        out.print(1);
     }else if(action.equals("validate")){
         String user=request.getParameter("username");
         String pass=request.getParameter("password");
-        session.setAttribute("User",user);
         signin obj=new signin();
         int result=obj.validate(user,pass);
-        session.setAttribute("name",obj.getname(user));
+        if(result==1){ // only a correct password logs the user in
+            session.setAttribute("User",user);
+            session.setAttribute("name",obj.getname(user));
+        }
         out.print(result);
     }else if(action.equals("register")){
         String fn=request.getParameter("fn");
@@ -35,10 +42,12 @@
         String un=request.getParameter("un");
         String ps=request.getParameter("ps");
         String name=fn+" "+ln;
-        session.setAttribute("User",un);
-        session.setAttribute("name",fn+" "+ln);
         signin obj=new signin();
         int result=obj.store(fn,ln,email,un,ps);
+        if(result==1){ // only a newly created account logs in (0 = username already taken)
+            session.setAttribute("User",un);
+            session.setAttribute("name",name);
+        }
         out.print(result);
     }else if(action.equals("addWallet")){
         String fn=request.getParameter("wallet_name");
@@ -57,7 +66,7 @@
         System.out.println(ln);
         String user=(String)session.getAttribute("User");
         wallet obj=new wallet();
-        List<wallet> result=obj.getFilteredWallet("john_doe",fn,ln);
+        List<wallet> result=obj.getFilteredWallet(user,fn,ln);
         out.print(result);
         
         

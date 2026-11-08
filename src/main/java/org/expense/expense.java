@@ -258,19 +258,21 @@ public class expense {
 			Connection con=dm.getConnect();
 			Statement st=con.createStatement();
 			wallet=correctApostrophe(wallet);
-			String querycheck="select sum(amount) as result from public.\"Expense\" where wallet in (select id from public.\"Wallet\" where username='"+username+"' and name='"+wallet+"') union " +
-					"select sum(amount) from public.\"Income\" where wallet in (select id from public.\"Wallet\" where username='"+username+"' and name='"+wallet+"');";
+			// One row, fixed order, 0 instead of NULL. (The old UNION dropped a row whenever both
+			// totals were equal, e.g. a new user with no income or expenses, and crashed below.)
+			String walletIds="select id from public.\"Wallet\" where username='"+username+"' and name='"+wallet+"'";
+			String querycheck="select (select coalesce(sum(amount),0) from public.\"Expense\" where wallet in ("+walletIds+")) as expense, " +
+					"(select coalesce(sum(amount),0) from public.\"Income\" where wallet in ("+walletIds+")) as income";
 			ResultSet rt=st.executeQuery(querycheck);
-			while(rt.next())
-			{
-				result.add(rt.getInt("result"));
-			}
-			double sum=result.get(0)+result.get(1);
-			double first=result.get(0)/sum;
-			double second=result.get(1)/sum;//income percentage
-			int e_percentage=(int)Math.ceil(first*100);
+			rt.next();
+			int expenseTotal=rt.getInt("expense");
+			int incomeTotal=rt.getInt("income");
+			result.add(expenseTotal);
+			result.add(incomeTotal);
+			double sum=expenseTotal+incomeTotal;
+			int e_percentage=sum==0 ? 0 : (int)Math.ceil(expenseTotal/sum*100);
 			result.add(e_percentage);
-			result.add(100-e_percentage);
+			result.add(sum==0 ? 0 : 100-e_percentage);
 		}
 		catch (SQLException exception) {
 		}

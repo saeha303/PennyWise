@@ -13,7 +13,7 @@
         <jsp:param name="tab_var" value="Dashboard" />
       </jsp:include> -->
           <%@ include file="header.jsp" %>
-            <% session.setAttribute("User","john_doe"); String user=(String)session.getAttribute("User"); String
+            <% String user=(String)session.getAttribute("User"); String
               tab_var1="" ,tab_var2="" ; String btn_txt="" ; String filter_txt="" ; String progress_str="text-danger" ;
               category cat=new category(); wallet w=new wallet(); expense exp=new expense(); List<category>
               cat_list=cat.getCategories();

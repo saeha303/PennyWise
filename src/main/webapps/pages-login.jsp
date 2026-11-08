@@ -59,6 +59,12 @@
                       <button type="reset" class="btn btn-secondary w-100">Reset</button>
                     </div>
                     <div class="col-12">
+                      <button type="button" class="btn btn-outline-primary w-100" onclick="demoLogin()">
+                        <i class="bi bi-person-badge"></i> Try as demo user
+                      </button>
+                      <p class="small text-muted text-center mt-1 mb-0">No sign-up needed. Explore with sample data.</p>
+                    </div>
+                    <div class="col-12">
                       <p class="small mb-0">Don't have account? <a href="pages-register.jsp">Create an account</a></p>
                     </div>
                   </form>
@@ -100,6 +106,22 @@
 
 </body>
 <script type="text/javascript">
+  function demoLogin() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "changePassword.jsp", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200 && xhr.responseText.trim() === "1") {
+          window.location = "index.jsp";
+        } else {
+          alert("Demo login failed. Please try again.");
+        }
+      }
+    };
+    xhr.send("action=demoLogin");
+  }
+
   function validate(event) {
     event.preventDefault(); // Prevent form from submitting
     var username = document.getElementById('yourUsername').value;

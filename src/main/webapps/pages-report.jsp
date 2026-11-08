@@ -6,7 +6,7 @@
           <!DOCTYPE html>
           <html lang="en">
           <%@ include file="header.jsp" %>
-            <% expense e=new expense(); session.setAttribute("User","john_doe"); String tab_var1="" ,tab_var2="" ;
+            <% expense e=new expense(); String tab_var1="" ,tab_var2="" ;
               String btn_txt="" ; String filter_txt="" ; String str="text-danger" ; category cat=new category();
               List<category>
               cat_list=cat.getCategories();

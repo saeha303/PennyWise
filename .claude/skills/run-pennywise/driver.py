@@ -3,6 +3,7 @@
 Usage (from repo root, app already started):
   .run/venv/bin/python .claude/skills/run-pennywise/driver.py [page.jsp ...]
   PENNYWISE_URL=http://localhost:8090 .run/venv/bin/python .claude/skills/run-pennywise/driver.py   # container
+  .run/venv/bin/python .claude/skills/run-pennywise/driver.py --demo [page.jsp ...]   # log in via "Try as demo user"
 
 Steps:
   1. Ensures a dedicated `smoke_test` account exists with a known password: it registers the
@@ -39,9 +40,10 @@ def ensure_account():
         sys.exit(f"could not prepare {USER} account (resetPassword returned {r!r})")
 
 
-def main(pages):
+def main(pages, demo=False):
     os.makedirs(SHOTS, exist_ok=True)
-    ensure_account()
+    if not demo:
+        ensure_account()
     ok = True
     with sync_playwright() as p:
         # channel="chrome" uses the system Google Chrome, so no `playwright install` download is needed.
@@ -56,11 +58,14 @@ def main(pages):
         page.on("dialog", lambda d: (print("dialog:", d.message), d.accept()))
 
         page.goto(BASE + "pages-login.jsp")
-        page.fill("#yourUsername", USER)
-        page.fill("#yourPassword", PASSWORD)
-        page.click("button[type=submit]")
+        if demo:
+            page.click("text=Try as demo user")
+        else:
+            page.fill("#yourUsername", USER)
+            page.fill("#yourPassword", PASSWORD)
+            page.click("button[type=submit]")
         page.wait_for_url("**/index.jsp", timeout=60000)
-        print("logged in as", USER)
+        print("logged in as", page.inner_text("#header .nav-profile").strip())
 
         for name in pages:
             errors.clear()
@@ -84,4 +89,7 @@ def main(pages):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1:] or ["index.jsp"])
+    args = sys.argv[1:]
+    demo = "--demo" in args
+    args = [a for a in args if a != "--demo"]
+    main(args or ["index.jsp"], demo)
