@@ -119,7 +119,7 @@
       amount: amount,
     };
     const xhr = new XMLHttpRequest();
-    const url = "http://localhost:9090/api/addIncome";
+    const url = "/api/addIncome";
     console.log(url)
     xhr.open('POST', url, true);
     xhr.setRequestHeader('Content-Type', 'application/json');

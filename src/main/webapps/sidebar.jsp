@@ -72,11 +72,11 @@
     <script>
       function loadEndpoint(str) {
         const xhr = new XMLHttpRequest();
-        xhr.open('GET', 'http://localhost:9090/api/'+str, true);
+        xhr.open('GET', '/api/'+str, true);
         xhr.onreadystatechange = function () {
           if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
-              window.location.href = 'http://localhost:8080/PennyWiseJF/'+str;
+              window.location.href = '/PennyWiseJF/'+str;
             } else {
               console.error('Error:', xhr.statusText);
             }

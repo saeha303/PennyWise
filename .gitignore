@@ -41,3 +41,6 @@ build/
 myenv/
 get-pip.py
 command.txt
+.env
+.run/
+__pycache__/

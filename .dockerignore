@@ -1,0 +1,8 @@
+.git
+.run
+.idea
+.claude
+target
+.env
+*.pdf
+**/__pycache__

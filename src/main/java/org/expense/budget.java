@@ -88,7 +88,7 @@ public class budget {
 		String jsonInputString = "{"
 				+ "\"username\": \""+username+"\","
 				+ "\"wallet\": \""+id+"\","
-				+ "\"month\": "+Calendar.getInstance().get(Calendar.MONTH)+1
+				+ "\"month\": "+(Calendar.getInstance().get(Calendar.MONTH)+1)
 				+ "}";
 		conn.getOutputStream().write(jsonInputString.getBytes("UTF-8"));
 
@@ -173,7 +173,8 @@ public class budget {
 			Connection con=dm.getConnect();
 			Statement st=con.createStatement();
 			wallet=correctApostrophe(wallet);
-			if(b_list!=null){
+			// No budget covers today -> nothing to compare against (b_list is empty).
+			if(b_list.size()>=2){
 				String querycheck="select falls_under,sum(amount)/25 as amount from public.\"Expense\" join public.\"Category\" on public.\"Expense\".category=public.\"Category\".name where wallet in (select id from public.\"Wallet\" where username='"+username+"' and name='"+wallet+"') and spent_on between '"+b_list.get(0)+"' and '"+b_list.get(1)+"' group by falls_under  order by falls_under asc";
 				System.out.println(querycheck);
 				ResultSet rt=st.executeQuery(querycheck);

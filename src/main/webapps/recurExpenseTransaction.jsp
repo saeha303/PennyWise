@@ -165,7 +165,7 @@
     };
     console.log(newExpense)
     const xhr = new XMLHttpRequest();
-    const url = "http://localhost:9090/api/addExpense";
+    const url = "/api/addExpense";
     console.log(url)
     xhr.open('POST', url, true);
     xhr.setRequestHeader('Content-Type', 'application/json');

@@ -194,7 +194,7 @@
     console.log(spent_on);
 
     const xhr = new XMLHttpRequest();
-    let url = "http://localhost:9090/api/addExpense";
+    let url = "/api/addExpense";
     console.log(url);
     xhr.open('POST', url, true);
     xhr.setRequestHeader('Content-Type', 'application/json');
@@ -225,7 +225,7 @@
                     wallet: walletTo,
                     amount: amount
                 };
-                url = "http://localhost:9090/api/addIncome";
+                url = "/api/addIncome";
                 console.log(url);
                 xhr.open('POST', url, true);
                 xhr.setRequestHeader('Content-Type', 'application/json');

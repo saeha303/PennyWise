@@ -12,6 +12,14 @@
         signin signIn = new signin();
         int result = signIn.changePassword(user, currentPassword, newPassword, renewPassword);
         out.print(result);
+    }else if(action.equals("resetPassword")){
+        String user = request.getParameter("username");
+        String email = request.getParameter("email");
+        String newPassword = request.getParameter("newPassword");
+        String renewPassword = request.getParameter("renewPassword");
+        signin signIn = new signin();
+        int result = signIn.resetPassword(user, email, newPassword, renewPassword);
+        out.print(result);
     }else if(action.equals("validate")){
         String user=request.getParameter("username");
         String pass=request.getParameter("password");

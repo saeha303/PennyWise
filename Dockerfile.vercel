@@ -1,0 +1,53 @@
+# PennyWise as one container: Caddy (public $PORT) -> Tomcat JSP pages + Spring Boot API,
+# plus the internal Flask budget-prediction service. Vercel detects this file automatically.
+# Local test:  docker build -f Dockerfile.vercel -t pennywise .
+#              docker run --rm -p 8090:80 --env-file .env pennywise   -> http://localhost:8090/
+
+# ---- build: compile Java, collect jars ----
+FROM maven:3.9.9-eclipse-temurin-17 AS build
+WORKDIR /src
+COPY pom.xml .
+RUN mvn -q dependency:go-offline
+COPY src ./src
+RUN mvn -q compile \
+ # webapp jars: drop Spring Boot's embedded Tomcat (the real Tomcat provides the servlet container)
+ && mvn -q dependency:copy-dependencies -DincludeScope=runtime -DexcludeGroupIds=org.apache.tomcat.embed -DoutputDirectory=/out/webdeps \
+ # API jars: full runtime classpath for Spring Boot
+ && mvn -q dependency:copy-dependencies -DincludeScope=runtime -DoutputDirectory=/out/apideps
+
+# ---- runtime ----
+FROM python:3.12-slim-bookworm
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends openjdk-17-jre-headless curl \
+ && rm -rf /var/lib/apt/lists/*
+
+# Python deps (versions verified against the bundled budget_model.pkl)
+RUN python -m venv /opt/venv \
+ && /opt/venv/bin/pip install --no-cache-dir Flask==3.1.3 joblib==1.6.0 numpy==2.5.4 pandas==3.1.1 \
+      scikit-learn==1.9.1 scipy==1.18.1 psycopg2-binary==2.9.13
+
+COPY --from=caddy:2.8.4 /usr/bin/caddy /usr/bin/caddy
+
+# Tomcat 9 on internal port 8081, without the default demo/manager apps
+COPY --from=tomcat:9.0.98-jre17 /usr/local/tomcat /opt/tomcat
+RUN rm -rf /opt/tomcat/webapps/* /opt/tomcat/webapps.dist \
+ && sed -i 's/port="8080"/port="8081"/' /opt/tomcat/conf/server.xml
+
+WORKDIR /app
+COPY --from=build /src/target/classes /app/classes
+COPY --from=build /out/apideps /app/apideps
+# Flask loads its model via the cwd-relative path src/main/resources/models
+COPY src/main/resources/python /app/src/main/resources/python
+COPY src/main/resources/models /app/src/main/resources/models
+
+# Exploded webapp: JSPs + compiled org.* classes + runtime jars
+COPY src/main/webapps /opt/tomcat/webapps/PennyWiseJF
+COPY --from=build /src/target/classes /opt/tomcat/webapps/PennyWiseJF/WEB-INF/classes
+COPY --from=build /out/webdeps /opt/tomcat/webapps/PennyWiseJF/WEB-INF/lib
+
+COPY deploy /app/deploy
+RUN chmod +x /app/deploy/start-container.sh
+
+ENV PORT=80 LOGGING_LEVEL_ORG_SPRINGFRAMEWORK=INFO PYTHONUNBUFFERED=1
+EXPOSE 80
+CMD ["/app/deploy/start-container.sh"]

@@ -101,7 +101,7 @@
                                                   text.innerHTML = `Budget Report <span>|` + wallet + `</span>`;
                                                   const xhr = new XMLHttpRequest();
                                                   console.log(user);
-                                                  const url = "http://localhost:9090/api/budget-report?user=" + user + "&wallet=" + encodeURIComponent(wallet);
+                                                  const url = "/api/budget-report?user=" + user + "&wallet=" + encodeURIComponent(wallet);
                                                   console.log(url)
                                                   xhr.open('GET', url, true);
                                                   xhr.setRequestHeader('Content-Type', 'application/json');
@@ -293,7 +293,7 @@
                                                       text.innerHTML = `Report <span>|` + wallet + `</span>`;
                                                       const xhr = new XMLHttpRequest();
                                                       console.log(user);
-                                                      const url = "http://localhost:9090/api/report-expense?user=" + user + "&wallet=" + encodeURIComponent(wallet);
+                                                      const url = "/api/report-expense?user=" + user + "&wallet=" + encodeURIComponent(wallet);
                                                       console.log(url)
                                                       xhr.open('GET', url, true);
                                                       xhr.setRequestHeader('Content-Type', 'application/json');
@@ -516,7 +516,7 @@
                                         text.innerHTML = `Top Expense <span>|` + wallet + `</span>`;
                                         const xhr = new XMLHttpRequest();
                                         console.log(user);
-                                        const url = "http://localhost:9090/api/top-expense?user=" + user + "&wallet=" + encodeURIComponent(wallet);
+                                        const url = "/api/top-expense?user=" + user + "&wallet=" + encodeURIComponent(wallet);
                                         console.log(url)
                                         xhr.open('GET', url, true);
                                         xhr.setRequestHeader('Content-Type', 'application/json');

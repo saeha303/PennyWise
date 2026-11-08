@@ -1,0 +1,21 @@
+# Single public entry point for PennyWise. The browser only talks to this port:
+#   /api/*          -> Spring Boot REST API (127.0.0.1:9090)
+#   everything else -> Tomcat JSP pages     (127.0.0.1:8081, context /PennyWiseJF)
+# Flask (127.0.0.1:5000) stays internal; only the Java code calls it.
+# Listens on $PORT (Vercel sets/uses 80 by default; local runs use 8080).
+{
+	admin off
+	auto_https off
+}
+
+:{$PORT:80} {
+	redir / /PennyWiseJF/
+	redir /PennyWiseJF /PennyWiseJF/
+
+	handle /api/* {
+		reverse_proxy 127.0.0.1:9090
+	}
+	handle {
+		reverse_proxy 127.0.0.1:8081
+	}
+}

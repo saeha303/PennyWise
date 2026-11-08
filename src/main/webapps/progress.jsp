@@ -63,7 +63,7 @@
         text.innerHTML = `Net Worth <span>|` + wallet + `</span>`;
         const xhr = new XMLHttpRequest();
         console.log(user);
-        const url = "http://localhost:9090/api/net-worth?user=" + user + "&wallet=" + encodeURIComponent(wallet);
+        const url = "/api/net-worth?user=" + user + "&wallet=" + encodeURIComponent(wallet);
         console.log(url)
         xhr.open('GET', url, true);
         xhr.setRequestHeader('Content-Type', 'application/json');

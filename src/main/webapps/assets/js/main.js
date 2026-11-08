@@ -324,7 +324,7 @@
 
     // Fetch results from the server
     try {
-        const response = await fetch(`http://localhost:9090/api/search?query=${encodeURIComponent(query)}`);
+        const response = await fetch(`/api/search?query=${encodeURIComponent(query)}`);
         if (!response.ok) throw new Error('Network response was not ok.');
 
         const data = await response.json();

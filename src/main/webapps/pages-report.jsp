@@ -140,7 +140,7 @@
                                         console.log(wallet)
                                         const xhr = new XMLHttpRequest();
                                         console.log(user);
-                                        const url = "http://localhost:9090/api/report-expense-super-bar?user=" + user + "&wallet=" + encodeURIComponent(wallet)+'&month='+month;
+                                        const url = "/api/report-expense-super-bar?user=" + user + "&wallet=" + encodeURIComponent(wallet)+'&month='+month;
                                         xhr.open('GET', url, true);
                                         xhr.setRequestHeader('Content-Type', 'application/json');
 

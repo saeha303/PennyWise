@@ -140,8 +140,8 @@ public class signin {
             ResultSet rt = st.executeQuery(query);
             if (rt.next()) {
                 String pas = rt.getString("password_hash");
-                String dec = pass.decrypt(pas, user);
-                if (dec.equals(password)) {
+                String dec = pas == null ? null : pass.decrypt(pas, user);
+                if (dec != null && dec.equals(password)) {
                     return (1);
                 } else {
                     return (2);
@@ -191,6 +191,36 @@ public class signin {
         } else {
             return validationStatus; // Return validation status
         }
+    }
+
+    /**
+     * Forgot-password reset: verifies the username and email belong to the same account,
+     * then sets a new password.
+     * Returns 1 success, 3 error, 4 username/email do not match, 5 new passwords do not match,
+     * 6 new password empty.
+     */
+    public int resetPassword(String user, String email, String newPassword, String reNewPassword) {
+        if (newPassword == null || newPassword.isEmpty()) {
+            return 6;
+        }
+        if (!newPassword.equals(reNewPassword)) {
+            return 5;
+        }
+        try {
+            database dm = new database();
+            Connection con = dm.getConnect();
+            PreparedStatement ps = con.prepareStatement(
+                    "Select 1 from public.\"User\" where username=? and lower(email)=lower(?)");
+            ps.setString(1, user);
+            ps.setString(2, email == null ? "" : email.trim());
+            ResultSet rt = ps.executeQuery();
+            if (!rt.next()) {
+                return 4;
+            }
+        } catch (SQLException exception) {
+            return 3;
+        }
+        return updatePassword(user, newPassword);
     }
 
     public int updatePassword(String user, String newPassword) {
